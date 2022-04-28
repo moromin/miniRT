@@ -1,6 +1,7 @@
 cmake-build-debug
 .idea
 CMakeLists.txt
+miniRT
 
 # Prerequisites
 *.d
