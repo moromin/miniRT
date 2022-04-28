@@ -6,7 +6,7 @@
 # include <stdlib.h>
 
 // for debugging
-# include <printf.h>
+# include <stdio.h>
 
 typedef struct	s_program
 {
