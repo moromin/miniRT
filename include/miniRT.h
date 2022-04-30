@@ -4,6 +4,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "scene.h"
 
 // for debugging
 # include <stdio.h>
