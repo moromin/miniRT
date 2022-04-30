@@ -46,7 +46,7 @@ re: fclean all
 norm:
 	norminette $(SRCS) $(HEADERS) | grep -E '^(Error|Warning)'
 
-run: $(NAME)
+run:
 	./$(NAME)
 
 .PHONY: all bonus clean fclean re
