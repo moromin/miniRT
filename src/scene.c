@@ -15,7 +15,8 @@ static char	*check_rt_file(char *filename)
 		status = get_next_line(fd, &line);
 		if (status == GNL_STATUS_DONE)
 			break ;
-		if (status == GNL_STATUS_ERROR_MALLOC || status == GNL_STATUS_ERROR_READ)
+		if (status == GNL_STATUS_ERROR_MALLOC
+			|| status == GNL_STATUS_ERROR_READ)
 		{
 			free(line);
 			return (ERR_GNL_FAILED);
