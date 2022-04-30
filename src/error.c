@@ -2,9 +2,9 @@
 
 void	exit_with_error_message(const char *msg)
 {
-	ft_putstr_fd("ERROR\n", STDERR_FILENO);
     if (errno == 0)
     {
+        ft_putstr_fd("ERROR\n", STDERR_FILENO);
         ft_putstr_fd(msg, STDERR_FILENO);
         ft_putstr_fd("\n", STDERR_FILENO);
     }
