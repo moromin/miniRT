@@ -13,6 +13,6 @@
 # define ERR_INVALID_FILE "File is invalid (expected '*.rt' file)"
 # define ERR_GNL_FAILED "Failed to Get_Next_Line"
 
-void	scene(int argc, char **argv);
+void	read_rt_file(int argc, char **argv);
 
 #endif

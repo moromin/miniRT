@@ -73,7 +73,7 @@ void print_img(t_program param,void *image, int width, int height, int color) {
 int main(int argc, char **argv)
 {
 	// check scene file
-	scene(argc, argv);
+	read_rt_file(argc, argv);
 
 	// param setup
 	t_program param;

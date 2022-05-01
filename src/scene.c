@@ -41,7 +41,7 @@ static bool	check_filename(char *filename)
 	return (true);
 }
 
-void	scene(int argc, char **argv)
+void	read_rt_file(int argc, char **argv)
 {
 	char	*err;
 
