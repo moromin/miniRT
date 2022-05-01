@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
-# include "../libft/libft.h"
+# include "utils.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 64

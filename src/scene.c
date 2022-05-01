@@ -1,5 +1,5 @@
 #include "../include/scene.h"
-#include "../include/get_next_line.h"
+#include "../utils/get_next_line.h"
 
 static char	*check_rt_file(char *filename)
 {
