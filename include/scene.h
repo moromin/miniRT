@@ -6,7 +6,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include "error.h"
 
 // Error messages
 # define ERR_INVALID_ARGS "Invalid number of arguments"
