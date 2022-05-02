@@ -1,5 +1,6 @@
 #include "../minilibx-linux/mlx.h"
 #include "../include/miniRT.h"
+#include "../include/scene.h"
 
 int rgb_to_int(double r, double g, double b)
 {
@@ -69,8 +70,11 @@ void print_img(t_program param,void *image, int width, int height, int color) {
 	}
 }
 
-int main()
+int main(int argc, char **argv)
 {
+	// check scene file
+	scene(argc, argv);
+
 	// param setup
 	t_program param;
 	param.mlx = mlx_init();
