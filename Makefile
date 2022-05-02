@@ -2,16 +2,23 @@ NAME	= miniRT
 CC		= gcc
 CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=thread
 
-SRCDIR	= ./src
-SRCS	= $(wildcard $(SRCDIR)/*.c) # TODO: write all out before submitting
+SRC_PATH = src
+UTILS_PATH = utils
+WRAPPER_PATH = wrapper
+INCLUDE_PATH = include
+
+# TODO: write all out before submitting
+SRC_PATHS	= $(SRC_PATH) $(UTILS_PATH) $(WRAPPER_PATH)
+SRCS	= $(foreach path, $(SRC_PATHS), $(wildcard $(path)/*.c))
+
 OBJDIR	= ./obj
-OBJS    = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS    = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:%.c=%.o)))
+
+VPATH = $(SRC_PATH):$(INCLUDE_PATH):$(UTILS_PATH):$(WRAPPER_PATH)
 
 X11		= /usr/X11/include
-INC		= -I$(X11) -I$(MLX) -Iinclude
+INC		= -I$(X11) -I$(MLX)
 INCLIB	= $(X11)/../lib
-INCLUDE	= include/miniRT.h
-VPATH	= src
 
 MLX		= minilibx-linux
 LIBFT	= libft
