@@ -1,6 +1,6 @@
 #include "x.h"
 
-int		x_open(const char *path, int mode)
+int	x_open(const char *path, int mode)
 {
 	int	fd;
 

@@ -16,6 +16,8 @@ OBJS    = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:%.c=%.o)))
 
 VPATH = $(SRC_PATH):$(INCLUDE_PATH):$(UTILS_PATH):$(WRAPPER_PATH)
 
+HEADERS = $(wildcard $(INCLUDE_PATH)/*.h)
+
 X11		= /usr/X11/include
 INC		= -I$(X11) -I$(MLX)
 INCLIB	= $(X11)/../lib
