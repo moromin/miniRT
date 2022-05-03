@@ -44,12 +44,12 @@ $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
+	@make clean -C $(LIBFT)
 	@make clean -C $(MLX)
 	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@make fclean -C $(LIBFT)
-	@make clean -C $(MLX)
 	@rm -f $(NAME) $(CHECKER)
 
 re: fclean all
