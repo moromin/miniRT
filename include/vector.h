@@ -11,6 +11,7 @@ t_vector	vec_add(t_vector v1, t_vector v2);
 
 t_vector	vec_mult(t_vector v, double k);
 
+// todo: rm this if it is not used
 void		vec_copy(t_vector *dest, t_vector src);
 
 t_vector	vec_sub(t_vector v1, t_vector v2);
