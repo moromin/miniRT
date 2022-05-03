@@ -15,8 +15,6 @@ static void	check_rt_file(char *filename)
 		printf("%s\n", line);
 	}
 	free(line);
-
-	// TODO: check close() error
 	x_close(fd);
 }
 
