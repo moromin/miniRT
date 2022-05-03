@@ -1,4 +1,4 @@
-#include "../include/error.h"
+#include "utils.h"
 
 void	exit_with_error_message(const char *msg)
 {

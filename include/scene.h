@@ -6,13 +6,15 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include "error.h"
+
+# include "../utils/get_next_line.h"
+# include "../utils/utils.h"
+# include "../wrapper/x.h"
 
 // Error messages
 # define ERR_INVALID_ARGS "Invalid number of arguments"
 # define ERR_INVALID_FILE "File is invalid (expected '*.rt' file)"
-# define ERR_GNL_FAILED "Failed to Get_Next_Line"
 
-void	scene(int argc, char **argv);
+void	read_rt_file(int argc, char **argv);
 
 #endif
