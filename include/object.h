@@ -9,8 +9,8 @@
 typedef struct s_object_vtbl	t_object_vtbl;
 /* Object's attributes... */
 typedef struct s_object {
-	t_object_vtbl const	*vptr; /* <== Object's Virtual Pointer */
-	t_vector			center; // described as pc
+	t_object_vtbl	*vptr; /* <== Object's Virtual Pointer */
+	t_vector		center; // described as pc
 }	t_object;
 
 /* Shape's operations (Shape's interface)... */

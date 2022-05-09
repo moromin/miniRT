@@ -1,8 +1,7 @@
-#include <printf.h>
 #include "../minilibx-linux/mlx.h"
 #include "../include/vector.h"
 #include "../include/miniRT.h"
-#include "../include/object.h"
+#include "../include/light.h"
 
 #define BACKGROUND 0x6495ED
 
