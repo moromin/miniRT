@@ -32,9 +32,6 @@ typedef struct s_program {
 void		init_image(t_program *program, t_img *img);
 void		add_color_to_image(t_img *img, int color, int x, int y);
 
-// light.c
-t_vector	init_light_point(void);
-
 // camera.c
 t_vector	init_camera_point(void);
 
