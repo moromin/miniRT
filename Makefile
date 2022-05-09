@@ -57,6 +57,9 @@ re: fclean all
 norm:
 	norminette $(SRCS) $(HEADERS) | grep -E '^(Error|Warning)'
 
+norm-easy:
+	norminette $(SRCS) $(HEADERS) | grep -v WRONG_SCOPE_COMMENT | grep -v "Missing or invalid header"
+
 run:
 	./$(NAME)
 
