@@ -1,7 +1,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "object.h"
+# include "vector.h"
 
 // todo: this should be input from rt file
 # define WIDTH 512
