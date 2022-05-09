@@ -22,6 +22,8 @@ t_vector	vec_outer_product(t_vector v1, t_vector v2);
 
 double		vec_magnitude(t_vector v);
 
+double		vec_magnitude_squared(t_vector v);
+
 t_vector	vec_normalize(t_vector v);
 
 t_vector	vec_init(double x, double y, double z);
