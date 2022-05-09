@@ -22,6 +22,11 @@ t_vector	vec_outer_product(t_vector v1, t_vector v2)
 	return (rtn);
 }
 
+double	vec_magnitude_squared(t_vector v)
+{
+	return (pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
+}
+
 double	vec_magnitude(t_vector v)
 {
 	return (sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2)));
