@@ -4,18 +4,12 @@
 #include "../include/miniRT.h"
 #include "../include/object.h"
 
-#define RED 0xFF0000
-#define BLUE 0x0000FF
+#define BACKGROUND 0x6495ED
 
 void	init_program(t_program *program)
 {
 	program->mlx = mlx_init();
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
-}
-
-t_vector	init_camera_point(void)
-{
-	return (vec_init(0, 0, -5));
 }
 
 // https://knzw.tech/raytracing/?page_id=1243
@@ -27,14 +21,35 @@ t_vector	init_screen_point(int x, int y)
 			0));
 }
 
-// screen_point described as 'pw'
-void	create_image(t_img *img, t_object *object, t_vector camera_point)
+void	draw(t_program *program, int x, int y)
 {
 	t_vector	screen_point;
 	t_ray		ray;
-	double		intersect_point;
-	int			x;
-	int			y;
+	double		ray_coefficient;
+	t_vector	cross_point;
+	int			color;
+
+	screen_point = init_screen_point(x, y);
+	ray.start = program->camera_point;
+	ray.direction = vec_sub(screen_point, program->camera_point);
+	ray_coefficient = object_solve_ray_equation(&program->object, ray);
+	if (ray_coefficient >= 0)
+	{
+		cross_point = vec_add(ray.start,
+				  vec_mult(ray.direction, ray_coefficient));
+		color = object_raytrace(
+				&program->object, cross_point, program->light_point);
+		add_color_to_image(&program->img, color, x, y);
+	}
+	else
+		add_color_to_image(&program->img, BACKGROUND, x, y);
+}
+
+// screen_point described as 'pw'
+void	create_image(t_program *program)
+{
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -42,15 +57,7 @@ void	create_image(t_img *img, t_object *object, t_vector camera_point)
 		x = 0;
 		while (x < WIDTH)
 		{
-			screen_point = init_screen_point(x, y);
-			ray.start = camera_point;
-			ray.direction = vec_sub(screen_point, camera_point);
-			intersect_point = object_intersect_at(object, ray);
-			printf("%d %d: %f \n", x, y, intersect_point);
-			if (intersect_point >= 0)
-				add_color_to_image(img, RED, x, y);
-			else
-				add_color_to_image(img, BLUE, x, y);
+			draw(program, x, y);
 			x++;
 		}
 		y++;
@@ -61,19 +68,18 @@ void	create_image(t_img *img, t_object *object, t_vector camera_point)
 int	main(void)
 {
 	t_program	program;
-	t_img		img;
-	t_vector	camera_point;
-	t_sphere	sphere;
 
 	// mlx setup
 	init_program(&program);
-	init_image(&program, &img);
+	init_image(&program, &program.img);
 	// camera setup
-	camera_point = init_camera_point();
+	program.camera_point = init_camera_point();
+	// light setup
+	program.light_point = init_light_point();
 	// object setup
-	sphere_ctor(&sphere, 1.0, vec_init(0, 0, 5));
+	sphere_ctor((t_sphere *)&program.object, 1.0, vec_init(0, 0, 5));
 	// create_image
-	create_image(&img, (t_object *)&sphere, camera_point);
-	mlx_put_image_to_window(program.mlx, program.win, img.image, 0, 0);
+	create_image(&program);
+	mlx_put_image_to_window(program.mlx, program.win, program.img.image, 0, 0);
 	mlx_loop(program.mlx);
 }
