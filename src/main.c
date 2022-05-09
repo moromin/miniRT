@@ -1,3 +1,4 @@
+#include <printf.h>
 #include "../minilibx-linux/mlx.h"
 #include "../include/vector.h"
 #include "../include/miniRT.h"
@@ -35,16 +36,17 @@ void	create_image(t_img *img, t_object *object, t_vector camera_point)
 	int			x;
 	int			y;
 
-	x = 0;
 	y = 0;
 	while (y < HEIGHT)
 	{
+		x = 0;
 		while (x < WIDTH)
 		{
 			screen_point = init_screen_point(x, y);
 			ray.start = camera_point;
 			ray.direction = vec_sub(screen_point, camera_point);
 			intersect_point = object_intersect_at(object, ray);
+			printf("%d %d: %f \n", x, y, intersect_point);
 			if (intersect_point >= 0)
 				add_color_to_image(img, RED, x, y);
 			else
