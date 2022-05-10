@@ -18,7 +18,6 @@ void	init_program(t_program *program)
 	program->camera_point = vec_init(0, 0, -5);
 	// light setup
 	program->light = light(vec_init(-5, 5, -5), color(1.0, 1.0, 1.0));
-	program->ambient = ambient(color(0.1, 0.1, 0.1));
 	// object setup
 	// todo: malloc check, malloc free
 	program->object = malloc(sizeof(t_object *) * OBJECT_NUM);

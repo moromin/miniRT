@@ -3,7 +3,7 @@
 // TODO: check duplicate capital letters
 // static bool	check_duplicate_capital_letter()
 
-static void	load_rt_element(char *line, t_program *program)
+static void	load_element(char *line, t_program *program)
 {
 	size_t	num;
 	char	**info;
@@ -28,7 +28,7 @@ static void	read_rt_file(char *filename, t_program *program)
 		status = x_get_next_line(fd, &line);
 		if (status == GNL_STATUS_DONE)
 			break ;
-		load_rt_element(line, program);
+		load_element(line, program);
 	}
 	free(line);
 	x_close(fd);
