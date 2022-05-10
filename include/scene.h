@@ -23,7 +23,7 @@
 # define ERR_MISCONFIGURED_AMBIENT "Ambient lighting is misconfigured"
 
 // scene.c
-void	read_rt_file(int argc, char **argv, t_program *program);
+void	load_rt_file(int argc, char **argv, t_program *program);
 
 // rt_params.c
 void	load_ambient(t_program *program, char **info);

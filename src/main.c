@@ -4,6 +4,7 @@
 #include "../include/vector.h"
 #include "../include/miniRT.h"
 #include "../include/light.h"
+#include "../include/scene.h"
 
 #define BACKGROUND 0x6495ED
 #define OBJECT_NUM 1
@@ -77,10 +78,11 @@ void	create_image(t_program *program)
 }
 
 // camera_point described as pe
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_program	program;
 
+	load_rt_file(argc, argv, &program);
 	// mlx setup
 	init_program(&program);
 	// create_image

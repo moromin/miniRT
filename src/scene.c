@@ -16,7 +16,7 @@ static void	load_rt_element(char *line, t_program *program)
 	free_2d_array((void ***)&info);
 }
 
-static void	load_rt_file(char *filename, t_program *program)
+static void	read_rt_file(char *filename, t_program *program)
 {
 	int		fd;
 	char	*line;
@@ -46,11 +46,11 @@ static bool	check_filename(char *filename)
 	return (true);
 }
 
-void	read_rt_file(int argc, char **argv, t_program *program)
+void	load_rt_file(int argc, char **argv, t_program *program)
 {
 	if (argc != 2)
 		exit_with_error_message(ERR_INVALID_ARGS);
 	if (!check_filename(argv[1]))
 		exit_with_error_message(ERR_INVALID_FILE);
-	load_rt_file(argv[1], program);
+	read_rt_file(argv[1], program);
 }
