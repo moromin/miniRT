@@ -30,6 +30,8 @@ struct s_object_vtbl {
 	t_vector	(*calc_normal)(t_object * const me, t_vector);
 };
 
+t_color		calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_color ambient);
+
 // sphere
 typedef struct s_sphere {
 	/* <== inherits Shape */
@@ -41,7 +43,6 @@ typedef struct s_sphere {
 void		sphere_ctor(t_sphere *me, double radius, t_vector center, t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient);
 t_color		calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light);
 t_color		calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light);
-
 typedef struct s_plane {
 	t_object	super;
 	t_vector	normal;
