@@ -1,0 +1,21 @@
+# .github/workflows/main.yml
+on: [pull_request]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    name: norminette
+    steps:
+    - uses: actions/checkout@v2
+    - uses: alexandregv/norminette-action@v3
+      with:
+        flags: '.'
+
+  easy:
+    runs-on: ubuntu-latest
+    name: norminette-easy
+    steps:
+    - uses: actions/checkout@v2
+    - uses: alexandregv/norminette-action@v3
+      with:
+        flags: '. | grep -v WRONG_SCOPE_COMMENT | grep -v "Missing or invalid header"'
