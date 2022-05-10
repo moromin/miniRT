@@ -11,12 +11,7 @@ t_light	light(t_vector coordinate, t_color intensity)
 	return (l);
 }
 
-t_ambient	ambient(t_color intensity, t_color reflection_coefficient)
+t_color	ambient(t_color intensity)
 {
-	const t_ambient	a = {
-			.reflection_coefficient = reflection_coefficient,
-			.intensity = intensity,
-	};
-
-	return (a);
+	return (color_mult(intensity, AMBIENT_REFLECTION_COEFFICIENT));
 }

@@ -26,7 +26,7 @@ typedef struct s_program {
 	t_img		img;
 	t_vector	camera_point;
 	t_light		light;
-	t_ambient	ambient;
+	t_color		ambient;
 	t_object	**object;
 }	t_program;
 

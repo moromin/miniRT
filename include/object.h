@@ -20,14 +20,14 @@ typedef struct s_object {
 /* Shape's operations (Shape's interface)... */
 void		object_ctor(t_object *me, t_vector center, t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient);
 double		object_solve_ray_equation(t_object *me, t_ray ray);
-t_color		object_calc_radiance(t_object *me, t_vector cross_point, t_light light, t_ambient amb);
+t_color		object_calc_radiance(t_object *me, t_vector cross_point, t_light light, t_color ambient);
 t_vector	object_calc_normal(t_object *me, t_vector cross_point);
 
 // Virtual table
 struct s_object_vtbl {
-	double		(*solve_ray_equation)(t_object *const me, t_ray ray);
-	t_color		(*calc_radiance)(t_object * const me, t_vector cross_point, t_light light, t_ambient amb);
-	t_vector	(*calc_normal)(t_object * const me, t_vector cross_point);
+	double		(*solve_ray_equation)(t_object *const me, t_ray);
+	t_color		(*calc_radiance)(t_object * const me, t_vector, t_light, t_color);
+	t_vector	(*calc_normal)(t_object * const me, t_vector);
 };
 
 // sphere

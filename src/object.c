@@ -4,7 +4,7 @@
 #include "../include/miniRT.h"
 
 static double	object_solve_ray_equation_(t_object *me, t_ray ray);
-static t_color	calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_ambient amb);
+static t_color	calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_color ambient);
 static t_vector	object_calc_normal_(t_object *me, t_vector cross_point);
 
 void	object_ctor(t_object *const me, t_vector center,
@@ -37,10 +37,10 @@ static double	object_solve_ray_equation_(t_object *const me, t_ray ray)
  */
 // normal: 正規化された物体面の法線ベクトル
 // incident_direction: 正規化された入射方向ベクトル
-static t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light, t_ambient amb)
+static t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light, t_color ambient)
 {
 	t_color			color;
-	const t_color	ra = color_prod(amb.reflection_coefficient, amb.intensity);
+	const t_color	ra = ambient;
 	const t_color	rd = calc_radiance_diffuse(me, cross_point, light);
 	const t_color	rs = calc_radiance_specular(me, cross_point, light);
 	const t_color	radiance = ({
