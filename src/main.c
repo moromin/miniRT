@@ -4,6 +4,7 @@
 #include "../include/vector.h"
 #include "../include/miniRT.h"
 #include "../include/light.h"
+#include "../include/scene.h"
 
 #define BACKGROUND 0x6495ED
 #define OBJECT_NUM 1
@@ -17,7 +18,6 @@ void	init_program(t_program *program)
 	program->camera_point = vec_init(0, 0, -5);
 	// light setup
 	program->light = light(vec_init(-5, 5, -5), color(1.0, 1.0, 1.0));
-	program->ambient = ambient(color(0.1, 0.1, 0.1));
 	// object setup
 	// todo: malloc check, malloc free
 	program->object = malloc(sizeof(t_object *) * OBJECT_NUM);
@@ -79,10 +79,11 @@ void	create_image(t_program *program)
 }
 
 // camera_point described as pe
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_program	program;
 
+	load_rt_file(argc, argv, &program);
 	// mlx setup
 	init_program(&program);
 	// create_image

@@ -1,6 +1,22 @@
 #include "../include/scene.h"
 
-static void	check_rt_file(char *filename)
+// TODO: check duplicate capital letters
+// static bool	check_duplicate_capital_letter()
+
+static void	load_element(char *line, t_program *program)
+{
+	size_t	num;
+	char	**info;
+
+	info = x_split(line, ' ');
+	num = count_2d_array((void ***)&info);
+	// TODO: handle each element
+	if (num == 3 && !ft_strcmp(info[0], "A"))
+		load_ambient(program, ++info);
+	free_2d_array((void ***)&info);
+}
+
+static void	read_rt_file(char *filename, t_program *program)
 {
 	int		fd;
 	char	*line;
@@ -12,7 +28,7 @@ static void	check_rt_file(char *filename)
 		status = x_get_next_line(fd, &line);
 		if (status == GNL_STATUS_DONE)
 			break ;
-		printf("%s\n", line);
+		load_element(line, program);
 	}
 	free(line);
 	x_close(fd);
@@ -30,14 +46,11 @@ static bool	check_filename(char *filename)
 	return (true);
 }
 
-void	read_rt_file(int argc, char **argv)
+void	load_rt_file(int argc, char **argv, t_program *program)
 {
-	char	*err;
-
-	err = NULL;
 	if (argc != 2)
 		exit_with_error_message(ERR_INVALID_ARGS);
 	if (!check_filename(argv[1]))
 		exit_with_error_message(ERR_INVALID_FILE);
-	check_rt_file(argv[1]);
+	read_rt_file(argv[1], program);
 }
