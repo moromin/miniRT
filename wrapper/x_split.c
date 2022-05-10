@@ -6,6 +6,6 @@ char	**x_split(const char *s, char c)
 
 	split = ft_split(s, c);
 	if (!split)
-		perror_exit("malloc", EXIT_FAILURE);
+		exit_with_error_message("malloc");
 	return (split);
 }
