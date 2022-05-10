@@ -32,14 +32,13 @@ void	plane_ctor(
 double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_plane	*me = (t_plane *)me_;
-	double			mid;
-	const double	t = ({
-			mid = vec_inner_product(ray.start, me->normal);
-			mid -= vec_inner_product(me->super.center, me->normal);
-			mid /= vec_inner_product(ray.direction, me->normal);
-			mid * -1;
-	});
+	double			t;
 
+	if (vec_inner_product(ray.direction, me->normal) == 0)
+		return (-1.0);
+	t = -1 * (vec_inner_product(ray.start, me->normal)
+			- vec_inner_product(me->super.center, me->normal))
+		/ vec_inner_product(ray.direction, me->normal);
 	return (t);
 }
 
