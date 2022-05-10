@@ -13,12 +13,13 @@
 
 double		sphere_solve_ray_equation(t_object *me, t_ray ray);
 
-void	sphere_ctor(t_sphere *const me, double radius, t_vector center)
+void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
+			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
 {
 	static	double
 	(*solve_ray_equation)(t_object *const, t_ray) = &sphere_solve_ray_equation;
 
-	object_ctor(&me->super, center);
+	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
 	me->super.vptr->solve_ray_equation = solve_ray_equation;
 	me->radius = radius;
 }

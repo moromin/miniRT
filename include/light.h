@@ -1,15 +1,23 @@
 #ifndef LIGHT_H
 # define LIGHT_H
 
-# define AMBIENT_REFLECTION_COEFFICIENT 0.01
-# define DIFFUSE_REFLECTION_COEFFICIENT 0.69
-# define SPECULAR_REFLECTION_COEFFICIENT 0.3
-# define AMBIENT_INTENSITY 0.1
-# define LIGHT_INTENSITY 1.0
+# include "color.h"
+
+# define SHININESS 8
 # define SHININESS 8
 
-t_vector	init_light_point(void);
-double		calc_radiance(
-				t_vector center, t_vector cross_point, t_vector light_point);
+typedef struct s_light {
+	t_vector	coordinate;
+	t_color		intensity;
+//	t_color		color;
+}	t_light;
+
+typedef struct s_ambient {
+	t_color		intensity;
+	t_color		reflection_coefficient;
+}	t_ambient;
+
+t_light		light(t_vector coordinate, t_color intensity);
+t_ambient	ambient(t_color intensity, t_color reflection_coefficient);
 
 #endif //LIGHT_H
