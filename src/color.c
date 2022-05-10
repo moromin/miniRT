@@ -43,7 +43,7 @@ t_color	color_mult(t_color c, double k)
 
 t_color	color_prod(t_color c1, t_color c2)
 {
-	t_color rtn;
+	t_color	rtn;
 
 	rtn.r = c1.r * c2.r;
 	rtn.g = c1.g * c2.g;
