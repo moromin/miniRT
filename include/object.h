@@ -42,4 +42,16 @@ void		sphere_ctor(t_sphere *me, double radius, t_vector center, t_color diffuse_
 t_color		calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light);
 t_color		calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light);
 
+typedef struct s_plane {
+	t_object	super;
+	t_vector	normal;
+}	t_plane;
+
+void		plane_ctor(
+				t_plane *me,
+				t_vector center,
+				t_vector normal,
+				t_color diffuse_reflection_coefficient,
+				t_color specular_reflection_coefficient);
+
 #endif

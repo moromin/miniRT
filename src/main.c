@@ -21,8 +21,10 @@ void	init_program(t_program *program)
 	// object setup
 	// todo: malloc check, malloc free
 	program->object = malloc(sizeof(t_object *) * OBJECT_NUM);
-	program->object[0] = (t_object *)malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->object[0], 1.0, vec_init(0, 0, 5), color(0.69, 0.0, 0.0), color(0.3, 0.3, 0.3));
+//	program->object[0] = (t_object *)malloc(sizeof(t_sphere));
+//	sphere_ctor((t_sphere *)program->object[0], 1.0, vec_init(0, 0, 5), color(0.69, 0.0, 0.0), color(0.3, 0.3, 0.3));
+	program->object[0] = (t_object *)malloc(sizeof(t_plane));
+	plane_ctor((t_plane *)program->object[0], vec_init(0, -1, 0), vec_init(0, 1, 0), color(0.69, 0.0, 0.0), color(0.3, 0.3, 0.3));
 }
 
 // https://knzw.tech/raytracing/?page_id=1243
