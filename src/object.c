@@ -1,22 +1,24 @@
 #include <assert.h>
 
 #include "../include/object.h"
-#include "../include/miniRT.h"
-#include "../include/light.h"
 
 static double	object_solve_ray_equation_(t_object *me, t_ray ray);
-static int		object_raytrace_(
-					t_object *me, t_vector cross_point, t_vector light);
+static t_color	calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_color ambient);
+static t_vector	object_calc_normal_(t_object *me, t_vector cross_point);
 
-void	object_ctor(t_object *const me, t_vector center)
+void	object_ctor(t_object *const me, t_vector center,
+			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			&object_solve_ray_equation_,
-			&object_raytrace_
+			.solve_ray_equation = &object_solve_ray_equation_,
+			.calc_radiance = &calc_radiance_,
+			.calc_normal = &object_calc_normal_
 	};
 
 	me->vptr = &vtbl;
 	me->center = center;
+	me->diffuse_reflection_coefficient = diffuse_reflection_coefficient;
+	me->specular_reflection_coefficient = specular_reflection_coefficient;
 }
 
 static double	object_solve_ray_equation_(t_object *const me, t_ray ray)
@@ -34,22 +36,23 @@ static double	object_solve_ray_equation_(t_object *const me, t_ray ray)
  */
 // normal: 正規化された物体面の法線ベクトル
 // incident_direction: 正規化された入射方向ベクトル
-static int	object_raytrace_(
-		t_object *me_, t_vector cross_point, t_vector light_point)
+static t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light, t_color ambient)
 {
-	const t_sphere	*me = (t_sphere*)me_;
-	double			radiance;
+	t_color			color;
+	const t_color	ra = ambient;
+	const t_color	rd = calc_radiance_diffuse(me, cross_point, light);
+	const t_color	rs = calc_radiance_specular(me, cross_point, light);
+	const t_color	radiance = ({
+		color = color_add(ra, rd);
+		color_add(color, rs);
+	});
 
-	radiance = calc_radiance(me->super.center, cross_point, light_point);
-	return (rgb_to_int(radiance, radiance, radiance));
+	return (radiance);
 }
 
-double	object_solve_ray_equation(t_object *const me, t_ray ray)
+static t_vector	object_calc_normal_(t_object *const me, t_vector cross_point)
 {
-	return ((*me->vptr->solve_ray_equation)(me, ray));
-}
-
-int	object_raytrace(t_object *me, t_vector cross_point, t_vector light)
-{
-	return ((*me->vptr->raytrace)(me, cross_point, light));
+	(void)me;
+	(void)cross_point;
+	assert(0);
 }

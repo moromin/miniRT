@@ -11,15 +11,20 @@
 #define POSITIVE 0
 #define NEGATIVE 1
 
-double		sphere_solve_ray_equation(t_object *me, t_ray ray);
+static double	sphere_solve_ray_equation(t_object *me, t_ray ray);
+static t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
 
-void	sphere_ctor(t_sphere *const me, double radius, t_vector center)
+void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
+			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
 {
 	static	double
 	(*solve_ray_equation)(t_object *const, t_ray) = &sphere_solve_ray_equation;
+	static	t_vector
+	(*calc_normal)(t_object *const, t_vector) = &sphere_calc_normal;
 
-	object_ctor(&me->super, center);
+	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
 	me->super.vptr->solve_ray_equation = solve_ray_equation;
+	me->super.vptr->calc_normal = calc_normal;
 	me->radius = radius;
 }
 
@@ -40,7 +45,7 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center)
  * C = magnitude(camera_vector) ^ 2 + magnitude(sphere_center_vector) ^ 2
  * 		- 2 * (inner_product(camera_vector, sphere_center_vector)
  */
-double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
+static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const double	abc[3] = {
@@ -66,4 +71,15 @@ double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 		return (t[POSITIVE]);
 	else
 		return (min(t[POSITIVE], t[NEGATIVE]));
+}
+
+static t_vector	sphere_calc_normal(t_object *const me, t_vector cross_point)
+{
+	t_vector		vec;
+	const t_vector	normal = ({
+		vec = vec_sub(cross_point, me->center);
+		vec_normalize(vec);
+	});
+
+	return (normal);
 }
