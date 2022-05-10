@@ -1,44 +1,22 @@
 #include "../include/scene.h"
 
-static void	load_rt_parameters(int type, char **info)
-{
-	char	**params;
+// TODO: check duplicate capital letters
+// static bool	check_duplicate_capital_letter()
 
-	while (*info)
-	{
-		params = x_split(*info++, ',');
-		// TODO: load parameters to t_program
-		if (type == AMBIENT_LIGHTING)
-		{
-			int i = 0;
-			double val;
-			while (params[i])
-			{
-				ft_strtod(params[i], &val);
-				printf("%lf ", val);
-				i++;
-			}
-		}
-		printf("\n");
-		free_2d_array((void ***)&params);
-	}
-}
-
-static void	load_rt_element(char *line)
+static void	load_rt_element(char *line, t_program *program)
 {
 	size_t	num;
 	char	**info;
 
 	info = x_split(line, ' ');
 	num = count_2d_array((void ***)&info);
+	// TODO: handle each element
 	if (num == 3 && !ft_strcmp(info[0], "A"))
-		load_rt_parameters(AMBIENT_LIGHTING, ++info);
-	else
-		printf("%s\n", ERR_INVALID_NUM_OF_ELEMENT_INFO);
+		load_ambient(program, ++info);
 	free_2d_array((void ***)&info);
 }
 
-static void	check_rt_file(char *filename)
+static void	load_rt_file(char *filename, t_program *program)
 {
 	int		fd;
 	char	*line;
@@ -50,7 +28,7 @@ static void	check_rt_file(char *filename)
 		status = x_get_next_line(fd, &line);
 		if (status == GNL_STATUS_DONE)
 			break ;
-		load_rt_element(line);
+		load_rt_element(line, program);
 	}
 	free(line);
 	x_close(fd);
@@ -68,14 +46,11 @@ static bool	check_filename(char *filename)
 	return (true);
 }
 
-void	read_rt_file(int argc, char **argv)
+void	read_rt_file(int argc, char **argv, t_program *program)
 {
-	char	*err;
-
-	err = NULL;
 	if (argc != 2)
 		exit_with_error_message(ERR_INVALID_ARGS);
 	if (!check_filename(argv[1]))
 		exit_with_error_message(ERR_INVALID_FILE);
-	check_rt_file(argv[1]);
+	load_rt_file(argv[1], program);
 }
