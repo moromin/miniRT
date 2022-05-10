@@ -3,7 +3,7 @@
 #include "../include/object.h"
 #include "../include/miniRT.h"
 #include "../include/math.h"
-#include "../include/utils.h"
+#include "../include/color.h"
 
 #define A 0
 #define B 1
