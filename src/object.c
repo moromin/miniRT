@@ -1,7 +1,6 @@
 #include <assert.h>
 
 #include "../include/object.h"
-#include "../include/miniRT.h"
 
 static double	object_solve_ray_equation_(t_object *me, t_ray ray);
 static t_color	calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_color ambient);
@@ -53,11 +52,7 @@ static t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light 
 
 static t_vector	object_calc_normal_(t_object *const me, t_vector cross_point)
 {
-	t_vector		vec;
-	const t_vector	normal = ({
-		vec = vec_sub(cross_point, me->center);
-		vec_normalize(vec);
-	});
-
-	return (normal);
+	(void)me;
+	(void)cross_point;
+	assert(0);
 }
