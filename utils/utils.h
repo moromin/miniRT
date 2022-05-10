@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <errno.h>
+# include <math.h>
 
 # include "../libft/libft.h"
 
