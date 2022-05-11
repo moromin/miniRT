@@ -10,6 +10,9 @@
 # define WIDTH 512
 # define HEIGHT 512
 
+//# define EPSILON (1.0 / 512)
+# define EPSILON 0.001
+
 typedef struct s_img	t_img;
 
 struct s_img {
