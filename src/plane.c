@@ -10,14 +10,14 @@ void	plane_ctor(
 		t_color diffuse_reflection_coefficient,
 		t_color specular_reflection_coefficient)
 {
-	static	double
-	(*solve_ray_equation)(t_object *const, t_ray) = &plane_solve_ray_equation;
-	static	t_vector
-	(*calc_normal)(t_object *const me, t_vector cross_point) = &plane_calc_normal;
+	static t_object_vtbl	vtbl = {
+			.solve_ray_equation = &plane_solve_ray_equation,
+			.calc_radiance = &calc_radiance_,
+			.calc_normal = &plane_calc_normal
+	};
 
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
-	me->super.vptr->solve_ray_equation = solve_ray_equation;
-	me->super.vptr->calc_normal = calc_normal;
+	me->super.vptr = &vtbl;
 	me->normal = normal;
 }
 

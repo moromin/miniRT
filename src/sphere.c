@@ -17,14 +17,14 @@ static t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
 void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
 {
-	static	double
-	(*solve_ray_equation)(t_object *const, t_ray) = &sphere_solve_ray_equation;
-	static	t_vector
-	(*calc_normal)(t_object *const, t_vector) = &sphere_calc_normal;
+	static t_object_vtbl	vtbl = {
+			.solve_ray_equation = &sphere_solve_ray_equation,
+			.calc_radiance = &calc_radiance_,
+			.calc_normal = &sphere_calc_normal
+	};
 
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
-	me->super.vptr->solve_ray_equation = solve_ray_equation;
-	me->super.vptr->calc_normal = calc_normal;
+	me->super.vptr = &vtbl;
 	me->radius = radius;
 }
 

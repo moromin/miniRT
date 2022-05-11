@@ -1,5 +1,6 @@
 #include "../include/color.h"
 #include "../utils/utils.h"
+#include "../include/math.h"
 
 bool	get_color_from_strs(char **params, t_color *color)
 {
@@ -18,4 +19,12 @@ bool	get_color_from_strs(char **params, t_color *color)
 	color->g = val[GREEN];
 	color->b = val[BLUE];
 	return (true);
+}
+
+t_color	color_map(t_color c)
+{
+	c.r = min(1, c.r);
+	c.g = min(1, c.g);
+	c.b = min(1, c.b);
+	return (c);
 }

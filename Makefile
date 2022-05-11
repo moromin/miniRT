@@ -60,7 +60,8 @@ norm:
 norm-easy:
 	norminette $(SRCS) $(HEADERS) | grep -v WRONG_SCOPE_COMMENT | grep -v LINE_TOO_LONG | grep -v "Missing or invalid header"
 
+RT=proj2-4
 run:
-	./$(NAME)
+	./$(NAME) scenes/$(RT).rt
 
 .PHONY: all bonus clean fclean re

@@ -25,9 +25,10 @@ typedef struct s_program {
 	void		*win;
 	t_img		img;
 	t_vector	camera_point;
-	t_light		light;
+	t_light		*lights;
+	int			light_count;
 	t_color		ambient;
-	t_object	**object;
+	t_object	**objects;
 }	t_program;
 
 // todo: create its header file when there are more funcs
