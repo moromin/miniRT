@@ -29,7 +29,7 @@
 void	load_rt_file(int argc, char **argv, t_program *program);
 
 // rt_params.c
-void	load_ambient(t_program *program, char **info, char **err);
-void	load_camera(t_program *program, char **info, char **err);
+char	*load_ambient(t_program *p, char **info);
+char	*load_camera(t_program *p, char **info);
 
 #endif
