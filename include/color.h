@@ -21,7 +21,7 @@ t_color	color_mult(t_color c, double k);
 t_color	color_prod(t_color c1, t_color c2);
 
 // color_utils.c
-bool	get_color_from_strs(char **params, t_color *color);
+bool	get_color_from_str(char *params, t_color *color);
 t_color	color_map(t_color c);
 
 #endif
