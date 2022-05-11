@@ -13,6 +13,8 @@ static bool	load_element(char *line, t_program *program, char **err)
 	// TODO: handle each element
 	if (num == 3 && !ft_strcmp(info[0], "A"))
 		load_ambient(program, ++info, err);
+	else if (num == 4 && !ft_strcmp(info[0], "C"))
+		load_camera(program, ++info, err);
 	free_2d_array((void **)info);
 	return (*err == NO_ERR);
 }
