@@ -7,7 +7,7 @@ char	*load_ambient(t_program *p, char **info)
 
 	if (!(ft_strtod(info[0], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 		return (ERR_MISCONFIGURED_AMBIENT);
-	if (get_color_from_str(info[1], &c))
+	if (get_color_from_str(info[1], &c) && check_color_range(c, 0.0, 255.0))
 		p->ambient = ambient(color_mult(c, ratio));
 	else
 		return (ERR_MISCONFIGURED_AMBIENT);
@@ -40,7 +40,7 @@ char	*load_light(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_LIGHT);
 	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 		return (ERR_MISCONFIGURED_AMBIENT);
-	if (get_color_from_str(info[2], &c))
+	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
 		l.intensity = color_mult(c, ratio);
 	else
 		return (ERR_MISCONFIGURED_AMBIENT);
