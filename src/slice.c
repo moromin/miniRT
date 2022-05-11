@@ -1,6 +1,6 @@
 #include "../include/slice.h"
 
-t_slice *make(size_t size, size_t len, size_t cap)
+t_slice	*make(size_t size, size_t len, size_t cap)
 {
 	t_slice	*s;
 
@@ -24,12 +24,15 @@ void	delete(t_slice *s)
 
 void	append(t_slice *s, void *elem)
 {
-	t_slice *new;
+	t_slice	*new;
 
-	if (s->len < s->cap) {
+	if (s->len < s->cap)
+	{
 		ft_memcpy(s->org_start + s->len * s->size, elem, s->size);
 		s->len++;
-	} else {
+	}
+	else
+	{
 		new = x_malloc(s->size * s->cap * 2);
 		ft_memcpy(new, s->cur_start, s->size * s->len);
 		free(s->org_start);
@@ -40,7 +43,7 @@ void	append(t_slice *s, void *elem)
 	}
 }
 
-void *get(t_slice *s, size_t index)
+void	*get(t_slice *s, size_t index)
 {
 	if (index >= s->len)
 		return (NULL);

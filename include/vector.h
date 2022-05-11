@@ -37,7 +37,7 @@ t_vector	vec_init(double x, double y, double z);
 void		vec_print(t_vector v);
 
 // vector_utils.c
-bool	get_vector_from_str(char *params, t_vector *v);
-bool	check_vector_range(t_vector v, double min, double max);
+bool		get_vector_from_str(char *params, t_vector *v);
+bool		check_vector_range(t_vector v, double min, double max);
 
 #endif

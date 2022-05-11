@@ -13,7 +13,7 @@ typedef struct s_slice {
 	size_t	cap;
 }	t_slice;
 
-t_slice *make(size_t size, size_t len, size_t cap);
+t_slice	*make(size_t size, size_t len, size_t cap);
 void	delete(t_slice *s);
 void	append(t_slice *s, void *elem);
 void	*get(t_slice *s, size_t index);

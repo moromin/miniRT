@@ -93,7 +93,7 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
 		if (!is_covered)
 			c = color_add(c,
-				object_calc_radiance(p->objects[obj_index], cross_point, *(t_light *)get(p->lights, i)));
+					object_calc_radiance(p->objects[obj_index], cross_point, *(t_light *)get(p->lights, i)));
 		i++;
 	}
 	return (c);
