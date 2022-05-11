@@ -46,7 +46,7 @@ t_vector	init_screen_point(t_camera camera, int x, int y)
 {
 	const t_vector	screen_point = ({
 		const double	screen_dist = WIDTH / (2 * tan(PI * camera.fov / 180 / 2));
-		const t_vector	df = vec_normalize(vec_sub(camera.normal, camera.pos));
+		const t_vector	df = camera.normal;
 		const t_vector	ey = vec_init(0, 1, 0);
 		const t_vector	dx = vec_outer_product(ey, df);
 		const t_vector	dy = vec_outer_product(df, dx);
