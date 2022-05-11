@@ -8,30 +8,12 @@
 #include "../include/math.h"
 
 #define BACKGROUND 0x6495ED
-#define OBJECT_NUM 6
 
 void	init_program(t_program *program)
 {
 	program->mlx = mlx_init();
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
 	init_image(program, &program->img);
-	// light setup
-	// object setup
-	// todo: malloc check, malloc free
-	program->objects = malloc(sizeof(t_object *) * (OBJECT_NUM + 1));
-	program->objects[OBJECT_NUM] = NULL;
-	program->objects[0] = malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->objects[0], 1.0, vec_init(3, 0, 25), color(0.69, 0.0, 0.0), color(0.3, 0.3, 0.3));
-	program->objects[1] = (t_object *)malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->objects[1], 1.0, vec_init(2, 0, 20), color(0.0, 0.69, 0.0), color(0.3, 0.3, 0.3));
-	program->objects[2] = malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->objects[2], 1.0, vec_init(1, 0, 15), color(0.0, 0.0, 0.69), color(0.3, 0.3, 0.3));
-	program->objects[3] = malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->objects[3], 1.0, vec_init(0, 0, 10), color(0.0, 0.69, 0.69), color(0.3, 0.3, 0.3));
-	program->objects[4] = malloc(sizeof(t_sphere));
-	sphere_ctor((t_sphere *)program->objects[4], 1.0, vec_init(-1, 0, 5), color(0.69, 0.0, 0.69), color(0.3, 0.3, 0.3));
-	program->objects[5] = (t_object *)malloc(sizeof(t_plane));
-	plane_ctor((t_plane *)program->objects[5], vec_init(0, -1, 0), vec_init(0, 1, 0), color(0.69, 0.69, 0.69), color(0.3, 0.3, 0.3));
 }
 
 // https://knzw.tech/raytracing/?page_id=1243
@@ -52,14 +34,14 @@ t_vector	init_screen_point(t_camera camera, int x, int y)
 	return (screen_point);
 }
 
-int	closest_object(t_object **objects, t_ray ray, double max_dist, bool early_return)
+int	closest_object(t_slice *objects, t_ray ray, double max_dist, bool early_return)
 {
 	const int	index = ({
 			int	res = -1;
 			double	min_ray_coefficient = INFINITY;
 
-			for (int i = 0; objects[i]; i++){
-				double ray_coefficient = object_solve_ray_equation(objects[i], ray);
+			for (int i = 0; i < (int)len(objects); i++){
+				double ray_coefficient = object_solve_ray_equation(get_x2(objects, i, 0), ray);
 				if (ray_coefficient < 0)
 					continue;
 				t_vector cross_point = vec_add(ray.start, vec_mult(ray.direction, ray_coefficient));
@@ -101,7 +83,7 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
 		if (!is_covered)
 			c = color_add(c,
-					object_calc_radiance(p->objects[obj_index], cross_point, *(t_light *)get(p->lights, i)));
+					object_calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get(p->lights, i)));
 		i++;
 	}
 	return (c);
@@ -121,7 +103,7 @@ void	draw(t_program *p, int x, int y)
 	obj_index = closest_object(p->objects, ray, INFINITY, false);
 	if (obj_index >= 0)
 	{
-		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(p->objects[obj_index], ray)));
+		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(get_x2(p->objects, obj_index, 0), ray)));
 		color = handle_lights(p, obj_index, cross_point);
 		color = color_map(color);
 		add_color_to_image(&p->img, color_to_int(color), x, y);

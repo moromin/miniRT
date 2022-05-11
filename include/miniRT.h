@@ -30,9 +30,8 @@ typedef struct s_program {
 	void		*win;
 	t_img		img;
 	t_slice		*lights;
-	int			light_count;
 	t_color		ambient;
-	t_object	**objects;
+	t_slice		*objects;
 	t_camera	camera;
 }	t_program;
 
