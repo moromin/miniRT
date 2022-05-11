@@ -10,13 +10,13 @@ bool	get_vector_from_str(char *params, t_vector *v)
 	xyz = x_split(params, ',');
 	if (count_2d_array((void **)xyz) != 3)
 	{
-		free_2d_array((void **)xyz);
+		free_2d_array((void ***)&xyz);
 		return (false);
 	}
 	is_valid = (ft_strtod(xyz[X], &v->x)
 			&& ft_strtod(xyz[Y], &v->y)
 			&& ft_strtod(xyz[Z], &v->z));
-	free_2d_array((void **)xyz);
+	free_2d_array((void ***)&xyz);
 	return (is_valid);
 }
 
