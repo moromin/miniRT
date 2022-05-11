@@ -28,6 +28,7 @@
 # define ERR_MISCONFIGURED_LIGHT "Light is misconfigured"
 # define ERR_MISCONFIGURED_SPHERE "Sphere is misconfigured"
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
+# define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 
 // scene.c
@@ -41,5 +42,6 @@ char	*load_light(t_program *p, char **info);
 // rt_params_obj.c
 char	*load_sphere(t_program *p, char **info);
 char	*load_plane(t_program *p, char **info);
+char	*load_cylinder(t_program *p, char **info);
 
 #endif
