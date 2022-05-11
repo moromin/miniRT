@@ -1,15 +1,7 @@
 #include <math.h>
 
 #include "../include/object.h"
-#include "../include/miniRT.h"
 #include "../include/math.h"
-#include "../include/color.h"
-
-#define A 0
-#define B 1
-#define C 2
-#define POSITIVE 0
-#define NEGATIVE 1
 
 static double	sphere_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
@@ -48,29 +40,31 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const double	abc[3] = {
-			vec_magnitude_squared(ray.direction),
-			2 * (vec_inner_product(ray.start, ray.direction)
-				 - vec_inner_product(ray.direction, me->super.center)),
-			 vec_magnitude_squared(ray.start)
-				+ vec_magnitude_squared(me->super.center)
-				- 2 * vec_inner_product(ray.start, me->super.center)
-				- pow(me->radius, 2)
-	};
-	const double	d = pow(abc[B], 2) - 4 * abc[A] * abc[C];
-	const double	t[2] = {
-			(-1 * abc[B] + sqrt(d)) / (2 * abc[A]),
-			(-1 * abc[B] - sqrt(d)) / (2 * abc[A])
-	};
+	const double	t = ({
+			const double	a = vec_magnitude_squared(ray.direction);
+			const double	b = 2 * (vec_inner_product(ray.start, ray.direction)
+									 - vec_inner_product(ray.direction, me->super.center));
+			const double	c = vec_magnitude_squared(ray.start)
+								+ vec_magnitude_squared(me->super.center)
+								- 2 * vec_inner_product(ray.start, me->super.center)
+								- pow(me->radius, 2);
+			const double	d = pow(b, 2) - 4 * a * c;
+			const double	t_positive = (-1 * b + sqrt(d)) / (2 * a);
+			const double	t_negative = (-1 * b - sqrt(d)) / (2 * a);
+			double			res;
 
-	if (d < 0 || (t[POSITIVE] < 0 && t[NEGATIVE] < 0))
-		return (-1.0);
-	if (t[POSITIVE] < 0)
-		return (t[NEGATIVE]);
-	else if (t[NEGATIVE] < 0)
-		return (t[POSITIVE]);
-	else
-		return (min(t[POSITIVE], t[NEGATIVE]));
+			if (d < 0 || (t_positive < 0 && t_negative < 0))
+				res = -1.0;
+			else if (t_positive < 0)
+				res = t_negative;
+			else if (t_negative < 0)
+				res = t_positive;
+			else
+				res = min(t_positive, t_negative);
+			res;
+	});
+
+	return (t);
 }
 
 static t_vector	sphere_calc_normal(t_object *const me, t_vector cross_point)
