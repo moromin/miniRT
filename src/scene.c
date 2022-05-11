@@ -9,11 +9,11 @@ static void	load_element(char *line, t_program *program)
 	char	**info;
 
 	info = x_split(line, ' ');
-	num = count_2d_array((void ***)&info);
+	num = count_2d_array((void **)info);
 	// TODO: handle each element
 	if (num == 3 && !ft_strcmp(info[0], "A"))
 		load_ambient(program, ++info);
-	free_2d_array((void ***)&info);
+	free_2d_array((void **)info);
 }
 
 static void	read_rt_file(char *filename, t_program *program)
