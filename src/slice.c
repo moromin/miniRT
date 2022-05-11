@@ -40,7 +40,7 @@ void	append(t_slice *s, void *elem)
 	}
 }
 
-void *get(slice *s, size_t index)
+void *get(t_slice *s, size_t index)
 {
 	if (index >= s->len)
 		return (NULL);

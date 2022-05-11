@@ -12,6 +12,7 @@ static char	*load_element(char *line, t_program *p)
 	err = NO_ERR;
 	info = x_split(line, ' ');
 	num = count_2d_array((void **)info);
+	p->lights = make(sizeof(t_light), 0, 1);
 	if (num == 3 && !ft_strcmp(info[0], "A"))
 		err = load_ambient(p, &info[1]);
 	else if (num == 4 && !ft_strcmp(info[0], "C"))
@@ -44,8 +45,12 @@ static void	read_rt_file(char *filename, t_program *p)
 	}
 	free(line);
 	x_close(fd);
+	// TODO: delete slice when err is not NO_ERR
 	if (err != NO_ERR)
+	{
+		delete(p->lights);
 		exit_with_error_message(err);
+	}
 }
 
 static bool	check_filename(char *filename)
