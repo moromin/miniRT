@@ -17,6 +17,7 @@
 # define AMBIENT_LIGHTING 0
 
 // Error messages
+# define NO_ERR NULL
 # define ERR_INVALID_ARGS "Invalid number of arguments"
 # define ERR_INVALID_FILE "File is invalid (expected '*.rt' file)"
 # define ERR_INVALID_NUM_OF_ELEMENT_INFO "Invalid number of element information"
@@ -26,6 +27,6 @@
 void	load_rt_file(int argc, char **argv, t_program *program);
 
 // rt_params.c
-void	load_ambient(t_program *program, char **info);
+void	load_ambient(t_program *program, char **info, char **err);
 
 #endif

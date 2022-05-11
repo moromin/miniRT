@@ -3,7 +3,7 @@
 // TODO: check duplicate capital letters
 // static bool	check_duplicate_capital_letter()
 
-static void	load_element(char *line, t_program *program)
+static bool	load_element(char *line, t_program *program, char **err)
 {
 	size_t	num;
 	char	**info;
@@ -12,8 +12,9 @@ static void	load_element(char *line, t_program *program)
 	num = count_2d_array((void **)info);
 	// TODO: handle each element
 	if (num == 3 && !ft_strcmp(info[0], "A"))
-		load_ambient(program, ++info);
+		load_ambient(program, ++info, err);
 	free_2d_array((void **)info);
+	return (*err == NO_ERR);
 }
 
 static void	read_rt_file(char *filename, t_program *program)
@@ -21,17 +22,22 @@ static void	read_rt_file(char *filename, t_program *program)
 	int		fd;
 	char	*line;
 	int		status;
+	char	*err;
 
+	err = NO_ERR;
 	fd = x_open(filename, O_RDONLY);
 	while (1)
 	{
 		status = x_get_next_line(fd, &line);
 		if (status == GNL_STATUS_DONE)
 			break ;
-		load_element(line, program);
+		if (!load_element(line, program, &err))
+			break ;
 	}
 	free(line);
 	x_close(fd);
+	if (err != NO_ERR)
+		exit_with_error_message(err);
 }
 
 static bool	check_filename(char *filename)
