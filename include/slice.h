@@ -2,6 +2,7 @@
 # define SLICE_H
 
 # include <stdlib.h>
+# include <assert.h>
 # include "../libft/libft.h"
 # include "../wrapper/x.h"
 

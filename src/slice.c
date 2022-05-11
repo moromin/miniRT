@@ -5,7 +5,7 @@ t_slice	*make(size_t size, size_t len, size_t cap)
 	t_slice	*s;
 
 	if (len > cap)
-		return (NULL);
+		assert(0);
 	s = x_malloc(sizeof(t_slice));
 	s->org_start = x_malloc(size * cap);
 	s->cur_start = s->org_start;
