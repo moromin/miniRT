@@ -9,7 +9,6 @@
 
 #define BACKGROUND 0x6495ED
 #define OBJECT_NUM 6
-#define LIGHT_NUM 3
 
 void	init_program(t_program *program)
 {
@@ -17,11 +16,6 @@ void	init_program(t_program *program)
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
 	init_image(program, &program->img);
 	// light setup
-	// todo: malloc check, malloc free
-	program->lights = malloc(sizeof(t_light) * LIGHT_NUM);
-	program->lights[0] = light(vec_init(-5, 5, -5), color(0.5, 0.5, 0.5));
-	program->lights[1] = light(vec_init(5, 0, -5), color(0.5, 0.5, 0.5));
-	program->lights[2] = light(vec_init(5, 20, -5), color(0.5, 0.5, 0.5));
 	// object setup
 	// todo: malloc check, malloc free
 	program->objects = malloc(sizeof(t_object *) * (OBJECT_NUM + 1));
@@ -92,21 +86,22 @@ int	closest_object(t_object **objects, t_ray ray, double max_dist, bool early_re
 t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 {
 	t_color	c;
-	int		i;
+	size_t	i;
 	bool	is_covered;
 	t_ray	ray;
 	double	dist;
 
 	c = p->ambient;
 	i = 0;
-	while (i < LIGHT_NUM)
+	while (i < len(p->lights))
 	{
-		ray.direction = vec_sub(p->lights[i].coordinate, cross_point);
+		ray.direction = vec_sub(((t_light *)get(p->lights, i))->coordinate, cross_point);
 		ray.start = vec_add(cross_point, vec_mult(ray.direction, EPSILON));
 		dist = vec_magnitude(ray.direction) - EPSILON;
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
 		if (!is_covered)
-			c = color_add(c, object_calc_radiance(p->objects[obj_index], cross_point, p->lights[i]));
+			c = color_add(c,
+					object_calc_radiance(p->objects[obj_index], cross_point, *(t_light *)get(p->lights, i)));
 		i++;
 	}
 	return (c);

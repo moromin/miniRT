@@ -6,6 +6,7 @@
 # include "color.h"
 # include "light.h"
 # include "camera.h"
+# include "slice.h"
 
 // todo: this should be input from rt file
 # define WIDTH 512
@@ -28,8 +29,7 @@ typedef struct s_program {
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	// TODO: replace t_camera
-	t_light		*lights;
+	t_slice		*lights;
 	int			light_count;
 	t_color		ambient;
 	t_object	**objects;

@@ -13,5 +13,6 @@ int		x_open(const char *path, int mode);
 void	x_close(int fd);
 int		x_get_next_line(int fd, char **line);
 char	**x_split(const char *s, char c);
+void	*x_malloc(size_t size);
 
 #endif

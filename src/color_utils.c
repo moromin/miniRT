@@ -21,6 +21,15 @@ bool	get_color_from_str(char *params, t_color *c)
 	return (is_valid);
 }
 
+bool	check_color_range(t_color c, double min, double max)
+{
+	const bool	r_ok = (min <= c.r && c.r <= max);
+	const bool	g_ok = (min <= c.g && c.g <= max);
+	const bool	b_ok = (min <= c.b && c.b <= max);
+
+	return (r_ok && g_ok && b_ok);
+}
+
 t_color	color_map(t_color c)
 {
 	c.r = min(1, c.r);
