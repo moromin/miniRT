@@ -16,7 +16,7 @@ void	init_program(t_program *program)
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
 	init_image(program, &program->img);
 	// camera setup
-	program->camera_point = vec_init(0, 0, -5);
+	program->camera_point = program->camera.pos;
 	// light setup
 	// todo: malloc check, malloc free
 	program->lights = malloc(sizeof(t_light) * LIGHT_NUM);

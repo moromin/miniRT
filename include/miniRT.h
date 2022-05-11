@@ -33,7 +33,7 @@ typedef struct s_program {
 	t_light		*lights;
 	int			light_count;
 	t_color		ambient;
-	t_object	**objects;
+	t_object	**object;
 	t_camera	camera;
 }	t_program;
 
