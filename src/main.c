@@ -1,5 +1,6 @@
 #include <printf.h>
 #include <stdlib.h>
+#include <math.h>
 #include "../minilibx-linux/mlx.h"
 #include "../include/vector.h"
 #include "../include/miniRT.h"
@@ -9,14 +10,13 @@
 #define BACKGROUND 0x6495ED
 #define OBJECT_NUM 6
 #define LIGHT_NUM 3
+#define PI 3.141593
 
 void	init_program(t_program *program)
 {
 	program->mlx = mlx_init();
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
 	init_image(program, &program->img);
-	// camera setup
-	program->camera_point = program->camera.pos;
 	// light setup
 	// todo: malloc check, malloc free
 	program->lights = malloc(sizeof(t_light) * LIGHT_NUM);
@@ -42,12 +42,21 @@ void	init_program(t_program *program)
 }
 
 // https://knzw.tech/raytracing/?page_id=1243
-t_vector	init_screen_point(int x, int y)
+t_vector	init_screen_point(t_camera camera, int x, int y)
 {
-	return (vec_init(
-			(2.0 * x) / (WIDTH - 1) - 1.0,
-			(-2.0 * y) / (HEIGHT - 1) + 1.0,
-			0));
+	const t_vector	screen_point = ({
+		const double	screen_dist = WIDTH / (2 * tan(PI * camera.fov / 180 / 2));
+		const t_vector	df = vec_normalize(vec_sub(camera.normal, camera.pos));
+		const t_vector	ey = vec_init(0, 1, 0);
+		const t_vector	dx = vec_outer_product(ey, df);
+		const t_vector	dy = vec_outer_product(df, dx);
+		const t_vector	pm = vec_add(camera.pos, vec_mult(df, screen_dist));
+		vec_add(pm, vec_add(
+				vec_mult(dx, (2.0 * x) / (WIDTH - 1) - 1.0),
+				vec_mult(dy, (-2.0 * y) / (HEIGHT - 1) + 1.0)));
+	});
+
+	return (screen_point);
 }
 
 int	closest_object(t_object **objects, t_ray ray, double max_dist, bool early_return)
@@ -104,7 +113,7 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 	return (c);
 }
 
-void	draw(t_program *program, int x, int y)
+void	draw(t_program *p, int x, int y)
 {
 	t_vector	screen_point;
 	t_ray		ray;
@@ -112,19 +121,19 @@ void	draw(t_program *program, int x, int y)
 	t_vector	cross_point;
 	t_color		color;
 
-	screen_point = init_screen_point(x, y);
-	ray.start = program->camera_point;
-	ray.direction = vec_sub(screen_point, program->camera_point);
-	obj_index = closest_object(program->objects, ray, INFINITY, false);
+	screen_point = init_screen_point(p->camera, x, y);
+	ray.start = p->camera.pos;
+	ray.direction = vec_sub(screen_point, p->camera.pos);
+	obj_index = closest_object(p->objects, ray, INFINITY, false);
 	if (obj_index >= 0)
 	{
-		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(program->objects[obj_index], ray)));
-		color = handle_lights(program, obj_index, cross_point);
+		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(p->objects[obj_index], ray)));
+		color = handle_lights(p, obj_index, cross_point);
 		color = color_map(color);
-		add_color_to_image(&program->img, color_to_int(color), x, y);
+		add_color_to_image(&p->img, color_to_int(color), x, y);
 	}
 	else
-		add_color_to_image(&program->img, BACKGROUND, x, y);
+		add_color_to_image(&p->img, BACKGROUND, x, y);
 }
 
 // screen_point described as 'pw'

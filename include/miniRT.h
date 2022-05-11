@@ -29,7 +29,6 @@ typedef struct s_program {
 	void		*win;
 	t_img		img;
 	// TODO: replace t_camera
-	t_vector	camera_point;
 	t_light		*lights;
 	int			light_count;
 	t_color		ambient;
