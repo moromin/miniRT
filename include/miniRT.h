@@ -5,6 +5,7 @@
 # include "object.h"
 # include "color.h"
 # include "light.h"
+# include "camera.h"
 
 // todo: this should be input from rt file
 # define WIDTH 512
@@ -27,11 +28,13 @@ typedef struct s_program {
 	void		*mlx;
 	void		*win;
 	t_img		img;
+	// TODO: replace t_camera
 	t_vector	camera_point;
 	t_light		*lights;
 	int			light_count;
 	t_color		ambient;
 	t_object	**objects;
+	t_camera	camera;
 }	t_program;
 
 // todo: create its header file when there are more funcs

@@ -4,7 +4,7 @@ void	free_2d_array(void ***array)
 {
 	size_t	i;
 
-	if (!*array)
+	if (!array || !*array)
 		return ;
 	i = 0;
 	while ((*array)[i])
