@@ -4,7 +4,7 @@
 t_light	light(t_vector coordinate, t_color intensity)
 {
 	const t_light	l = {
-			.coordinate = coordinate,
+			.pos = coordinate,
 			.intensity = intensity,
 	};
 

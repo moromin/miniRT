@@ -77,7 +77,7 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 	i = 0;
 	while (i < len(p->lights))
 	{
-		ray.direction = vec_sub(((t_light *)get(p->lights, i))->coordinate, cross_point);
+		ray.direction = vec_sub(((t_light *)get(p->lights, i))->pos, cross_point);
 		ray.start = vec_add(cross_point, vec_mult(ray.direction, EPSILON));
 		dist = vec_magnitude(ray.direction) - EPSILON;
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;

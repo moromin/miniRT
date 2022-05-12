@@ -41,7 +41,7 @@ char	*load_light(t_program *p, char **info)
 	double	ratio;
 	t_color	c;
 
-	if (!get_vector_from_str(info[0], &l.coordinate))
+	if (!get_vector_from_str(info[0], &l.pos))
 		return (ERR_MISCONFIGURED_LIGHT);
 	// todo: error is wrong
 	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
