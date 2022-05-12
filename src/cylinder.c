@@ -3,8 +3,6 @@
 #include "../include/object.h"
 #include "../include/math.h"
 
-#include <printf.h>
-
 static double	cylinder_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	cylinder_calc_normal(t_object *me, t_vector cross_point);
 
