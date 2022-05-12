@@ -141,6 +141,7 @@ int	main(int argc, char **argv)
 	init_program(&program);
 	// create_image
 	create_image(&program);
+	printf("--creation of image is done!--\n");
 	// mlx setup
 	mlx_put_image_to_window(program.mlx, program.win, program.img.image, 0, 0);
 	mlx_loop(program.mlx);
