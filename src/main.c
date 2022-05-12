@@ -6,6 +6,7 @@
 #include "../include/miniRT.h"
 #include "../include/scene.h"
 #include "../include/math.h"
+#include "../include/mlx_hooks.h"
 
 #define BACKGROUND 0x6495ED
 
@@ -143,6 +144,6 @@ int	main(int argc, char **argv)
 	create_image(&program);
 	// mlx setup
 	mlx_put_image_to_window(program.mlx, program.win, program.img.image, 0, 0);
+	set_mlx_hooks(&program);
 	mlx_loop(program.mlx);
-	return (EXIT_SUCCESS);
 }
