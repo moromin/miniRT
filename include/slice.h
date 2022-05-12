@@ -6,7 +6,7 @@
 # include "../libft/libft.h"
 # include "../wrapper/x.h"
 
-typedef struct s_slice t_slice;
+typedef struct s_slice	t_slice;
 
 // slice.c
 t_slice	*make(size_t size, size_t len, size_t cap);

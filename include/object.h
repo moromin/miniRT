@@ -31,6 +31,8 @@ struct s_object_vtbl {
 };
 
 t_color		calc_radiance_(t_object *me, t_vector cross_point, t_light light);
+t_color		calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light);
+t_color		calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light);
 
 // sphere
 typedef struct s_sphere {
@@ -41,8 +43,8 @@ typedef struct s_sphere {
 }	t_sphere;
 
 void		sphere_ctor(t_sphere *me, double radius, t_vector center, t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient);
-t_color		calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light);
-t_color		calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light);
+
+// plane
 typedef struct s_plane {
 	t_object	super;
 	t_vector	normal;
@@ -52,6 +54,24 @@ void		plane_ctor(
 				t_plane *me,
 				t_vector center,
 				t_vector normal,
+				t_color diffuse_reflection_coefficient,
+				t_color specular_reflection_coefficient);
+
+// cylinder
+typedef struct s_cylinder
+{
+	t_object	super;
+	t_vector	normal;
+	double		radius;
+	double		height;
+}	t_cylinder;
+
+void		cylinder_ctor(
+				t_cylinder *me,
+				t_vector center,
+				t_vector normal,
+				double radius,
+				double height,
 				t_color diffuse_reflection_coefficient,
 				t_color specular_reflection_coefficient);
 

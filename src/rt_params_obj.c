@@ -48,7 +48,7 @@ char	*load_cylinder(t_program *p, char **info)
 	double		height;
 	t_color		col;
 
-//	cy = make(sizeof(t_cylinder), 1, 1);
+	cy = make(sizeof(t_cylinder), 1, 1);
 	if (!get_vector_from_str(info[0], &center))
 		return (ERR_MISCONFIGURED_CYLINDER);
 	if (!(get_vector_from_str(info[1], &normal) && check_vector_range(normal, -1.0, 1.0)))
@@ -59,7 +59,7 @@ char	*load_cylinder(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_CYLINDER);
 	if (!(get_color_from_str(info[4], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CYLINDER);
-//	cylinder_ctor(get(cy, 0), center, normal, diameter, height, col, color(0, 0, 0));
+	cylinder_ctor(get(cy, 0), center, vec_normalize(normal), diameter, height, col, color(0, 0, 0));
 	append(p->objects, &cy);
 	return (NO_ERR);
 }
