@@ -9,7 +9,7 @@ t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light
 	t_vector		vec;
 	const t_vector	normal = object_calc_normal(obj, cross_point);
 	const t_vector	incident_direction = ({
-		vec = vec_sub(light.coordinate, cross_point);
+		vec = vec_sub(light.pos, cross_point);
 		vec_normalize(vec);
 	});
 
@@ -27,7 +27,7 @@ t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_light ligh
 	t_vector		vec;
 	const t_vector	normal = object_calc_normal(obj, cross_point);
 	const t_vector	incident_direction = ({
-		vec = vec_sub(light.coordinate, cross_point);
+		vec = vec_sub(light.pos, cross_point);
 		vec_normalize(vec);
 	});
 	const t_vector	specular = ({

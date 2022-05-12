@@ -42,6 +42,8 @@ static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 	const t_sphere	*me = (t_sphere *)me_;
 	const double	t = ({
 			const double	a = vec_magnitude_squared(ray.direction);
+			if (a == 0)
+				return (-1.0);
 			const double	b = 2 * (vec_inner_product(ray.start, ray.direction)
 									 - vec_inner_product(ray.direction, me->super.center));
 			const double	c = vec_magnitude_squared(ray.start)

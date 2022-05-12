@@ -7,7 +7,7 @@
 # define AMBIENT_REFLECTION_COEFFICIENT 0.01
 
 typedef struct s_light {
-	t_vector	coordinate;
+	t_vector	pos;
 	t_color		intensity;
 //	t_color		color;
 }	t_light;

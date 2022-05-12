@@ -11,6 +11,8 @@
 // todo: this should be input from rt file
 # define WIDTH 512
 # define HEIGHT 512
+# define SCREEN_WIDTH 2
+# define SCREEN_HEIGHT 2
 
 //# define EPSILON (1.0 / 512)
 # define EPSILON 0.001
