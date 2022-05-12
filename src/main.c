@@ -20,7 +20,7 @@ void	init_program(t_program *program)
 t_vector	init_screen_point(t_camera camera, int x, int y)
 {
 	const t_vector	screen_point = ({
-		const double	screen_dist = WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2));
+		const double	screen_dist = SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2));
 		const t_vector	df = camera.normal;
 		const t_vector	ey = vec_init(0, 1, 0);
 		const t_vector	dx = vec_outer_product(ey, df);
