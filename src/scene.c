@@ -18,7 +18,13 @@ static char	*load_element(char *line, t_program *p)
 		err = load_camera(p, &info[1]);
 	else if (num == 4 && !ft_strcmp(info[0], "L"))
 		err = load_light(p, &info[1]);
-	else
+	else if (num == 4 && !ft_strcmp(info[0], "sp"))
+		err = load_sphere(p, &info[1]);
+	else if (num == 4 && !ft_strcmp(info[0], "pl"))
+		err = load_plane(p, &info[1]);
+	else if (num == 6 && !ft_strcmp(info[0], "cy"))
+		err = load_cylinder(p, &info[1]);
+	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
 	free_2d_array((void ***)&info);
 	return (err);
@@ -34,6 +40,7 @@ static void	read_rt_file(char *filename, t_program *p)
 	err = NO_ERR;
 	fd = x_open(filename, O_RDONLY);
 	p->lights = make(sizeof(t_light), 0, 1);
+	p->objects = make(sizeof(t_slice *), 0, 1);
 	while (1)
 	{
 		status = x_get_next_line(fd, &line);
@@ -49,6 +56,7 @@ static void	read_rt_file(char *filename, t_program *p)
 	if (err != NO_ERR)
 	{
 		delete(p->lights);
+		delete_recursively(p->objects, 1);
 		exit_with_error_message(err);
 	}
 }

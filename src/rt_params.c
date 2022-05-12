@@ -38,6 +38,7 @@ char	*load_light(t_program *p, char **info)
 
 	if (!get_vector_from_str(info[0], &l.coordinate))
 		return (ERR_MISCONFIGURED_LIGHT);
+	// todo: error is wrong
 	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 		return (ERR_MISCONFIGURED_AMBIENT);
 	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))

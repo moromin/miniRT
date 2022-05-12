@@ -1,5 +1,13 @@
 #include "../include/slice.h"
 
+struct s_slice {
+	void	*org_start;
+	void	*cur_start;
+	size_t	size;
+	size_t	len;
+	size_t	cap;
+};
+
 t_slice	*make(size_t size, size_t len, size_t cap)
 {
 	t_slice	*s;
@@ -12,7 +20,7 @@ t_slice	*make(size_t size, size_t len, size_t cap)
 	s->size = size;
 	s->len = len;
 	s->cap = cap;
-	ft_bzero(s, size * len);
+	ft_bzero(s->org_start, size * len);
 	return (s);
 }
 
@@ -46,7 +54,7 @@ void	append(t_slice *s, void *elem)
 void	*get(t_slice *s, size_t index)
 {
 	if (index >= s->len)
-		return (NULL);
+		assert(0);
 	return (s->cur_start + s->size * index);
 }
 
