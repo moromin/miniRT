@@ -1,13 +1,20 @@
 #include <math.h>
+#include <printf.h>
 #include "../include/color.h"
 #include "../include/vector.h"
 #include "../include/light.h"
 #include "../include/object.h"
 
-t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light)
+t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light, t_vector camera2cross)
 {
 	t_vector		vec;
-	const t_vector	normal = object_calc_normal(obj, cross_point);
+	const t_vector	normal = ({
+			t_vector n = object_calc_normal(obj, cross_point);
+			if (vec_inner_product(n, camera2cross) > 0)
+				n = vec_mult(n, -1);
+			n;
+	});
+//	const t_vector	normal = object_calc_normal(obj, cross_point);
 	const t_vector	incident_direction = ({
 		vec = vec_sub(light.pos, cross_point);
 		vec_normalize(vec);
@@ -22,10 +29,16 @@ t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light
 }
 
 // specular: 入射光の正反射ベクトル
-t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light)
+t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_light light, t_vector camera2cross)
 {
 	t_vector		vec;
-	const t_vector	normal = object_calc_normal(obj, cross_point);
+	const t_vector	normal = ({
+		t_vector n = object_calc_normal(obj, cross_point);
+		if (vec_inner_product(n, camera2cross) > 0)
+			n = vec_mult(n, -1);
+		n;
+	});
+//	const t_vector	normal = object_calc_normal(obj, cross_point);
 	const t_vector	incident_direction = ({
 		vec = vec_sub(light.pos, cross_point);
 		vec_normalize(vec);
