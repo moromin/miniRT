@@ -41,7 +41,7 @@ char	*load_light(t_program *p, char **info)
 	// todo: error is wrong
 	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 		return (ERR_MISCONFIGURED_AMBIENT);
-	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
+	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
 		l.intensity = color_mult(c, ratio);
 	else
 		return (ERR_MISCONFIGURED_AMBIENT);

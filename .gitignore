@@ -2,6 +2,7 @@ cmake-build-debug
 .idea
 CMakeLists.txt
 miniRT
+sample
 
 # Prerequisites
 *.d
