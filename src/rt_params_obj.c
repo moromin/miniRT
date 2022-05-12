@@ -33,6 +33,11 @@ char	*load_plane(t_program *p, char **info)
 	if (!(get_vector_from_str(info[1], &normal)
 			&& check_vector_range(normal, -1.0, 1.0)))
 		return (ERR_MISCONFIGURED_PLANE);
+	if (vec_magnitude_squared(normal) != 1)
+	{
+		ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
+		normal = vec_normalize(normal);
+	}
 	if (!(get_color_from_str(info[2], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_PLANE);
 	plane_ctor(get(pl, 0), center, normal, color_mult(col, (double)1/255), color(0, 0, 0));
@@ -54,6 +59,11 @@ char	*load_cylinder(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_CYLINDER);
 	if (!(get_vector_from_str(info[1], &normal) && check_vector_range(normal, -1.0, 1.0)))
 		return (ERR_MISCONFIGURED_CYLINDER);
+	if (vec_magnitude_squared(normal) != 1)
+	{
+		ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
+		normal = vec_normalize(normal);
+	}
 	if (!ft_strtod(info[2], &radius))
 		return (ERR_MISCONFIGURED_CYLINDER);
 	radius /= 2;
@@ -61,7 +71,7 @@ char	*load_cylinder(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_CYLINDER);
 	if (!(get_color_from_str(info[4], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CYLINDER);
-	cylinder_ctor(get(cy, 0), center, vec_normalize(normal), radius, height, color_mult(col, (double)1/255), color(0, 0, 0));
+	cylinder_ctor(get(cy, 0), center, normal, radius, height, color_mult(col, (double)1/255), color(0, 0, 0));
 	append(p->objects, &cy);
 	return (NO_ERR);
 }

@@ -15,6 +15,10 @@
 # include "vector.h"
 # include "slice.h"
 
+// color
+#define YELLOW  "\033[33m"      /* Yellow */
+#define RESET   "\033[0m"
+
 // Element type
 # define AMBIENT_LIGHTING 0
 
@@ -30,6 +34,7 @@
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
 # define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
+# define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
 
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);

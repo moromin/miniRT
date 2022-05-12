@@ -23,6 +23,11 @@ char	*load_camera(t_program *p, char **info)
 	if (!(get_vector_from_str(info[1], &p->camera.normal)
 			&& check_vector_range(p->camera.normal, -1.0, 1.0)))
 		return (ERR_MISCONFIGURED_CAMERA);
+	if (vec_magnitude_squared(p->camera.normal) != 1)
+	{
+		ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
+		p->camera.normal = vec_normalize(p->camera.normal);
+	}
 	if (ft_strtod(info[2], &fov) && 0.0 <= fov && fov <= 180.0)
 		p->camera.fov = fov;
 	else
