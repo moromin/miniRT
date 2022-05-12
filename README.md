@@ -72,5 +72,5 @@ cy {center} {orientation_vector} {diameter} {height} {color}
 
 
 ## 参考サイト
-- C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)
-- レイトレーシングの教科書@TDU](https://knzw.tech/raytracing/?page_id=1154)
+- [C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)
+- [レイトレーシングの教科書@TDU](https://knzw.tech/raytracing/?page_id=1154)
