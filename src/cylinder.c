@@ -82,12 +82,6 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 			t_vector		m;
 
 			m = vec_sub(center_to_cross, vec_mult(me->normal, h));
-
-			const t_vector	dx = vec_outer_product(me->normal, cross_point);
-			const t_vector	rot_dir = vec_outer_product(dx, m);
-
-			if (vec_inner_product(rot_dir, me->normal) < 0)
-				m = vec_sub(vec_mult(me->normal, h), center_to_cross);
 			m = vec_normalize(m);
 			m;
 	});
