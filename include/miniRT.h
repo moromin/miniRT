@@ -15,7 +15,7 @@
 # define SCREEN_HEIGHT 2
 
 //# define EPSILON (1.0 / 512)
-# define EPSILON 0.001
+# define EPSILON 0.000001
 
 typedef struct s_img	t_img;
 
