@@ -15,7 +15,8 @@ char	*load_sphere(t_program *p, char **info)
 	radius /= 2;
 	if (!(get_color_from_str(info[2], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_SPHERE);
-	sphere_ctor(get(sp, 0), radius, center, color_mult(col, (double)1/255), color(0, 0, 0));
+//	sphere_ctor(get(sp, 0), radius, center, color_mult(col, (double)1/255), color(0, 0, 0));
+	sphere_ctor(get(sp, 0), radius, center, color_mult(col, (double)1/255), color(0.8, 0.8, 0.8));
 	append(p->objects, &sp);
 	return (NO_ERR);
 }
@@ -40,7 +41,8 @@ char	*load_plane(t_program *p, char **info)
 	}
 	if (!(get_color_from_str(info[2], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_PLANE);
-	plane_ctor(get(pl, 0), center, normal, color_mult(col, (double)1/255), color(0, 0, 0));
+//	plane_ctor(get(pl, 0), center, normal, color_mult(col, (double)1/255), color(0, 0, 0));
+	plane_ctor(get(pl, 0), center, normal, color_mult(col, (double)1/255), color(0.8, 0.8, 0.8));
 	append(p->objects, &pl);
 	return (NO_ERR);
 }
@@ -71,7 +73,8 @@ char	*load_cylinder(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_CYLINDER);
 	if (!(get_color_from_str(info[4], &col) && check_color_range(col, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CYLINDER);
-	cylinder_ctor(get(cy, 0), center, normal, radius, height, color_mult(col, (double)1/255), color(0, 0, 0));
+//	cylinder_ctor(get(cy, 0), center, normal, radius, height, color_mult(col, (double)1/255), color(0, 0, 0));
+	cylinder_ctor(get(cy, 0), center, normal, radius, height, color_mult(col, (double)1/255), color(0.8, 0.8, 0.8));
 	append(p->objects, &cy);
 	return (NO_ERR);
 }
