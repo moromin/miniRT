@@ -50,9 +50,11 @@ int	closest_object(t_slice *objects, t_ray ray, double max_dist, bool early_retu
 				t_vector cross_point = vec_add(ray.start, vec_mult(ray.direction, ray_coefficient));
 				double dist = vec_magnitude(vec_sub(ray.start, cross_point));
 				if (chmin(&min_ray_coefficient, ray_coefficient) && dist <= max_dist)
+				{
 					res = i;
-				if (early_return)
-					break;
+					if (early_return)
+						break;
+				}
 			}
 			res;
 	});
