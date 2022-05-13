@@ -18,11 +18,11 @@ static char	*load_element(char *line, t_program *p)
 		err = load_camera(p, &info[1]);
 	else if (num == 4 && !ft_strcmp(info[0], "L"))
 		err = load_light(p, &info[1]);
-	else if (num == 4 && !ft_strcmp(info[0], "sp"))
+	else if ((num == 4 || num == 5) && !ft_strcmp(info[0], "sp"))
 		err = load_sphere(p, &info[1]);
-	else if (num == 4 && !ft_strcmp(info[0], "pl"))
+	else if ((num == 4 || num == 5) && !ft_strcmp(info[0], "pl"))
 		err = load_plane(p, &info[1]);
-	else if (num == 6 && !ft_strcmp(info[0], "cy"))
+	else if ((num == 6 || num == 7) && !ft_strcmp(info[0], "cy"))
 		err = load_cylinder(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
