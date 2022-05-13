@@ -48,7 +48,7 @@ t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_light ligh
 		vec_sub(vec, incident_direction);
 	});
 	const t_vector	cross_point_inverse_normalized = ({
-		vec = vec_mult(cross_point, -1);
+		vec = vec_mult(camera2cross, -1);
 		vec_normalize(vec);
 	});
 
