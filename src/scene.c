@@ -1,7 +1,32 @@
 #include "../include/scene.h"
 
-// TODO: check duplicate capital letters
-// static bool	check_duplicate_capital_letter()
+static char	*check_capital_identifier(char *ident, bool last)
+{
+	char const	*envs[] = {"A", "C", "L", NULL};
+	char const	*objs[] = {"sp", "pl", "cy", NULL};
+	int			i;
+	static int	ident_flag;
+
+	i = 0;
+	if (last)
+	{
+		while (envs[i++])
+			if (((ident_flag >> i) & 1) == 0)
+				return (ERR_LACK_CAPITAL_IDENTIFIER);
+		return (NO_ERR);
+	}
+	while (objs[i])
+		if (!ft_strcmp(ident, objs[i++]))
+			return (NO_ERR);
+	i = 0;
+	while (envs[i])
+		if (!ft_strcmp(ident, envs[i++]))
+			break ;
+	if (((ident_flag >> i) & 1) == 1)
+		return (ERR_DUPLICATE_CAPITAL_IDENTIFIER);
+	ident_flag |= (1 << i);
+	return (NO_ERR);
+}
 
 static char	*load_element(char *line, t_program *p)
 {
@@ -26,6 +51,8 @@ static char	*load_element(char *line, t_program *p)
 		err = load_cylinder(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
+	if (err == NO_ERR)
+		err = check_capital_identifier(info[0], false);
 	free_2d_array((void ***)&info);
 	return (err);
 }
@@ -51,6 +78,7 @@ static void	read_rt_file(char *filename, t_program *p)
 		if (err != NO_ERR)
 			break ;
 	}
+	err = check_capital_identifier(NULL, true);
 	free(line);
 	x_close(fd);
 	if (err != NO_ERR)
