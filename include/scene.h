@@ -34,7 +34,12 @@
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
 # define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
+
+// Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
+
+
+# define DEFAULT_K_SPECULAR 204
 
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);
