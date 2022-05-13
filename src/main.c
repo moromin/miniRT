@@ -103,8 +103,8 @@ void	draw(t_program *p, int x, int y)
 	t_color		color;
 
 	screen_point = init_screen_point(p->camera, x, y);
-	ray.start = p->camera.pos;
 	ray.direction = vec_sub(screen_point, p->camera.pos);
+	ray.start = vec_add(p->camera.pos, vec_mult(ray.direction, EPSILON));
 	obj_index = closest_object(p->objects, ray, INFINITY, false);
 	if (obj_index >= 0)
 	{
