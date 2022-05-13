@@ -24,7 +24,9 @@ t_vector	init_screen_point(t_camera camera, int x, int y)
 		const double	screen_dist = SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2));
 		const t_vector	df = camera.normal;
 		const t_vector	ey = vec_init(0, 1, 0);
-		const t_vector	dx = vec_outer_product(ey, df);
+		t_vector	dx = vec_outer_product(ey, df);
+		if (vec_magnitude(dx) == 0)
+			dx = vec_init(1, 0, 0);
 		const t_vector	dy = vec_outer_product(df, dx);
 		const t_vector	pm = vec_add(camera.pos, vec_mult(df, screen_dist));
 		vec_add(pm, vec_add(
@@ -82,9 +84,9 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 		ray.start = vec_add(cross_point, vec_mult(ray.direction, EPSILON));
 		dist = vec_magnitude(ray.direction) - EPSILON;
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
+		t_vector camera2cross = vec_sub(cross_point, p->camera.pos);
 		if (!is_covered)
-			c = color_add(c,
-					object_calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get(p->lights, i)));
+			c = color_add(c, object_calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get(p->lights, i), camera2cross));
 		i++;
 	}
 	return (c);

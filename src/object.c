@@ -35,10 +35,10 @@ static double	object_solve_ray_equation_(t_object *const me, t_ray ray)
  */
 // normal: 正規化された物体面の法線ベクトル
 // incident_direction: 正規化された入射方向ベクトル
-t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light)
+t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light, t_vector camera2cross)
 {
-	const t_color	rd = calc_radiance_diffuse(me, cross_point, light);
-	const t_color	rs = calc_radiance_specular(me, cross_point, light);
+	const t_color	rd = calc_radiance_diffuse(me, cross_point, light, camera2cross);
+	const t_color	rs = calc_radiance_specular(me, cross_point, light, camera2cross);
 
 	return (color_add(rd, rs));
 }
