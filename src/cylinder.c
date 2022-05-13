@@ -60,9 +60,9 @@ double	cylinder_solve_ray_equation(t_object *me_, t_ray ray)
 				const double	outer_height = vec_inner_product(center_to_outer, me->normal);
 				const double	inner_height = vec_inner_product(center_to_inner, me->normal);
 
-				if (0.0 <= outer_height && outer_height <= me->height)
+				if (t_outer >= 0.0 && 0.0 <= outer_height && outer_height <= me->height)
 					res = t_outer;
-				else if (0.0 <= inner_height && inner_height <= me->height)
+				else if (t_inner >= 0.0 && 0.0 <= inner_height && inner_height <= me->height)
 					res = t_inner;
 				else
 					res = -1.0;
@@ -82,12 +82,6 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 			t_vector		m;
 
 			m = vec_sub(center_to_cross, vec_mult(me->normal, h));
-
-			const t_vector	dx = vec_outer_product(me->normal, cross_point);
-			const t_vector	rot_dir = vec_outer_product(dx, m);
-
-			if (vec_inner_product(rot_dir, me->normal) < 0)
-				m = vec_sub(vec_mult(me->normal, h), center_to_cross);
 			m = vec_normalize(m);
 			m;
 	});

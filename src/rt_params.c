@@ -43,13 +43,12 @@ char	*load_light(t_program *p, char **info)
 
 	if (!get_vector_from_str(info[0], &l.pos))
 		return (ERR_MISCONFIGURED_LIGHT);
-	// todo: error is wrong
 	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
-		return (ERR_MISCONFIGURED_AMBIENT);
+		return (ERR_MISCONFIGURED_LIGHT);
 	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
 		l.intensity = color_mult(color_mult(c, (double)1/255), ratio);
 	else
-		return (ERR_MISCONFIGURED_AMBIENT);
+		return (ERR_MISCONFIGURED_LIGHT);
 	append(p->lights, &l);
 	return (NO_ERR);
 }
