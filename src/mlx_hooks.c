@@ -4,7 +4,7 @@
 
 static int	close_window(t_program *p)
 {
-	delete(p->lights);
+	delete_recursively(p->lights, 1);
 	delete_recursively(p->objects, 1);
 	mlx_destroy_image(p->mlx, p->img.image);
 	mlx_destroy_window(p->mlx, p->win);
