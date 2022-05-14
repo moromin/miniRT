@@ -90,3 +90,36 @@ char	*load_cylinder(t_program *p, char **info)
 	append(p->objects, &cylinder);
 	return (NO_ERR);
 }
+
+char	*load_cone(t_program *p, char **info)
+{
+	t_slice		*co;
+	t_vector	center;
+	t_vector	normal;
+	double		aperture;
+	t_color		k_diffuse;
+	t_color		k_specular;
+
+	co = make(sizeof(t_cone), 1, 1);
+	if (!get_vector_from_str(info[0], &center))
+		return (ERR_MISCONFIGURED_CONE);
+	if (!(get_vector_from_str(info[1], &normal)
+			&& check_vector_range(normal, -1.0, 1.0)))
+		return (ERR_MISCONFIGURED_CONE);
+	if (vec_magnitude_squared(normal) != 1)
+	{
+		ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
+		normal = vec_normalize(normal);
+	}
+	// TODO: define aperture range
+	if (!(ft_strtod(info[2], &aperture) && 0.0 <= aperture && aperture <= 180.0))
+		return (ERR_MISCONFIGURED_CONE);
+	if (!(get_color_from_str(info[3], &k_diffuse) && check_color_range(k_diffuse, 0.0, 255.0)))
+		return (ERR_MISCONFIGURED_CONE);
+	k_specular = color(DEFAULT_K_SPECULAR, DEFAULT_K_SPECULAR, DEFAULT_K_SPECULAR);
+	if (count_2d_array((void **)info) == 5 && !(get_color_from_str(info[4], &k_specular) && check_color_range(k_specular, 0.0, 255.0)))
+			return (ERR_MISCONFIGURED_CONE);
+	cone_ctor(get(co, 0), center, normal, aperture, color_mult(k_diffuse, (double)1/255), color_mult(k_specular, (double)1/255));
+	append(p->objects, &co);
+	return (NO_ERR);
+}
