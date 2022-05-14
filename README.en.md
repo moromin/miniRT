@@ -66,10 +66,19 @@ cy {center} {orientation_vector} {diameter} {height} {color}
 ```
 - `center` : coordinates of center in `x,y,z` format.
 - `orientation_vector` : normalized orientation vector in range `[-1, 1]` for each `x,y,z` axis.
+- `orientation_vector` : normalized orientation vector in range `[-1, 1]` for each `x,y,z` axis.
 - `diameter` : diameter of the cylinder.
 - `height` : height of the cylinder.
 - `color` : color in range `[0.0, 255.0]` for each `R,G,B`.
 
+#### co (Cone)
+```
+co {center} {direction} {aperture} {color}
+```
+- `center` : coordinates of top in `x,y,z` format.
+- `orientation_vector` : normalized orientation vector in range `[-1, 1]` for each `x,y,z` axis.
+- `aperture` : aperture angle of cone.
+- `color` : color in range `[0.0, 255.0]` for each `R,G,B`.
 
 ## References
 - [C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)

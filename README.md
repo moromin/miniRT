@@ -70,6 +70,15 @@ cy {center} {orientation_vector} {diameter} {height} {color}
 - `height` : 円柱の高さ
 - `color` : 色 `R,G,B`, `[0.0, 255.0]`
 
+#### co：円錐 (Cone)
+```
+co {center} {direction} {aperture} {color}
+```
+- `center` : 頂点座標 `x,y,z`
+- `orientation_vector` : 正規化された方向ベクトル  `x,y,z`, `[-1, 1]`
+- `aperture` : 円錐の開き角
+- `color` : 色 `R,G,B`, `[0.0, 255.0]`
+
 
 ## 参考サイト
 - [C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)

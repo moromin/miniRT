@@ -36,6 +36,7 @@
 # define ERR_MISCONFIGURED_SPOTLIGHT "Spotlight is misconfigured"
 # define ERR_DUPLICATE_CAPITAL_IDENTIFIER "Capitalized identifiers are duplicated"
 # define ERR_LACK_CAPITAL_IDENTIFIER "Capitalized identifiers are lack"
+# define ERR_MISCONFIGURED_CONE "Cone is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 
 // Warning messages
@@ -57,5 +58,6 @@ char	*load_spotlight(t_program *p, char **info);
 char	*load_sphere(t_program *p, char **info);
 char	*load_plane(t_program *p, char **info);
 char	*load_cylinder(t_program *p, char **info);
+char	*load_cone(t_program *p, char **info);
 
 #endif
