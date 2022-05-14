@@ -24,6 +24,8 @@ static char	*load_element(char *line, t_program *p)
 		err = load_plane(p, &info[1]);
 	else if ((num == 6 || num == 7) && !ft_strcmp(info[0], "cy"))
 		err = load_cylinder(p, &info[1]);
+	else if (num == 6 && !ft_strcmp(info[0], "sl"))
+		err = load_spotlight(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
 	free_2d_array((void ***)&info);
@@ -39,7 +41,7 @@ static void	read_rt_file(char *filename, t_program *p)
 
 	err = NO_ERR;
 	fd = x_open(filename, O_RDONLY);
-	p->lights = make(sizeof(t_light), 0, 1);
+	p->lights = make(sizeof(t_slice *), 0, 1);
 	p->objects = make(sizeof(t_slice *), 0, 1);
 	while (1)
 	{
@@ -55,7 +57,7 @@ static void	read_rt_file(char *filename, t_program *p)
 	x_close(fd);
 	if (err != NO_ERR)
 	{
-		delete(p->lights);
+		delete_recursively(p->lights, 1);
 		delete_recursively(p->objects, 1);
 		exit_with_error_message(err);
 	}

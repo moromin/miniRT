@@ -33,6 +33,7 @@
 # define ERR_MISCONFIGURED_SPHERE "Sphere is misconfigured"
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
 # define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
+# define ERR_MISCONFIGURED_SPOTLIGHT "Spotlight is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 
 // Warning messages
@@ -48,6 +49,7 @@ void	load_rt_file(int argc, char **argv, t_program *program);
 char	*load_ambient(t_program *p, char **info);
 char	*load_camera(t_program *p, char **info);
 char	*load_light(t_program *p, char **info);
+char	*load_spotlight(t_program *p, char **info);
 
 // rt_params_obj.c
 char	*load_sphere(t_program *p, char **info);

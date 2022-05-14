@@ -35,20 +35,70 @@ char	*load_camera(t_program *p, char **info)
 	return (NO_ERR);
 }
 
+//char	*load_light(t_program *p, char **info)
+//{
+//	t_light	l;
+//	double	ratio;
+//	t_color	c;
+//
+//	if (!get_vector_from_str(info[0], &l.pos))
+//		return (ERR_MISCONFIGURED_LIGHT);
+//	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
+//		return (ERR_MISCONFIGURED_LIGHT);
+//	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
+//		l.intensity = color_mult(color_mult(c, (double)1/255), ratio);
+//	else
+//		return (ERR_MISCONFIGURED_LIGHT);
+//	append(p->lights, &l);
+//	return (NO_ERR);
+//}
 char	*load_light(t_program *p, char **info)
 {
-	t_light	l;
-	double	ratio;
-	t_color	c;
+	const t_slice	*light = ({
+		t_slice		*l = make(sizeof(t_light), 1, 1);
+		t_vector	pos;
+		double		ratio;
+		t_color		c;
 
-	if (!get_vector_from_str(info[0], &l.pos))
-		return (ERR_MISCONFIGURED_LIGHT);
-	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
-		return (ERR_MISCONFIGURED_LIGHT);
-	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
-		l.intensity = color_mult(color_mult(c, (double)1/255), ratio);
-	else
-		return (ERR_MISCONFIGURED_LIGHT);
-	append(p->lights, &l);
+		if (!get_vector_from_str(info[0], &pos))
+			return (ERR_MISCONFIGURED_LIGHT);
+		if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
+			return (ERR_MISCONFIGURED_LIGHT);
+		if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
+			return (ERR_MISCONFIGURED_LIGHT);
+		light_ctor(get(l, 0), pos, color_mult(color_mult(c, (double)1/255), ratio));
+		l;
+	});
+
+	append(p->lights, &light);
+	return (NO_ERR);
+}
+
+
+char	*load_spotlight(t_program *p, char **info)
+{
+	const	t_slice *spotlight = ({
+			t_slice		*sp = make(sizeof(t_spotlight), 1, 1);
+			t_vector	pos;
+			t_vector	dir;
+			double		fov;
+			double		ratio;
+			t_color		c;
+
+			if (!get_vector_from_str(info[0], &pos))
+				return (ERR_MISCONFIGURED_SPOTLIGHT);
+			if (!get_vector_from_str(info[1], &dir))
+				return (ERR_MISCONFIGURED_SPOTLIGHT);
+			if (!(ft_strtod(info[2], &fov) && 0.0 <= fov && fov <= 360))
+				return (ERR_MISCONFIGURED_SPOTLIGHT);
+			if (!(ft_strtod(info[3], &ratio) && 0.0 <= ratio && ratio <= 1.0))
+				return (ERR_MISCONFIGURED_SPOTLIGHT);
+			if (!(get_color_from_str(info[4], &c) && check_color_range(c, 0.0, 255.0)))
+				return (ERR_MISCONFIGURED_SPOTLIGHT);
+			spotlight_ctor(get(sp, 0), pos, color_mult(color_mult(c, (double)1/255), ratio), dir, fov);
+			sp;
+	});
+
+	append(p->lights, &spotlight);
 	return (NO_ERR);
 }
