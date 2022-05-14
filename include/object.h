@@ -84,9 +84,10 @@ typedef struct s_cone
 }	t_cone;
 
 void		cone_ctor(
-				t_cone		*me,
-				t_vector	normal,
-				double		aperture,
+				t_cone *me,
+				t_vector center,
+				t_vector normal,
+				double aperture,
 				t_color diffuse_reflection_coefficient,
 				t_color specular_reflection_coefficient);
 
