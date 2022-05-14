@@ -33,6 +33,8 @@
 # define ERR_MISCONFIGURED_SPHERE "Sphere is misconfigured"
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
 # define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
+# define ERR_DUPLICATE_CAPITAL_IDENTIFIER "Capitalized identifiers are duplicated"
+# define ERR_LACK_CAPITAL_IDENTIFIER "Capitalized identifiers are lack"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 
 // Warning messages
