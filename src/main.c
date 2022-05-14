@@ -102,7 +102,6 @@ void	draw(t_program *p, int x, int y)
 	t_vector	cross_point;
 	t_color		color;
 
-	printf("x: %d y: %d\n", x, y);
 	screen_point = init_screen_point(p->camera, x, y);
 	ray.direction = vec_sub(screen_point, p->camera.pos);
 	ray.start = vec_add(p->camera.pos, vec_mult(ray.direction, EPSILON));
