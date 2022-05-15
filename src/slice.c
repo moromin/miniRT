@@ -53,11 +53,14 @@ void	append(t_slice *s, void *elem)
 
 void	*get(t_slice *s, int index)
 {
+	size_t	i;
+
+	i = index;
 	if (index < 0)
-		index += s->len;
-	if (index >= s->len)
+		i = index + s->len;
+	if (i >= s->len)
 		assert(0);
-	return (s->cur_start + s->size * index);
+	return (s->cur_start + s->size * i);
 }
 
 size_t	len(t_slice *s)
