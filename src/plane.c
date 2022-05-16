@@ -3,7 +3,7 @@
 
 static double	plane_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	plane_calc_normal(t_object *me, t_vector cross_point);
-static t_color	plane_calc_color(t_object *const me_, t_vector cross_point);
+static t_color	plane_calc_color(t_object *me_, t_vector cross_point);
 
 void	plane_ctor(
 		t_plane *const me,
@@ -22,8 +22,6 @@ void	plane_ctor(
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
 	me->super.vptr = &vtbl;
 	me->normal = normal;
-	me->super.material.checker_height = 2;
-	me->super.material.checker_width = 2;
 }
 
 /*

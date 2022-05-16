@@ -57,6 +57,8 @@ static char	*load_element(char *line, t_program *p, unsigned int *ident_flag)
 		err = load_spotlight(p, &info[1]);
 	else if ((num == 5 || num == 6) && !ft_strcmp(info[0], "co"))
 		err = load_cone(p, &info[1]);
+	else if (num == 5 && !ft_strcmp(info[0], "ch"))
+		err = load_checker(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
 	if (err == NO_ERR)

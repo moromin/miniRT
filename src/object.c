@@ -19,10 +19,6 @@ void	object_ctor(t_object *const me, t_vector center,
 			.material_flag = 1,
 			.diffuse_reflection_coefficient = diffuse_reflection_coefficient,
 			.specular_reflection_coefficient = specular_reflection_coefficient,
-			.checker_col1 = color(1, 1, 1),
-			.checker_col2 = color(0, 0, 0),
-			.checker_width = 10,
-			.checker_height = 10,
 	};
 
 	me->vptr = &vtbl;
