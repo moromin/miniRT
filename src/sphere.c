@@ -92,11 +92,11 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 		t_color c;
 		if (me->super.material.flag & 1 << MFLAG_CHECKER)
 		{
-			const t_vector	p = vec_sub(cross_point, me->super.center);
+			const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 			// 方位角
-			const double	phi = atan2(p.x, p.z);
+			const double	phi = atan2(center2cross.x, center2cross.z);
 			// 仰角
-			const double	theta = acos(p.y / me->radius);
+			const double	theta = acos(center2cross.y / me->radius);
 			// 0~1に変換
 			const double	u = 1 - (phi / (2 * M_PI) + 0.5);
 			const double	v = 1 - theta / M_PI;

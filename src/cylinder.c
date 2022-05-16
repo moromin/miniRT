@@ -110,15 +110,15 @@ static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 		t_color c;
 		if (me->super.material.flag & 1 << MFLAG_CHECKER)
 		{
-			const t_vector	n_center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
+			const t_vector	n_center2cross = vec_normalize(vec_sub(cross_point, me->super.center));
 			// 仰角 (0 <= theta <= max_theta)
-			const double theta = M_PI / 2 - acos(vec_inner_product(n_center_to_cross, me->normal));
+			const double theta = M_PI / 2 - acos(vec_inner_product(n_center2cross, me->normal));
 			const double height = tan(theta) * me->radius;
 			// checkerの変数v (0 <= v <= 1)
 			const double v = height / me->height;
 			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
-			const double n1 = vec_inner_product(n_center_to_cross, e1);
-			const double n2 = vec_inner_product(n_center_to_cross, e2);
+			const double n1 = vec_inner_product(n_center2cross, e1);
+			const double n2 = vec_inner_product(n_center2cross, e2);
 			// 方位角 (-pi < phi <= pi)
 			const double phi = atan2(n1, n2);
 			const double u = phi / (2 * M_PI) + 0.5;
