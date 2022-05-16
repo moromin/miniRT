@@ -16,7 +16,7 @@ void	object_ctor(t_object *const me, t_vector center,
 			.calc_color = &calc_color_,
 	};
 	const t_material	material = {
-			.material_flag = 0,
+			.flag = 0,
 			.diffuse_reflection_coefficient = diffuse_reflection_coefficient,
 			.specular_reflection_coefficient = specular_reflection_coefficient,
 	};

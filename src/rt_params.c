@@ -107,6 +107,6 @@ char	*load_checker(t_program *p, char **info)
 	if (!(get_color_from_str(info[3], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
 	object->material.checker_col2 = color_mult(c, (double)1/255);
-	object->material.material_flag |= (1 << MFLAG_CHECKER);
+	object->material.flag |= (1 << MFLAG_CHECKER);
 	return (NO_ERR);
 }

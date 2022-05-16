@@ -114,7 +114,7 @@ static t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 	const t_vector		e2 = vec_outer_product(e1, me->normal);
 	const t_color c = ({
 		t_color c;
-		if (me->super.material.material_flag & 1 << MFLAG_CHECKER)
+		if (me->super.material.flag & 1 << MFLAG_CHECKER)
 		{
 			double	integer;
 			const t_vector	center_to_cross = vec_sub(cross_point, me->super.center);

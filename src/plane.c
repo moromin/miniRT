@@ -67,7 +67,7 @@ static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 	const t_vector	basev = vec_outer_product(me->normal, baseu);
 	const t_color c = ({
 		t_color c;
-		if (me->super.material.material_flag & 1 << MFLAG_CHECKER)
+		if (me->super.material.flag & 1 << MFLAG_CHECKER)
 		{
 			double	integer;
 			double	u;

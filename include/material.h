@@ -6,7 +6,7 @@
 # define MFLAG_CHECKER 0
 
 typedef struct s_material {
-	unsigned int	material_flag;
+	unsigned int	flag;
 	// light related
 	t_color		diffuse_reflection_coefficient;
 	t_color		specular_reflection_coefficient;

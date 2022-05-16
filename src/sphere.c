@@ -90,7 +90,7 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_color c = ({
 		t_color c;
-		if (me->super.material.material_flag & 1 << MFLAG_CHECKER)
+		if (me->super.material.flag & 1 << MFLAG_CHECKER)
 		{
 			const t_vector	p = vec_sub(cross_point, me->super.center);
 			const double	u = 1 - (atan2(p.x, p.z) / (2 * M_PI) + 0.5);
