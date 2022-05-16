@@ -110,7 +110,6 @@ static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 		t_color c;
 		if (me->super.material.material_flag & 1 << MFLAG_CHECKER)
 		{
-			(void)cross_point;
 			const t_vector	n_center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
 			// 仰角 (0 <= theta <= max_theta)
 			const double theta = M_PI / 2 - acos(vec_inner_product(n_center_to_cross, me->normal));
