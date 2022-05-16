@@ -1,4 +1,5 @@
 #include <math.h>
+#include <printf.h>
 
 #include "../include/object.h"
 #include "../include/math.h"
@@ -94,12 +95,35 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
+	// normal方向以外の基底ベクトル
+	const t_vector		e1 = ({
+			const t_vector	ex = vec_init(1, 0, 0);
+			t_vector	vec;
+			if (vec_inner_product(me->normal, ex) == 1)
+				vec = ex;
+			else
+				vec = vec_outer_product(me->normal, ex);
+			vec;
+	});
+	const t_vector		e2 = vec_outer_product(e1, me->normal);
 	const t_color c = ({
 		t_color c;
 		if (me->super.material.material_flag & 1 << MFLAG_CHECKER)
 		{
 			(void)cross_point;
-			c = me->super.material.diffuse_reflection_coefficient;
+			const t_vector	n_center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
+			// 仰角 (0 <= theta <= max_theta)
+			const double theta = M_PI / 2 - acos(vec_inner_product(n_center_to_cross, me->normal));
+			const double height = tan(theta) * me->radius;
+			// checkerの変数v (0 <= v <= 1)
+			const double v = height / me->height;
+			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
+			const double n1 = vec_inner_product(n_center_to_cross, e1);
+			const double n2 = vec_inner_product(n_center_to_cross, e2);
+			// 方位角 (-pi < phi <= pi)
+			const double phi = atan2(n1, n2);
+			const double u = phi / (2 * M_PI) + 0.5;
+			c = ch_pattern_at(me->super.material, u, v);
 		}
 		else
 			c = me->super.material.diffuse_reflection_coefficient;
