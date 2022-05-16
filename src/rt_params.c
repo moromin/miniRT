@@ -1,4 +1,5 @@
 #include "../include/scene.h"
+#include "../libft/libft.h"
 
 char	*load_ambient(t_program *p, char **info)
 {
@@ -94,12 +95,11 @@ char	*load_checker(t_program *p, char **info)
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
 	object = get_x2(p->objects, -1, 0);
-	// todo: use original func
-	object->material.checker_width = (int)strtol(info[0], NULL, 10);
-	if (!(0 <= object->material.checker_width && object->material.checker_width <= 360))
+	object->material.checker_width = ft_atoi(info[1]);
+	if (!(0 <= object->material.checker_width))
 		return (ERR_MISCONFIGURED_CHECKER);
-	object->material.checker_height = (int)strtol(info[1], NULL, 10);
-	if (!(0 <= object->material.checker_height && object->material.checker_height <= 360))
+	object->material.checker_height = ft_atoi(info[1]);
+	if (!(0 <= object->material.checker_height))
 		return (ERR_MISCONFIGURED_CHECKER);
 	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
