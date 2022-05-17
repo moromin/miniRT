@@ -80,12 +80,46 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_vector		normal = ({
+			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
 			const t_vector	center_to_cross = vec_sub(cross_point, me->super.center);
 			const double	h = vec_inner_product(center_to_cross, me->normal);
 			t_vector		m;
 
 			m = vec_sub(center_to_cross, vec_mult(me->normal, h));
 			m = vec_normalize(m);
+
+			if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+			{
+				const t_vector	ex = vec_init(1, 0, 0);
+				t_vector	e1;
+				if (vec_inner_product(me->normal, ex) == 1)
+					e1 = ex;
+				else
+					e1 = vec_outer_product(me->normal, ex);
+				const t_vector		e2 = vec_outer_product(e1, me->normal);
+
+				const t_vector	n_center2cross = vec_normalize(vec_sub(cross_point, me->super.center));
+				// 仰角 (0 <= theta <= max_theta)
+				const double theta = M_PI / 2 - acos(vec_inner_product(n_center2cross, me->normal));
+				const double height = tan(theta) * me->radius;
+				// checkerの変数v (0 <= v <= 1)
+				const double v = height / me->height;
+				// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
+				const double n1 = vec_inner_product(n_center2cross, e1);
+				const double n2 = vec_inner_product(n_center2cross, e2);
+				// 方位角 (-pi < phi <= pi)
+				const double phi = atan2(n1, n2);
+				const double u = phi / (2 * M_PI) + 0.5;
+
+				const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
+
+				const t_vector	n = m;
+				const t_vector	b = me->normal;
+				const t_vector	t = vec_outer_product(b, n);
+
+				m = tangent_to_model(tangent, t, b, n);
+			}
+
 			m;
 	});
 
