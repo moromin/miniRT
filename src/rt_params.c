@@ -131,11 +131,10 @@ char	*load_bumpmap(t_program *p, char **info)
 	image.image = mlx_xpm_file_to_image(p->mlx, info[0], &image.width, &image.height);
 	if (!image.image)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	image.buffer = mlx_get_data_addr(image.image, image.bits_per_pixel, image.size_line, image.endian);
+	image.buffer = mlx_get_data_addr(image.image, &image.bits_per_pixel, &image.size_line, &image.endian);
 	if (!image.buffer)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	bm->super = image;
-	object->image = bm;
 
 	if (!(ft_strtod(info[1], &bm->height_coefficient)))
 		return (ERR_MISCONFIGURED_BUMPMAP);
@@ -143,5 +142,7 @@ char	*load_bumpmap(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	if (!(atoi_strict(info[3], &bm->freq_v) && 1 <= bm->freq_v))
 		return (ERR_MISCONFIGURED_BUMPMAP);
+
+	object->image = (t_img *)bm;
 	return (NO_ERR);
 }

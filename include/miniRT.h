@@ -7,6 +7,7 @@
 # include "light.h"
 # include "camera.h"
 # include "slice.h"
+# include "image.h"
 
 // todo: this should be input from rt file
 # define WIDTH 512
@@ -17,17 +18,18 @@
 //# define EPSILON (1.0 / 512)
 # define EPSILON 0.000001
 
-typedef struct s_img	t_img;
+// TODO: replace 'image.h'?
+// typedef struct s_img	t_img;
 
-struct s_img {
-	void	*image;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-	char	*buffer;
-	int		height;
-	int		width;
-};
+// struct s_img {
+// 	void	*image;
+// 	int		bits_per_pixel;
+// 	int		size_line;
+// 	int		endian;
+// 	char	*buffer;
+// 	int		height;
+// 	int		width;
+// };
 
 typedef struct s_program {
 	void		*mlx;

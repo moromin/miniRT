@@ -2,6 +2,7 @@
 # define MATERIAL_H
 
 # include "color.h"
+# include "image.h"
 
 # define MFLAG_CHECKER 0
 # define MFLAG_BUMPMAP 1
