@@ -111,7 +111,7 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 				const double phi = atan2(n1, n2);
 				const double u = phi / (2 * M_PI) + 0.5;
 
-				const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
+				const t_vector	tangent = get_vector_from_normal_map(1 - u, 1 - v, bm);
 
 				const t_vector	n = m;
 				const t_vector	b = me->normal;

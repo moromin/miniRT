@@ -88,7 +88,7 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 			const double	u = 1 - (phi / (2 * M_PI) + 0.5);
 			const double	v = 1 - theta / M_PI;
 
-			const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
+			const t_vector	tangent = get_vector_from_normal_map(u, 1 - v, bm);
 
 			// tangent space vectors TBN
 			const t_vector	n = vec_normalize(center2cross);
