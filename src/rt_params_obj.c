@@ -111,7 +111,6 @@ char	*load_cone(t_program *p, char **info)
 				ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
 				normal = vec_normalize(normal);
 			}
-			// TODO: define aperture range
 			if (!(ft_strtod(info[2], &aperture) && 0.0 <= aperture && aperture < 180.0))
 				return (ERR_MISCONFIGURED_CONE);
 			if (!(get_color_from_str(info[3], &k_diffuse) && check_color_range(k_diffuse, 0.0, 255.0)))

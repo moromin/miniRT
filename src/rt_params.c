@@ -117,7 +117,6 @@ char	*load_bumpmap(t_program *p, char **info)
 {
 	t_object	*object;
 	t_bumpmap	*bm;
-	t_img		image;
 
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
@@ -126,21 +125,22 @@ char	*load_bumpmap(t_program *p, char **info)
 		return (ERR_DUPLICATE_MATERIAL);
 	object->material.flag |= (1 << MFLAG_BUMPMAP);
 
-	// TODO: mlx error handling or wrapping
 	bm = x_malloc(sizeof(t_bumpmap));
-	image.image = mlx_xpm_file_to_image(p->mlx, info[0], &image.width, &image.height);
-	if (!image.image)
+	object->image = (t_img *)bm;
+	bm->super.image = NULL;
+	bm->super.buffer = NULL;
+	bm->super.image = mlx_xpm_file_to_image(p->mlx, info[0], &bm->super.width, &bm->super.height);
+	if (!bm->super.image)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	image.buffer = mlx_get_data_addr(image.image, &image.bits_per_pixel, &image.size_line, &image.endian);
-	if (!image.buffer)
+	bm->super.buffer = mlx_get_data_addr(bm->super.image,
+						&bm->super.bits_per_pixel, &bm->super.size_line, &bm->super.endian);
+	if (!bm->super.buffer)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	bm->super = image;
 
 	if (!(atoi_strict(info[1], &bm->freq_u) && 1 <= bm->freq_u))
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	if (!(atoi_strict(info[2], &bm->freq_v) && 1 <= bm->freq_v))
 		return (ERR_MISCONFIGURED_BUMPMAP);
 
-	object->image = (t_img *)bm;
 	return (NO_ERR);
 }

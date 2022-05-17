@@ -1,9 +1,11 @@
 #include "../include/mlx_hooks.h"
+#include "../include/free.h"
 
 #define ESC_KEY 65307
 
 static int	close_window(t_program *p)
 {
+	destroy_object_images(p);
 	delete_recursively(p->lights, 1);
 	delete_recursively(p->objects, 1);
 	mlx_destroy_image(p->mlx, p->img.image);

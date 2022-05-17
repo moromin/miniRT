@@ -1,4 +1,5 @@
 #include "../include/scene.h"
+#include "../include/free.h"
 #include "../minilibx-linux/mlx.h"
 
 static const char	*g_env_idents[] = {"A", "C", "L", NULL};
@@ -98,9 +99,10 @@ static void	read_rt_file(char *filename, t_program *p)
 	x_close(fd);
 	if (err != NO_ERR)
 	{
-		// TODO: free mlx
+		destroy_object_images(p);
 		delete_recursively(p->lights, 1);
 		delete_recursively(p->objects, 1);
+		mlx_destroy_display(p->mlx);
 		exit_with_error_message(err);
 	}
 }

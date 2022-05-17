@@ -18,19 +18,6 @@
 //# define EPSILON (1.0 / 512)
 # define EPSILON 0.000001
 
-// TODO: replace 'image.h'?
-// typedef struct s_img	t_img;
-
-// struct s_img {
-// 	void	*image;
-// 	int		bits_per_pixel;
-// 	int		size_line;
-// 	int		endian;
-// 	char	*buffer;
-// 	int		height;
-// 	int		width;
-// };
-
 typedef struct s_program {
 	void		*mlx;
 	void		*win;
