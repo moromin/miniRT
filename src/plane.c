@@ -81,9 +81,6 @@ static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 	(void)cross_point;
 
 	return (normal);
-
-	// (void)cross_point;
-	// return (((t_plane *)me)->normal);
 }
 
 static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
