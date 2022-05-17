@@ -97,10 +97,10 @@ char	*load_checker(t_program *p, char **info)
 	if (object->material.flag == (1 << MFLAG_CHECKER))
 		return (ERR_DUPLICATE_MATERIAL);
 	object->material.flag |= (1 << MFLAG_CHECKER);
-	if (!(atoi_strict(info[0], &object->material.checker_width) && 0 <= object->material.checker_width))
+	if (!(atoi_strict(info[0], &object->material.checker_width) && 1 <= object->material.checker_width))
 		return (ERR_MISCONFIGURED_CHECKER);
 	printf("%d\n", object->material.checker_width);
-	if (!(atoi_strict(info[1], &object->material.checker_height) && 0 <= object->material.checker_height))
+	if (!(atoi_strict(info[1], &object->material.checker_height) && 1 <= object->material.checker_height))
 		return (ERR_MISCONFIGURED_CHECKER);
 	printf("%d\n", object->material.checker_height);
 	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
