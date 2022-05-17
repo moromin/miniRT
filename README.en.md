@@ -80,6 +80,15 @@ co {center} {direction} {aperture} {color}
 - `aperture` : aperture angle of cone.
 - `color` : color in range `[0.0, 255.0]` for each `R,G,B`.
 
+#### bm (Bump map)
+```
+bm {file_path} {h} {vertical_repetition} {horizontal_repetition}
+```
+- `file_path` : file path of bump map
+- `h` : height coefficient
+- `horizontal_repetition` : number of horizontal repetitions
+- `vertical_repetition` : number of vertical repetitions
+
 ## References
 - [C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)
 - [The Textbook of RayTracing @TDU](https://knzw.tech/raytracing/?page_id=1154)
