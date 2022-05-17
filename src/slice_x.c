@@ -22,11 +22,12 @@ void	delete_recursively(t_slice *s, int depth)
 			delete(next);
 		else
 			delete_recursively(next, depth);
+		i++;
 	}
 	delete(s);
 }
 
-void	*get_x2(t_slice *s, size_t i1, size_t i2)
+void	*get_x2(t_slice *s, int i1, int i2)
 {
 	return (get(*(t_slice **)get(s, i1), i2));
 }

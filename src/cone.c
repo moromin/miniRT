@@ -4,6 +4,7 @@
 
 static double	cone_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	cone_calc_normal(t_object *me, t_vector cross_point);
+static t_color	cone_calc_color(t_object *me, t_vector cross_point);
 
 void	cone_ctor(
 			t_cone *me,
@@ -16,7 +17,8 @@ void	cone_ctor(
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &cone_solve_ray_equation,
 			.calc_radiance = &calc_radiance_,
-			.calc_normal = &cone_calc_normal
+			.calc_normal = &cone_calc_normal,
+			.calc_color = &cone_calc_color,
 	};
 
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
@@ -94,4 +96,41 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 	});
 
 	return (normal);
+}
+
+static t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
+{
+	const t_cone	*me = (t_cone *)me_;
+	// normal方向以外の基底ベクトル
+	const t_vector		e1 = ({
+		const t_vector	ex = vec_init(1, 0, 0);
+		t_vector	vec;
+		if (vec_inner_product(me->normal, ex) == 1)
+			vec = ex;
+		else
+			vec = vec_outer_product(me->normal, ex);
+		vec;
+	});
+	const t_vector		e2 = vec_outer_product(e1, me->normal);
+	const t_color c = ({
+		t_color c;
+		if (me->super.material.flag & 1 << MFLAG_CHECKER)
+		{
+			double	integer;
+			const t_vector	center2cross = vec_sub(cross_point, me->super.center);
+			// checkerの変数v (0 <= v <= 1)
+			const double v = modf(vec_inner_product(center2cross, me->normal), &integer);
+			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
+			const double n1 = vec_inner_product(center2cross, e1);
+			const double n2 = vec_inner_product(center2cross, e2);
+			// 方位角 (-pi < phi <= pi)
+			const double phi = atan2(n1, n2);
+			const double u = phi / (2 * M_PI) + 0.5;
+			c = ch_pattern_at(me->super.material, u, v);
+		}
+		else
+			c = me->super.material.diffuse_reflection_coefficient;
+		c;
+	});
+	return (c);
 }

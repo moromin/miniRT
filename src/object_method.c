@@ -14,3 +14,8 @@ t_vector	object_calc_normal(t_object *me, t_vector cross_point)
 {
 	return ((*me->vptr->calc_normal)(me, cross_point));
 }
+
+t_color	object_calc_color(t_object *me, t_vector cross_point)
+{
+	return ((*me->vptr->calc_color)(me, cross_point));
+}

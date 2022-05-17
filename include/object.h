@@ -5,14 +5,17 @@
 # include "ray.h"
 # include "color.h"
 # include "light.h"
+# include "material.h"
 
 // Object
 /* forward declaration */
 typedef struct s_object_vtbl	t_object_vtbl;
+
 /* Object's attributes... */
 typedef struct s_object {
 	t_object_vtbl	*vptr; /* <== Object's Virtual Pointer */
 	t_vector		center; // described as pc
+	t_material		material;
 	t_color			diffuse_reflection_coefficient;
 	t_color			specular_reflection_coefficient;
 }	t_object;
@@ -22,12 +25,14 @@ void		object_ctor(t_object *me, t_vector center, t_color diffuse_reflection_coef
 double		object_solve_ray_equation(t_object *me, t_ray ray);
 t_color		object_calc_radiance(t_object *me, t_vector cross_point, t_light light, t_vector camera_dir);
 t_vector	object_calc_normal(t_object *me, t_vector cross_point);
+t_color		object_calc_color(t_object *me, t_vector cross_point);
 
 // Virtual table
 struct s_object_vtbl {
 	double		(*solve_ray_equation)(t_object *const me, t_ray);
 	t_color		(*calc_radiance)(t_object * const me, t_vector, t_light, t_vector);
 	t_vector	(*calc_normal)(t_object * const me, t_vector);
+	t_color		(*calc_color)(t_object * const me, t_vector cross_point);
 };
 
 t_color		calc_radiance_(t_object *me, t_vector cross_point, t_light light, t_vector camera_dir);
@@ -90,6 +95,5 @@ void		cone_ctor(
 				double aperture,
 				t_color diffuse_reflection_coefficient,
 				t_color specular_reflection_coefficient);
-
 
 #endif

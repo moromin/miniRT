@@ -35,23 +35,6 @@ char	*load_camera(t_program *p, char **info)
 	return (NO_ERR);
 }
 
-//char	*load_light(t_program *p, char **info)
-//{
-//	t_light	l;
-//	double	ratio;
-//	t_color	c;
-//
-//	if (!get_vector_from_str(info[0], &l.pos))
-//		return (ERR_MISCONFIGURED_LIGHT);
-//	if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
-//		return (ERR_MISCONFIGURED_LIGHT);
-//	if (get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0))
-//		l.intensity = color_mult(color_mult(c, (double)1/255), ratio);
-//	else
-//		return (ERR_MISCONFIGURED_LIGHT);
-//	append(p->lights, &l);
-//	return (NO_ERR);
-//}
 char	*load_light(t_program *p, char **info)
 {
 	const t_slice	*light = ({
@@ -100,5 +83,31 @@ char	*load_spotlight(t_program *p, char **info)
 	});
 
 	append(p->lights, &spotlight);
+	return (NO_ERR);
+}
+
+char	*load_checker(t_program *p, char **info)
+{
+	t_object	*object;
+	t_color		c;
+
+	if (len(p->objects) == 0)
+		return (ERR_UNRESOLVED_MATERIAL);
+	object = get_x2(p->objects, -1, 0);
+	if (object->material.flag == (1 << MFLAG_CHECKER))
+		return (ERR_DUPLICATE_MATERIAL);
+	object->material.flag |= (1 << MFLAG_CHECKER);
+	if (!(atoi_strict(info[0], &object->material.checker_width) && 0 <= object->material.checker_width))
+		return (ERR_MISCONFIGURED_CHECKER);
+	printf("%d\n", object->material.checker_width);
+	if (!(atoi_strict(info[1], &object->material.checker_height) && 0 <= object->material.checker_height))
+		return (ERR_MISCONFIGURED_CHECKER);
+	printf("%d\n", object->material.checker_height);
+	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
+		return (ERR_MISCONFIGURED_CHECKER);
+	object->material.checker_col1 = color_mult(c, (double)1/255);
+	if (!(get_color_from_str(info[3], &c) && check_color_range(c, 0.0, 255.0)))
+		return (ERR_MISCONFIGURED_CHECKER);
+	object->material.checker_col2 = color_mult(c, (double)1/255);
 	return (NO_ERR);
 }

@@ -38,6 +38,9 @@
 # define ERR_LACK_CAPITAL_IDENTIFIER "Capitalized identifiers are lack"
 # define ERR_MISCONFIGURED_CONE "Cone is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
+# define ERR_UNRESOLVED_MATERIAL "Material is specified before any object"
+# define ERR_MISCONFIGURED_CHECKER "Checker is misconfigured"
+# define ERR_DUPLICATE_MATERIAL "Same material parameters specified for same object"
 
 // Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
@@ -53,6 +56,7 @@ char	*load_ambient(t_program *p, char **info);
 char	*load_camera(t_program *p, char **info);
 char	*load_light(t_program *p, char **info);
 char	*load_spotlight(t_program *p, char **info);
+char	*load_checker(t_program *p, char **info);
 
 // rt_params_obj.c
 char	*load_sphere(t_program *p, char **info);

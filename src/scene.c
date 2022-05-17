@@ -1,7 +1,7 @@
 #include "../include/scene.h"
 
 static const char	*g_env_idents[] = {"A", "C", "L", NULL};
-static const char	*g_obj_idents[] = {"sp", "pl", "cy", "co", "sl", "#", NULL};
+static const char	*g_obj_idents[] = {"sp", "pl", "cy", "co", "sl", "#", "ch", NULL};
 
 static char	*check_duplicated_identifier(char *ident, unsigned int *ident_flag)
 {
@@ -57,6 +57,8 @@ static char	*load_element(char *line, t_program *p, unsigned int *ident_flag)
 		err = load_spotlight(p, &info[1]);
 	else if ((num == 5 || num == 6) && !ft_strcmp(info[0], "co"))
 		err = load_cone(p, &info[1]);
+	else if (num == 5 && !ft_strcmp(info[0], "ch"))
+		err = load_checker(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
 	if (err == NO_ERR)
@@ -87,7 +89,8 @@ static void	read_rt_file(char *filename, t_program *p)
 		if (err != NO_ERR)
 			break ;
 	}
-	err = check_lack_of_identifier(ident_flag);
+	if (err == NO_ERR)
+		err = check_lack_of_identifier(ident_flag);
 	free(line);
 	x_close(fd);
 	if (err != NO_ERR)

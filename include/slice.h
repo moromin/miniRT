@@ -12,11 +12,11 @@ typedef struct s_slice	t_slice;
 t_slice	*make(size_t size, size_t len, size_t cap);
 void	delete(t_slice *s);
 void	append(t_slice *s, void *elem);
-void	*get(t_slice *s, size_t index);
+void	*get(t_slice *s, int index);
 size_t	len(t_slice *s);
 
 // slice_x.c
 void	delete_recursively(t_slice *s, int depth);
-void	*get_x2(t_slice *s, size_t i1, size_t i2);
+void	*get_x2(t_slice *s, int i1, int i2);
 
 #endif
