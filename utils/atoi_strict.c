@@ -1,6 +1,6 @@
-#include <limits.h>
+#include <stdbool.h>
 
-int	ft_atoi(char *str)
+bool	atoi_strict(char *str, int *dst)
 {
 	long long	rtn;
 	int			sign;
@@ -13,16 +13,17 @@ int	ft_atoi(char *str)
 		sign = -1;
 	if (*str == '+' || *str == '-')
 		str++;
+	if (*str == '\0')
+		return (false);
 	while ('0' <= *str && *str <= '9')
 	{
 		if ((rtn * 10 + *str - '0') / 10 != rtn)
-		{
-			if (sign == 1)
-				return ((int)(LONG_MAX));
-			return ((int)(LONG_MIN));
-		}
+			return (false);
 		rtn = rtn * 10 + *str - '0';
 		str++;
 	}
-	return ((int)(sign * rtn));
+	*dst = (int)(sign * rtn);
+	if (*str == '\0')
+		return (true);
+	return (false);
 }

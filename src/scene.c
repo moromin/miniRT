@@ -89,7 +89,8 @@ static void	read_rt_file(char *filename, t_program *p)
 		if (err != NO_ERR)
 			break ;
 	}
-	err = check_lack_of_identifier(ident_flag);
+	if (err == NO_ERR)
+		err = check_lack_of_identifier(ident_flag);
 	free(line);
 	x_close(fd);
 	if (err != NO_ERR)
