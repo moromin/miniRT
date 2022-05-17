@@ -237,10 +237,9 @@ sl {point} {orientation_vector} {FOV} {ratio} {color}
 
 #### bm：バンプマップ (Bump map)
 ```
-bm {file_path} {h} {vertical_repetition} {horizontal_repetition}
+bm {file_path} {vertical_repetition} {horizontal_repetition}
 ```
-- `file_path` : バンプマップファイルパス
-- `h` : 高さ係数
+- `file_path` : バンプマップ(法線マップ)ファイルパス
 - `horizontal_repetition` : 横方向繰り返し数
 - `vertical_repetition` : 縦方向繰り返し数
 

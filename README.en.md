@@ -82,10 +82,9 @@ co {center} {direction} {aperture} {color}
 
 #### bm (Bump map)
 ```
-bm {file_path} {h} {vertical_repetition} {horizontal_repetition}
+bm {file_path} {vertical_repetition} {horizontal_repetition}
 ```
-- `file_path` : file path of bump map
-- `h` : height coefficient
+- `file_path` : file path of bump map (normal map)
 - `horizontal_repetition` : number of horizontal repetitions
 - `vertical_repetition` : number of vertical repetitions
 
