@@ -29,18 +29,10 @@ t_vector	get_vector_from_normal_map(double u, double v, t_bumpmap bm)
 			const double	i = rt_fmod(u * bm.super.height * bm.freq_u, bm.super.height);
 			const double	j = rt_fmod(v * bm.super.width * bm.freq_v, bm.super.width);
 
-			t_color	h1 = get_color_from_image(&bm.super, (int)i, (int)j);
-			t_color	h2 = get_color_from_image(&bm.super, (int)i, (int)(j + 1) % bm.super.width);
-			t_color	h3 = get_color_from_image(&bm.super, (int)(i + 1) % bm.super.height, (int)j);
-			t_color	h4 = get_color_from_image(&bm.super, (int)(i + 1) % bm.super.height, (int)(j + 1) % bm.super.width);
+			t_color	c = get_color_from_image(&bm.super, (int)i, (int)j);
+			c = color_add(color_mult(c, 2), color(-1, -1, -1));
 
-			h1 = color_add(color_mult(h1, 2), color(-1, -1, -1));
-			h2 = color_add(color_mult(h2, 2), color(-1, -1, -1));
-			h3 = color_add(color_mult(h3, 2), color(-1, -1, -1));
-			h4 = color_add(color_mult(h4, 2), color(-1, -1, -1));
-			const t_color	sum = color_add(color_add(h1, h2), color_add(h3, h4));
-
-			n = convert_color_to_vector(sum);
+			n = convert_color_to_vector(c);
 			n;
 	});
 
@@ -52,10 +44,11 @@ t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n)
 	const t_vector	normal = ({
 			t_vector	res;
 
-
-			res.x = vec_inner_product(vec_init(t.x, b.x, n.x), tangent);
-			res.y = vec_inner_product(vec_init(t.y, b.y, n.y), tangent);
-			res.z = vec_inner_product(vec_init(t.z, b.z, n.z), tangent);
+			// 資料とy, z軸が逆！
+			res = vec_add(vec_add(
+				vec_mult(t, tangent.x),
+				vec_mult(b, tangent.z)),
+				vec_mult(n, tangent.y));
 			res = vec_normalize(res);
 			res;
 	});
