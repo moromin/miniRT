@@ -95,6 +95,9 @@ char	*load_checker(t_program *p, char **info)
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
 	object = get_x2(p->objects, -1, 0);
+	if (object->material.flag == (1 << MFLAG_CHECKER))
+		return (ERR_DUPLICATE_MATERIAL);
+	object->material.flag |= (1 << MFLAG_CHECKER);
 	object->material.checker_width = ft_atoi(info[1]);
 	if (!(0 <= object->material.checker_width))
 		return (ERR_MISCONFIGURED_CHECKER);
@@ -107,6 +110,5 @@ char	*load_checker(t_program *p, char **info)
 	if (!(get_color_from_str(info[3], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
 	object->material.checker_col2 = color_mult(c, (double)1/255);
-	object->material.flag |= (1 << MFLAG_CHECKER);
 	return (NO_ERR);
 }

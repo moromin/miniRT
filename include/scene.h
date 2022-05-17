@@ -40,6 +40,7 @@
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 # define ERR_UNRESOLVED_MATERIAL "Material is specified before any object"
 # define ERR_MISCONFIGURED_CHECKER "Checker is misconfigured"
+# define ERR_DUPLICATE_MATERIAL "Same material parameters specified for same object"
 
 // Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET

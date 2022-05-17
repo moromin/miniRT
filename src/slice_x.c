@@ -22,6 +22,7 @@ void	delete_recursively(t_slice *s, int depth)
 			delete(next);
 		else
 			delete_recursively(next, depth);
+		i++;
 	}
 	delete(s);
 }
