@@ -136,11 +136,9 @@ char	*load_bumpmap(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	bm->super = image;
 
-	if (!(ft_strtod(info[1], &bm->height_coefficient)))
+	if (!(atoi_strict(info[1], &bm->freq_u) && 1 <= bm->freq_u))
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	if (!(atoi_strict(info[2], &bm->freq_u) && 1 <= bm->freq_u))
-		return (ERR_MISCONFIGURED_BUMPMAP);
-	if (!(atoi_strict(info[3], &bm->freq_v) && 1 <= bm->freq_v))
+	if (!(atoi_strict(info[2], &bm->freq_v) && 1 <= bm->freq_v))
 		return (ERR_MISCONFIGURED_BUMPMAP);
 
 	object->image = (t_img *)bm;

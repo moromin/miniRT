@@ -60,7 +60,7 @@ static char	*load_element(char *line, t_program *p, unsigned int *ident_flag)
 		err = load_cone(p, &info[1]);
 	else if (num == 5 && !ft_strcmp(info[0], "ch"))
 		err = load_checker(p, &info[1]);
-	else if (num == 5 && !ft_strcmp(info[0], "bm"))
+	else if (num == 4 && !ft_strcmp(info[0], "bm"))
 		err = load_bumpmap(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;

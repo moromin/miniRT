@@ -33,8 +33,6 @@ typedef struct s_bumpmap
 	t_img	super;
 	int		freq_u;
 	int		freq_v;
-	// TODO: delete this field
-	double	height_coefficient;
 }	t_bumpmap;
 
 t_vector	get_vector_from_normal_map(double u, double v, t_bumpmap bm);
