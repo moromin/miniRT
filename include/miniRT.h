@@ -25,6 +25,8 @@ struct s_img {
 	int		size_line;
 	int		endian;
 	char	*buffer;
+	int		height;
+	int		width;
 };
 
 typedef struct s_program {

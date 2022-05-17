@@ -40,6 +40,7 @@
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 # define ERR_UNRESOLVED_MATERIAL "Material is specified before any object"
 # define ERR_MISCONFIGURED_CHECKER "Checker is misconfigured"
+# define ERR_MISCONFIGURED_BUMPMAP "Bumpmap is misconfigured"
 # define ERR_DUPLICATE_MATERIAL "Same material parameters specified for same object"
 
 // Warning messages
@@ -57,6 +58,7 @@ char	*load_camera(t_program *p, char **info);
 char	*load_light(t_program *p, char **info);
 char	*load_spotlight(t_program *p, char **info);
 char	*load_checker(t_program *p, char **info);
+char	*load_bumpmap(t_program *p, char **info);
 
 // rt_params_obj.c
 char	*load_sphere(t_program *p, char **info);

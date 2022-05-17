@@ -4,6 +4,7 @@
 # include "color.h"
 
 # define MFLAG_CHECKER 0
+# define MFLAG_BUMPMAP 1
 
 typedef struct s_material {
 	unsigned int	flag;
@@ -23,5 +24,14 @@ typedef struct s_uv {
 }	t_uv;
 
 t_color ch_pattern_at(t_material material, double u, double v);
+
+typedef struct s_bumpmap
+{
+	t_img	super;
+	int		freq_u;
+	int		freq_v;
+	double	height_coefficient;
+}	t_bumpmap;
+
 
 #endif //MATERIAL_H

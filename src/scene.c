@@ -1,7 +1,8 @@
 #include "../include/scene.h"
+#include "../minilibx-linux/mlx.h"
 
 static const char	*g_env_idents[] = {"A", "C", "L", NULL};
-static const char	*g_obj_idents[] = {"sp", "pl", "cy", "co", "sl", "#", "ch", NULL};
+static const char	*g_obj_idents[] = {"sp", "pl", "cy", "co", "sl", "#", "ch", "bm", NULL};
 
 static char	*check_duplicated_identifier(char *ident, unsigned int *ident_flag)
 {
@@ -59,6 +60,8 @@ static char	*load_element(char *line, t_program *p, unsigned int *ident_flag)
 		err = load_cone(p, &info[1]);
 	else if (num == 5 && !ft_strcmp(info[0], "ch"))
 		err = load_checker(p, &info[1]);
+	else if (num == 5 && !ft_strcmp(info[0], "bm"))
+		err = load_bumpmap(p, &info[1]);
 	else if (ft_strcmp(info[0], "#"))
 		err = ERR_UNDEFINED_IDENTIFIER;
 	if (err == NO_ERR)
@@ -95,6 +98,7 @@ static void	read_rt_file(char *filename, t_program *p)
 	x_close(fd);
 	if (err != NO_ERR)
 	{
+		// TODO: free mlx
 		delete_recursively(p->lights, 1);
 		delete_recursively(p->objects, 1);
 		exit_with_error_message(err);
