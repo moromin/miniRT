@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-double	vec_inner_product(t_vector v1, t_vector v2)
+double	vec_dot(t_vector v1, t_vector v2)
 {
 	double	rtn;
 
@@ -12,7 +12,7 @@ double	vec_inner_product(t_vector v1, t_vector v2)
 	return (rtn);
 }
 
-t_vector	vec_outer_product(t_vector v1, t_vector v2)
+t_vector	vec_cross(t_vector v1, t_vector v2)
 {
 	t_vector	rtn;
 

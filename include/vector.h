@@ -22,9 +22,9 @@ void		vec_copy(t_vector *dest, t_vector src);
 
 t_vector	vec_sub(t_vector v1, t_vector v2);
 
-double		vec_inner_product(t_vector v1, t_vector v2);
+double		vec_dot(t_vector v1, t_vector v2);
 
-t_vector	vec_outer_product(t_vector v1, t_vector v2);
+t_vector	vec_cross(t_vector v1, t_vector v2);
 
 double		vec_magnitude(t_vector v);
 

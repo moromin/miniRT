@@ -38,11 +38,11 @@ double	cone_solve_ray_equation(t_object *const me_, t_ray ray)
 
 			const t_vector	B = vec_mult(ray.direction, k);
 			const t_vector	Q = vec_mult(q, k);
-			const double	R = vec_inner_product(ray.direction, me->normal);
-			const double	S = vec_inner_product(q, me->normal);
+			const double	R = vec_dot(ray.direction, me->normal);
+			const double	S = vec_dot(q, me->normal);
 
 			const double	a = vec_magnitude_squared(B) - pow(R, 2);
-			const double	b = 2 * (vec_inner_product(B, Q) - R * S);
+			const double	b = 2 * (vec_dot(B, Q) - R * S);
 			const double	c = vec_magnitude_squared(Q) - pow(S, 2);
 			const double	d = pow(b, 2) - 4 * a * c;
 
@@ -77,24 +77,24 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 			t_vector		direction = me->normal;
 			const t_vector	center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
 
-			if (vec_inner_product(center_to_cross, direction) < 0)
+			if (vec_dot(center_to_cross, direction) < 0)
 				direction = vec_mult(direction, -1);
 			m = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
 			if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
 			{
 				const t_vector	ex = vec_init(1, 0, 0);
 				t_vector		e1;
-				if (vec_inner_product(me->normal, ex) == 1)
+				if (vec_dot(me->normal, ex) == 1)
 					e1 = ex;
 				else
-					e1 = vec_outer_product(me->normal, ex);
-				const t_vector		e2 = vec_outer_product(e1, me->normal);
+					e1 = vec_cross(me->normal, ex);
+				const t_vector		e2 = vec_cross(e1, me->normal);
 
 				double	integer;
 				const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-				const double v = modf(vec_inner_product(center2cross, me->normal), &integer);
-				const double n1 = vec_inner_product(center2cross, e1);
-				const double n2 = vec_inner_product(center2cross, e2);
+				const double v = modf(vec_dot(center2cross, me->normal), &integer);
+				const double n1 = vec_dot(center2cross, e1);
+				const double n2 = vec_dot(center2cross, e2);
 				const double phi = atan2(n1, n2);
 				const double u = phi / (2 * M_PI) + 0.5;
 
@@ -102,8 +102,8 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 				const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
 
 				const t_vector	n = m;
-				const t_vector	t = vec_normalize(vec_outer_product(direction, n));
-				const t_vector	b = vec_normalize(vec_outer_product(t, n));
+				const t_vector	t = vec_normalize(vec_cross(direction, n));
+				const t_vector	b = vec_normalize(vec_cross(t, n));
 
 				m = tangent_to_model(tangent, t, b, n);
 			}
@@ -120,13 +120,13 @@ static t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 	const t_vector		e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
 		t_vector	vec;
-		if (vec_inner_product(me->normal, ex) == 1)
+		if (vec_dot(me->normal, ex) == 1)
 			vec = ex;
 		else
-			vec = vec_outer_product(me->normal, ex);
+			vec = vec_cross(me->normal, ex);
 		vec;
 	});
-	const t_vector		e2 = vec_outer_product(e1, me->normal);
+	const t_vector		e2 = vec_cross(e1, me->normal);
 	const t_color c = ({
 		t_color c;
 		if (me->super.material.flag & 1 << MFLAG_CHECKER)
@@ -134,10 +134,10 @@ static t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 			double	integer;
 			const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 			// checkerの変数v (0 <= v <= 1)
-			const double v = modf(vec_inner_product(center2cross, me->normal), &integer);
+			const double v = modf(vec_dot(center2cross, me->normal), &integer);
 			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
-			const double n1 = vec_inner_product(center2cross, e1);
-			const double n2 = vec_inner_product(center2cross, e2);
+			const double n1 = vec_dot(center2cross, e1);
+			const double n2 = vec_dot(center2cross, e2);
 			// 方位角 (-pi < phi <= pi)
 			const double phi = atan2(n1, n2);
 			const double u = phi / (2 * M_PI) + 0.5;

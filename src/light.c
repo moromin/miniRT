@@ -40,7 +40,7 @@ bool	spotlight_is_reachable(t_light *me_, t_vector incident_dir)
 {
 	const t_spotlight	*me = (t_spotlight*)me_;
 	const t_vector		rev_norm_incident_dir = vec_mult(vec_normalize(incident_dir), -1);
-	const double		angle = acos(vec_inner_product(rev_norm_incident_dir, me->direction)) / M_PI * 180;
+	const double		angle = acos(vec_dot(rev_norm_incident_dir, me->direction)) / M_PI * 180;
 
 	return (angle < me->fov / 2);
 }

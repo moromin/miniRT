@@ -37,11 +37,11 @@ double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 	const t_plane	*me = (t_plane *)me_;
 	double			t;
 
-	if (vec_inner_product(ray.direction, me->normal) == 0)
+	if (vec_dot(ray.direction, me->normal) == 0)
 		return (-1.0);
-	t = -1 * (vec_inner_product(ray.start, me->normal)
-			- vec_inner_product(me->super.center, me->normal))
-		/ vec_inner_product(ray.direction, me->normal);
+	t = -1 * (vec_dot(ray.start, me->normal)
+			- vec_dot(me->super.center, me->normal))
+		/ vec_dot(ray.direction, me->normal);
 	return (t);
 }
 
@@ -52,13 +52,13 @@ static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 			const t_vector	ey = vec_init(0, 1, 0);
 			t_vector	baseu;
 
-			if (vec_magnitude(vec_outer_product(me->normal, ey)) == 0)
+			if (vec_magnitude(vec_cross(me->normal, ey)) == 0)
 				baseu = vec_init(1, 0, 0);
 			else
-				baseu = vec_normalize(vec_outer_product(me->normal, ey));
+				baseu = vec_normalize(vec_cross(me->normal, ey));
 			baseu;
 	});
-	const t_vector	basev = vec_outer_product(me->normal, baseu);
+	const t_vector	basev = vec_cross(me->normal, baseu);
 	const t_vector	normal = ({
 		t_vector	n;
 		if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
@@ -69,8 +69,8 @@ static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 			double			v;
 			t_vector		tangent;
 
-			u = modf(vec_inner_product(vec_sub(cross_point, me->super.center), baseu), &integer);
-			v = modf(vec_inner_product(vec_sub(cross_point, me->super.center), basev), &integer);
+			u = modf(vec_dot(vec_sub(cross_point, me->super.center), baseu), &integer);
+			v = modf(vec_dot(vec_sub(cross_point, me->super.center), basev), &integer);
 			tangent = get_vector_from_normal_map(u, v, bm);
 			n = tangent_to_model(tangent, baseu, basev, me->normal);
 		}
@@ -90,13 +90,13 @@ static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 			const t_vector	ey = vec_init(0, 1, 0);
 			t_vector	baseu;
 
-			if (vec_magnitude(vec_outer_product(me->normal, ey)) == 0)
+			if (vec_magnitude(vec_cross(me->normal, ey)) == 0)
 				baseu = vec_init(1, 0, 0);
 			else
-				baseu = vec_normalize(vec_outer_product(me->normal, ey));
+				baseu = vec_normalize(vec_cross(me->normal, ey));
 			baseu;
 	});
-	const t_vector	basev = vec_outer_product(me->normal, baseu);
+	const t_vector	basev = vec_cross(me->normal, baseu);
 	const t_color c = ({
 		t_color c;
 		if (me->super.material.flag & 1 << MFLAG_CHECKER)
@@ -105,8 +105,8 @@ static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 			double	u;
 			double	v;
 
-			u = modf(vec_inner_product(vec_sub(cross_point, me->super.center), baseu), &integer);
-			v = modf(vec_inner_product(vec_sub(cross_point, me->super.center), basev), &integer);
+			u = modf(vec_dot(vec_sub(cross_point, me->super.center), baseu), &integer);
+			v = modf(vec_dot(vec_sub(cross_point, me->super.center), basev), &integer);
 			c = ch_pattern_at(me->super.material, u, v);
 		}
 		else
