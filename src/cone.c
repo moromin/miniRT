@@ -95,16 +95,9 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 			m = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
 			if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 			{
-				double	integer;
-				const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-				const double v = modf(vec_dot(center2cross, me->normal), &integer);
-				const double n1 = vec_dot(center2cross, me->e1);
-				const double n2 = vec_dot(center2cross, me->e2);
-				const double phi = atan2(n1, n2);
-				const double u = phi / (2 * M_PI) + 0.5;
-
+				const t_uv uv = calc_uv(me, cross_point);
 				const t_bumpmap	bm = *((t_bumpmap *)me_->image);
-				const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
+				const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, bm);
 
 				const t_vector	n = m;
 				const t_vector	t = vec_normalize(vec_cross(direction, n));
