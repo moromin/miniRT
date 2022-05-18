@@ -32,13 +32,6 @@ t_vector	vec_mult(t_vector v, double k)
 	return (rtn);
 }
 
-void	vec_copy(t_vector *dest, t_vector src)
-{
-	dest->x = src.x;
-	dest->y = src.y;
-	dest->z = src.z;
-}
-
 t_vector	vec_init(double x, double y, double z)
 {
 	t_vector	rtn;
