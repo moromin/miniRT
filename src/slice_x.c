@@ -17,7 +17,7 @@ void	delete_recursively(t_slice *s, int depth)
 	i = 0;
 	while (i < s->len)
 	{
-		next = *(t_slice **)s->org_start + s->size * i;
+		next = (t_slice *)s->org_start + s->size * i;
 		if (depth == 0)
 			delete(next);
 		else
