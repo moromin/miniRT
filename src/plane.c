@@ -45,10 +45,42 @@ double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	plane_calc_normal(t_object *const me, t_vector cross_point)
+static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 {
+	const t_plane	*me = (t_plane *)me_;
+	const t_vector	baseu = ({
+			const t_vector	ey = vec_init(0, 1, 0);
+			t_vector	baseu;
+
+			if (vec_magnitude(vec_outer_product(me->normal, ey)) == 0)
+				baseu = vec_init(1, 0, 0);
+			else
+				baseu = vec_normalize(vec_outer_product(me->normal, ey));
+			baseu;
+	});
+	const t_vector	basev = vec_outer_product(me->normal, baseu);
+	const t_vector	normal = ({
+		t_vector	n;
+		if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+		{
+			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
+			double			integer;
+			double			u;
+			double			v;
+			t_vector		tangent;
+
+			u = modf(vec_inner_product(vec_sub(cross_point, me->super.center), baseu), &integer);
+			v = modf(vec_inner_product(vec_sub(cross_point, me->super.center), basev), &integer);
+			tangent = get_vector_from_normal_map(u, v, bm);
+			n = tangent_to_model(tangent, baseu, basev, me->normal);
+		}
+		else
+			n = me->normal;
+		n;
+	});
 	(void)cross_point;
-	return (((t_plane *)me)->normal);
+
+	return (normal);
 }
 
 static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)

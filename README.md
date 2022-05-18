@@ -226,7 +226,7 @@ co {center} {direction} {aperture} {color}
 ### sl：スポットライト
 
 ```
-sl {point} {orientation_vector} {FOV} {ratio} {color} 
+sl {point} {orientation_vector} {FOV} {ratio} {color}
 ```
 
 - `point` : 光源の座標 `x,y,z`
@@ -234,6 +234,14 @@ sl {point} {orientation_vector} {FOV} {ratio} {color}
 - `FOV` : 水平方向の視野角 `[0, 360]`
 - `ratio` : 光源の光の強さの比率 `[0.0, 1.0]`
 - `color` : 光源の色  `R,G,B`, `[0.0, 255.0]`
+
+#### bm：バンプマップ (Bump map)
+```
+bm {file_path} {vertical_repetition} {horizontal_repetition}
+```
+- `file_path` : バンプマップ(法線マップ)ファイルパス
+- `horizontal_repetition` : 横方向繰り返し数
+- `vertical_repetition` : 縦方向繰り返し数
 
 ### ch：チェッカーボード
 
@@ -250,6 +258,7 @@ ch {freq u} {freq v} {color1} {color2}
 
 - [moromin](https://github.com/moromin)
 - [tacomeet](https://github.com/tacomeet)
+
 
 ## 参考サイト
 

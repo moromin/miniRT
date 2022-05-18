@@ -16,6 +16,7 @@ typedef struct s_object {
 	t_object_vtbl	*vptr; /* <== Object's Virtual Pointer */
 	t_vector		center; // described as pc
 	t_material		material;
+	t_img			*image;
 	t_color			diffuse_reflection_coefficient;
 	t_color			specular_reflection_coefficient;
 }	t_object;

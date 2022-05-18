@@ -12,7 +12,7 @@
 
 void	init_program(t_program *program)
 {
-	program->mlx = mlx_init();
+	// program->mlx = mlx_init();
 	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
 	init_image(program, &program->img);
 }
@@ -140,6 +140,9 @@ void	create_image(t_program *program)
 int	main(int argc, char **argv)
 {
 	t_program	program;
+
+	// To read xpm file
+	program.mlx = mlx_init();
 
 	load_rt_file(argc, argv, &program);
 	// mlx setup

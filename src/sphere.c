@@ -74,12 +74,41 @@ static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	sphere_calc_normal(t_object *const me, t_vector cross_point)
+static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 {
-	t_vector		vec;
+	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
-		vec = vec_sub(cross_point, me->center);
-		vec_normalize(vec);
+		t_vector		vec;
+		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
+		if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+		{
+			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
+			const double	phi = atan2(center2cross.x, center2cross.z);
+			const double	theta = acos(center2cross.y / me->radius);
+			const double	u = 1 - (phi / (2 * M_PI) + 0.5);
+			const double	v = 1 - theta / M_PI;
+
+			const t_vector	tangent = get_vector_from_normal_map(u, 1 - v, bm);
+
+			// tangent space vectors TBN
+			// T: Tangent
+			// B: Binormal
+			// N: Normal
+			const t_vector	n = vec_normalize(center2cross);
+			t_vector		t;
+			const t_vector	ey = vec_init(0, 1, 0);
+			if (vec_inner_product(n, ey) == 1)
+				t = vec_init(1, 0, 0);
+			else
+				t = vec_normalize(vec_outer_product(n, ey));
+			const t_vector	b = vec_normalize(vec_outer_product(t, n));
+
+			// convert tangent space to model space
+			vec = tangent_to_model(tangent, t, b, n);
+		}
+		else
+			vec = vec_normalize(center2cross);
+		vec;
 	});
 
 	return (normal);

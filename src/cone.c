@@ -54,18 +54,6 @@ double	cone_solve_ray_equation(t_object *const me_, t_ray ray)
 			double			t_outer = (-1 * b - sqrt(d)) / (2 * a);
 			double			t_inner = (-1 * b + sqrt(d)) / (2 * a);
 
-			// half cone
-			// const t_vector	outer = vec_add(ray.start, vec_mult(ray.direction, t_outer));
-			// const t_vector	inner = vec_add(ray.start, vec_mult(ray.direction, t_inner));
-
-			// const double	outer_dir = vec_inner_product(vec_sub(outer, me->super.center), me->normal);
-			// const double	inner_dir = vec_inner_product(vec_sub(inner, me->super.center), me->normal);
-
-			// if (!(t_outer > 0 && outer_dir >= 0))
-			// 	t_outer = INFINITY;
-			// if (!(t_inner > 0 && inner_dir >= 0))
-			// 	t_inner = INFINITY;
-
 			if (t_outer < 0)
 				t_outer = INFINITY;
 			if (t_inner < 0)
@@ -85,14 +73,41 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
-			t_vector		res;
+			t_vector		m;
 			t_vector		direction = me->normal;
 			const t_vector	center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
 
 			if (vec_inner_product(center_to_cross, direction) < 0)
 				direction = vec_mult(direction, -1);
-			res = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
-			res;
+			m = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
+			if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+			{
+				const t_vector	ex = vec_init(1, 0, 0);
+				t_vector		e1;
+				if (vec_inner_product(me->normal, ex) == 1)
+					e1 = ex;
+				else
+					e1 = vec_outer_product(me->normal, ex);
+				const t_vector		e2 = vec_outer_product(e1, me->normal);
+
+				double	integer;
+				const t_vector	center2cross = vec_sub(cross_point, me->super.center);
+				const double v = modf(vec_inner_product(center2cross, me->normal), &integer);
+				const double n1 = vec_inner_product(center2cross, e1);
+				const double n2 = vec_inner_product(center2cross, e2);
+				const double phi = atan2(n1, n2);
+				const double u = phi / (2 * M_PI) + 0.5;
+
+				const t_bumpmap	bm = *((t_bumpmap *)me_->image);
+				const t_vector	tangent = get_vector_from_normal_map(u, v, bm);
+
+				const t_vector	n = m;
+				const t_vector	t = vec_normalize(vec_outer_product(direction, n));
+				const t_vector	b = vec_normalize(vec_outer_product(t, n));
+
+				m = tangent_to_model(tangent, t, b, n);
+			}
+			m;
 	});
 
 	return (normal);
