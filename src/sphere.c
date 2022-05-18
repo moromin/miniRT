@@ -49,11 +49,11 @@ static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 			const double	a = vec_magnitude_squared(ray.direction);
 			if (a == 0)
 				return (-1.0);
-			const double	b = 2 * (vec_inner_product(ray.start, ray.direction)
-									 - vec_inner_product(ray.direction, me->super.center));
+			const double	b = 2 * (vec_dot(ray.start, ray.direction)
+									 - vec_dot(ray.direction, me->super.center));
 			const double	c = vec_magnitude_squared(ray.start)
 								+ vec_magnitude_squared(me->super.center)
-								- 2 * vec_inner_product(ray.start, me->super.center)
+								- 2 * vec_dot(ray.start, me->super.center)
 								- pow(me->radius, 2);
 			const double	d = pow(b, 2) - 4 * a * c;
 			const double	t_positive = (-1 * b + sqrt(d)) / (2 * a);
@@ -97,11 +97,11 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 			const t_vector	n = vec_normalize(center2cross);
 			t_vector		t;
 			const t_vector	ey = vec_init(0, 1, 0);
-			if (vec_inner_product(n, ey) == 1)
+			if (vec_dot(n, ey) == 1)
 				t = vec_init(1, 0, 0);
 			else
-				t = vec_normalize(vec_outer_product(n, ey));
-			const t_vector	b = vec_normalize(vec_outer_product(t, n));
+				t = vec_normalize(vec_cross(n, ey));
+			const t_vector	b = vec_normalize(vec_cross(t, n));
 
 			// convert tangent space to model space
 			vec = tangent_to_model(tangent, t, b, n);
