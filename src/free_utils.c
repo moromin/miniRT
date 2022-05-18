@@ -11,7 +11,7 @@ void	destroy_object_images(t_program *p)
 	while (i < (int)len(p->objects))
 	{
 		object = get_x2(p->objects, i, 0);
-		if (object->material.flag & 1 << MFLAG_BUMPMAP)
+		if (object->info.flag & 1 << FLAG_BUMPMAP)
 		{
 			bm = (t_bumpmap *)object->image;
 			if (bm->super.image)

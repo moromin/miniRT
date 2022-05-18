@@ -75,14 +75,14 @@ int	closest_object(t_slice *objects, t_ray ray, double max_dist, bool early_retu
 t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 {
 	t_color	c;
-	size_t	i;
+	int		i;
 	bool	is_covered;
 	t_ray	ray;
 	double	dist;
 
 	c = p->ambient;
 	i = 0;
-	while (i < len(p->lights))
+	while (i < (int)len(p->lights))
 	{
 		ray.direction = vec_sub(((t_light *)get_x2(p->lights, i, 0))->pos, cross_point);
 		ray.start = vec_add(cross_point, vec_mult(ray.direction, EPSILON));

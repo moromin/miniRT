@@ -80,7 +80,7 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 	const t_vector	normal = ({
 		t_vector		vec;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-		if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 		{
 			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
 			const double	phi = atan2(center2cross.x, center2cross.z);
@@ -119,7 +119,7 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_color c = ({
 		t_color c;
-		if (me->super.material.flag & 1 << MFLAG_CHECKER)
+		if (me->super.info.flag & 1 << FLAG_CHECKER)
 		{
 			const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 			// 方位角
@@ -130,10 +130,10 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 			const double	u = 1 - (phi / (2 * M_PI) + 0.5);
 			const double	v = 1 - theta / M_PI;
 
-			c = ch_pattern_at(me->super.material, u, v);
+			c = ch_pattern_at(&me->super.info, u, v);
 		}
 		else
-			c = me->super.material.diffuse_reflection_coefficient;
+			c = me->super.material.k_specular;
 		c;
 	});
 

@@ -9,19 +9,19 @@ char	*load_checker(t_program *p, char **info)
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
 	object = get_x2(p->objects, -1, 0);
-	if (object->material.flag & (1 << MFLAG_CHECKER))
+	if (object->info.flag & (1 << FLAG_CHECKER))
 		return (ERR_DUPLICATE_MATERIAL);
-	object->material.flag |= (1 << MFLAG_CHECKER);
-	if (!(atoi_strict(info[0], &object->material.checker_width) && 1 <= object->material.checker_width))
+	object->info.flag |= (1 << FLAG_CHECKER);
+	if (!(atoi_strict(info[0], &object->info.ch_freq_u) && 1 <= object->info.ch_freq_u))
 		return (ERR_MISCONFIGURED_CHECKER);
-	if (!(atoi_strict(info[1], &object->material.checker_height) && 1 <= object->material.checker_height))
+	if (!(atoi_strict(info[1], &object->info.ch_freq_v) && 1 <= object->info.ch_freq_v))
 		return (ERR_MISCONFIGURED_CHECKER);
 	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
-	object->material.checker_col1 = color_mult(c, (double)1/255);
+	object->info.ch_col1 = color_mult(c, (double)1/255);
 	if (!(get_color_from_str(info[3], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
-	object->material.checker_col2 = color_mult(c, (double)1/255);
+	object->info.ch_col2 = color_mult(c, (double)1/255);
 	return (NO_ERR);
 }
 
@@ -33,9 +33,9 @@ char	*load_bumpmap(t_program *p, char **info)
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
 	object = get_x2(p->objects, -1, 0);
-	if (object->material.flag & (1 << MFLAG_BUMPMAP))
+	if (object->info.flag & (1 << FLAG_BUMPMAP))
 		return (ERR_DUPLICATE_MATERIAL);
-	object->material.flag |= (1 << MFLAG_BUMPMAP);
+	object->info.flag |= (1 << FLAG_BUMPMAP);
 
 	bm = x_malloc(sizeof(t_bumpmap));
 	object->image = (t_img *)bm;

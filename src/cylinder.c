@@ -23,12 +23,23 @@ void	cylinder_ctor(
 		.calc_normal = &cylinder_calc_normal,
 		.calc_color = &cylinder_calc_color,
 	};
+	const t_vector			e1 = ({
+		const t_vector	ex = vec_init(1, 0, 0);
+		t_vector	vec;
+		if (vec_dot(me->normal, ex) == 1)
+			vec = ex;
+		else
+			vec = vec_cross(me->normal, ex);
+		vec;
+	});
 
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
 	me->super.vptr = &vtbl;
 	me->radius = radius;
 	me->height = height;
 	me->normal = normal;
+	me->e1 = e1;
+	me->e2 = vec_cross(e1, me->normal);
 }
 
 double	cylinder_solve_ray_equation(t_object *me_, t_ray ray)
@@ -88,16 +99,8 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 			m = vec_sub(center_to_cross, vec_mult(me->normal, h));
 			m = vec_normalize(m);
 
-			if (me->super.material.flag & 1 << MFLAG_BUMPMAP)
+			if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 			{
-				const t_vector	ex = vec_init(1, 0, 0);
-				t_vector	e1;
-				if (vec_dot(me->normal, ex) == 1)
-					e1 = ex;
-				else
-					e1 = vec_cross(me->normal, ex);
-				const t_vector		e2 = vec_cross(e1, me->normal);
-
 				const t_vector	n_center2cross = vec_normalize(vec_sub(cross_point, me->super.center));
 				// 仰角 (0 <= theta <= max_theta)
 				const double theta = M_PI / 2 - acos(vec_dot(n_center2cross, me->normal));
@@ -105,8 +108,8 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 				// checkerの変数v (0 <= v <= 1)
 				const double v = height / me->height;
 				// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
-				const double n1 = vec_dot(n_center2cross, e1);
-				const double n2 = vec_dot(n_center2cross, e2);
+				const double n1 = vec_dot(n_center2cross, me->e1);
+				const double n2 = vec_dot(n_center2cross, me->e2);
 				// 方位角 (-pi < phi <= pi)
 				const double phi = atan2(n1, n2);
 				const double u = phi / (2 * M_PI) + 0.5;
@@ -129,20 +132,9 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
-	// normal方向以外の基底ベクトル
-	const t_vector		e1 = ({
-			const t_vector	ex = vec_init(1, 0, 0);
-			t_vector	vec;
-			if (vec_dot(me->normal, ex) == 1)
-				vec = ex;
-			else
-				vec = vec_cross(me->normal, ex);
-			vec;
-	});
-	const t_vector		e2 = vec_cross(e1, me->normal);
 	const t_color c = ({
 		t_color c;
-		if (me->super.material.flag & 1 << MFLAG_CHECKER)
+		if (me->super.info.flag & 1 << FLAG_CHECKER)
 		{
 			const t_vector	n_center2cross = vec_normalize(vec_sub(cross_point, me->super.center));
 			// 仰角 (0 <= theta <= max_theta)
@@ -151,15 +143,15 @@ static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 			// checkerの変数v (0 <= v <= 1)
 			const double v = height / me->height;
 			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
-			const double n1 = vec_dot(n_center2cross, e1);
-			const double n2 = vec_dot(n_center2cross, e2);
+			const double n1 = vec_dot(n_center2cross, me->e1);
+			const double n2 = vec_dot(n_center2cross, me->e2);
 			// 方位角 (-pi < phi <= pi)
 			const double phi = atan2(n1, n2);
 			const double u = phi / (2 * M_PI) + 0.5;
-			c = ch_pattern_at(me->super.material, u, v);
+			c = ch_pattern_at(&me->super.info, u, v);
 		}
 		else
-			c = me->super.material.diffuse_reflection_coefficient;
+			c = me->super.material.k_diffuse;
 		c;
 	});
 	return (c);
