@@ -91,6 +91,9 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 			const t_vector	tangent = get_vector_from_normal_map(u, 1 - v, bm);
 
 			// tangent space vectors TBN
+			// T: Tangent
+			// B: Binormal
+			// N: Normal
 			const t_vector	n = vec_normalize(center2cross);
 			t_vector		t;
 			const t_vector	ey = vec_init(0, 1, 0);
@@ -99,6 +102,8 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 			else
 				t = vec_normalize(vec_outer_product(n, ey));
 			const t_vector	b = vec_normalize(vec_outer_product(t, n));
+
+			// convert tangent space to model space
 			vec = tangent_to_model(tangent, t, b, n);
 		}
 		else
