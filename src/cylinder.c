@@ -26,10 +26,10 @@ void	cylinder_ctor(
 	const t_vector			e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
 		t_vector	vec;
-		if (vec_dot(me->normal, ex) == 1)
+		if (vec_dot(normal, ex) == 1)
 			vec = ex;
 		else
-			vec = vec_cross(me->normal, ex);
+			vec = vec_cross(normal, ex);
 		vec;
 	});
 
