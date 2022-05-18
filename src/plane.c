@@ -4,6 +4,7 @@
 static double	plane_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	plane_calc_normal(t_object *me, t_vector cross_point);
 static t_color	plane_calc_color(t_object *me_, t_vector cross_point);
+static t_uv 	calc_uv(const t_plane *me, t_vector cross_point);
 
 void	plane_ctor(
 		t_plane *const me,
@@ -34,7 +35,6 @@ void	plane_ctor(
 	me->normal = normal;
 	me->eu = eu;
 	me->ev = vec_cross(me->normal, eu);
-
 }
 
 /*
@@ -66,14 +66,10 @@ static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 		{
 			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
-			double			integer;
-			double			u;
-			double			v;
 			t_vector		tangent;
+			const t_uv 		uv = calc_uv(me, cross_point);
 
-			u = modf(vec_dot(vec_sub(cross_point, me->super.center), me->eu), &integer);
-			v = modf(vec_dot(vec_sub(cross_point, me->super.center), me->ev), &integer);
-			tangent = get_vector_from_normal_map(u, v, bm);
+			tangent = get_vector_from_normal_map(uv.u, uv.v, bm);
 			n = tangent_to_model(tangent, me->eu, me->ev, me->normal);
 		}
 		else
@@ -91,19 +87,21 @@ static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 	const t_color 	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
-		{
-			double	integer;
-			double	u;
-			double	v;
-
-			u = modf(vec_dot(vec_sub(cross_point, me->super.center), me->eu), &integer);
-			v = modf(vec_dot(vec_sub(cross_point, me->super.center), me->ev), &integer);
-			c = ch_pattern_at(&me->super.info, u, v);
-		}
+			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
 		else
 			c = me->super.material.k_specular;
 		c;
 	});
 
 	return (c);
+}
+
+static t_uv 	calc_uv(const t_plane *const me, t_vector cross_point)
+{
+	double	integer;
+	t_uv	uv;
+
+	uv.u = modf(vec_dot(vec_sub(cross_point, me->super.center), me->eu), &integer);
+	uv.v = modf(vec_dot(vec_sub(cross_point, me->super.center), me->ev), &integer);
+	return (uv);
 }

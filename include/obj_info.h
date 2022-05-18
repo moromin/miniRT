@@ -25,7 +25,7 @@ typedef struct s_uv {
 	double v;
 }	t_uv;
 
-t_color ch_pattern_at(const t_obj_info *info, double u, double v);
+t_color ch_pattern_at(const t_obj_info *info, t_uv uv);
 
 //t_vector	get_vector_from_normal_map(double u, double v, t_bumpmap bm);
 //t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n);

@@ -6,6 +6,7 @@
 static double	cone_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	cone_calc_normal(t_object *me, t_vector cross_point);
 static t_color	cone_calc_color(t_object *me, t_vector cross_point);
+static t_uv 	calc_uv(const t_cone *me, t_vector cross_point);
 
 void	cone_ctor(
 			t_cone *me,
@@ -123,23 +124,31 @@ static t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 	const t_color	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
-		{
-			double	integer;
-			const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-			// checkerの変数v (0 <= v <= 1)
-			const double v = modf(vec_dot(center2cross, me->normal), &integer);
-			// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
-			const double n1 = vec_dot(center2cross, me->e1);
-			const double n2 = vec_dot(center2cross, me->e2);
-			// 方位角 (-pi < phi <= pi)
-			const double phi = atan2(n1, n2);
-			const double u = phi / (2 * M_PI) + 0.5;
-			c = ch_pattern_at(&me->super.info, u, v);
-		}
+			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
 		else
 			c = me->super.material.k_diffuse;
 		c;
 	});
 
 	return (c);
+}
+
+static t_uv 	calc_uv(const t_cone *const me, t_vector cross_point)
+{
+	const t_uv	uv = ({
+		t_uv	uv;
+		double	integer;
+		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
+		// checkerの変数v (0 <= v <= 1)
+		uv.v = modf(vec_dot(center2cross, me->normal), &integer);
+		// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
+		const double n1 = vec_dot(center2cross, me->e1);
+		const double n2 = vec_dot(center2cross, me->e2);
+		// 方位角 (-pi < phi <= pi)
+		const double phi = atan2(n1, n2);
+		uv.u = phi / (2 * M_PI) + 0.5;
+		uv;
+	});
+
+	return (uv);
 }
