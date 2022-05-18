@@ -20,21 +20,23 @@ void	init_program(t_program *program)
 // https://knzw.tech/raytracing/?page_id=1243
 t_vector	init_screen_point(t_camera camera, int x, int y)
 {
-	const t_vector	screen_point = ({
-		const double	screen_dist = SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2));
-		const t_vector	df = camera.normal;
-		const t_vector	ey = vec_init(0, 1, 0);
-		t_vector	dx = vec_cross(ey, df);
+	static bool	is_initialized = false;
+	static t_vector dx;
+	static t_vector dy;
+	static t_vector pm;
+
+	if (!is_initialized)
+	{
+		dx = vec_cross(vec_init(0, 1, 0), camera.normal);
 		if (vec_magnitude(dx) == 0)
 			dx = vec_init(1, 0, 0);
-		const t_vector	dy = vec_cross(df, dx);
-		const t_vector	pm = vec_add(camera.pos, vec_mult(df, screen_dist));
-		vec_add(pm, vec_add(
+		dy = vec_cross(camera.normal, dx);
+		pm = vec_add(camera.pos, vec_mult(camera.normal, SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2))));
+		is_initialized = true;
+	}
+	return (vec_add(pm, vec_add(
 				vec_mult(dx, (2.0 * x) / (WIDTH - 1) - 1.0),
-				vec_mult(dy, (-2.0 * y) / (HEIGHT - 1) + 1.0)));
-	});
-
-	return (screen_point);
+				vec_mult(dy, (-2.0 * y) / (HEIGHT - 1) + 1.0))));
 }
 
 int	closest_object(t_slice *objects, t_ray ray, double max_dist, bool early_return)
