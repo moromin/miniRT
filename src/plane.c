@@ -4,6 +4,7 @@
 
 static double	plane_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	plane_calc_normal(t_object *me, t_vector cross_point);
+static t_vector	plane_calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	plane_calc_color(t_object *me_, t_vector cross_point);
 static t_uv 	calc_uv(const t_plane *me, t_vector cross_point);
 
@@ -18,6 +19,7 @@ void	plane_ctor(
 			.solve_ray_equation = &plane_solve_ray_equation,
 			.calc_radiance = &calc_radiance_,
 			.calc_normal = &plane_calc_normal,
+			.calc_bumpmap_normal = &plane_calc_bumpmap_normal,
 			.calc_color = &plane_calc_color,
 	};
 	const t_vector 			eu = ({
@@ -61,22 +63,20 @@ double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 
 static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 {
-
-	const t_plane	*me = (t_plane *)me_;
-	const t_vector	normal = ({
-		t_vector	n;
-		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
-		{
-			t_vector		tangent;
-			const t_uv 		uv = calc_uv(me, cross_point);
-			tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
-			n = tangent_to_model(tangent, me->eu, me->ev, me->normal);
-		}
-		else
-			n = me->normal;
-		n;
-	});
 	(void)cross_point;
+	return (((t_plane *)me_)->normal);
+}
+
+static t_vector	plane_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+{
+	const t_plane	*me = (t_plane *)me_;
+	t_uv 		uv = calc_uv(me, cross_point);
+	if (uv.u < 0)
+		uv.u = 1 + uv.u;
+	if (uv.v < 0)
+		uv.v = 1 + uv.v;
+	const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+	const t_vector	normal = tangent_to_model(tangent, me->eu, me->ev, object_calc_normal(me_, cross_point));
 
 	return (normal);
 }

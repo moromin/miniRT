@@ -5,6 +5,7 @@
 
 static double	cone_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	cone_calc_normal(t_object *me, t_vector cross_point);
+static t_vector	cone_calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	cone_calc_color(t_object *me, t_vector cross_point);
 static t_uv 	calc_uv(const t_cone *me, t_vector cross_point);
 
@@ -20,6 +21,7 @@ void	cone_ctor(
 			.solve_ray_equation = &cone_solve_ray_equation,
 			.calc_radiance = &calc_radiance_,
 			.calc_normal = &cone_calc_normal,
+			.calc_bumpmap_normal = &cone_calc_bumpmap_normal,
 			.calc_color = &cone_calc_color,
 	};
 	const t_vector			e1 = ({
@@ -93,17 +95,29 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 			if (vec_dot(center_to_cross, direction) < 0)
 				direction = vec_mult(direction, -1);
 			m = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
-			if (me->super.info.flag & 1 << FLAG_BUMPMAP)
-			{
-				const t_uv uv = calc_uv(me, cross_point);
-				const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+			m;
+	});
 
-				const t_vector	n = m;
-				const t_vector	t = vec_normalize(vec_cross(direction, n));
-				const t_vector	b = vec_normalize(vec_cross(t, n));
+	return (normal);
+}
 
-				m = tangent_to_model(tangent, t, b, n);
-			}
+static t_vector	cone_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+{
+	const t_cone	*me = (t_cone *)me_;
+	const t_vector	normal = ({
+			t_vector		m;
+			const t_uv		uv = calc_uv(me, cross_point);
+			const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+
+			t_vector		direction = me->normal;
+			if (vec_dot(vec_sub(cross_point, me->super.center), direction) < 0)
+				direction = vec_mult(direction, -1);
+
+			const t_vector	n = object_calc_normal(me_, cross_point);
+			const t_vector	t = vec_normalize(vec_cross(direction, n));
+			const t_vector	b = vec_normalize(vec_cross(t, n));
+
+			m = tangent_to_model(tangent, t, b, n);
 			m;
 	});
 

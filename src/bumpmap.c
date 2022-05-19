@@ -14,6 +14,7 @@ static t_vector		convert_color_to_vector(t_color c)
 	return (rtn);
 }
 
+<<<<<<< HEAD
 static double	rt_fmod(double x, double y)
 {
 	if (x >= 0)
@@ -31,7 +32,6 @@ t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
 
 			t_color	c = get_color_from_image(&info->bm_image, (int)i, (int)j);
 			c = color_add(color_mult(c, 2), color(-1, -1, -1));
-
 			n = convert_color_to_vector(c);
 			n;
 	});
@@ -39,12 +39,20 @@ t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
 	return (normal);
 }
 
+// t_vector	get_vector_from_normal_map(t_uv uv, t_img *bm, int freq_u, int freq_v)
+// {
+// 	const t_vector	normal = ({
+// 			t_vector		n;
+// 			const double	i = fmod(uv.v * freq_v, 1.0) * bm->height;
+// 			const double	j = fmod(uv.u * freq_u, 1.0) * bm->width;
+
+// 			t_color	c = get_color_from_image(bm, (int)j, (int)i);
+
 t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n)
 {
 	const t_vector	normal = ({
 			t_vector	res;
 
-			// 資料とy, z軸が逆！
 			res = vec_add(vec_add(
 				vec_mult(t, tangent.x),
 				vec_mult(b, tangent.z)),

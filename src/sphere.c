@@ -8,6 +8,7 @@
 
 static double	sphere_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
+static t_vector	sphere_calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	sphere_calc_color(t_object *me_, t_vector cross_point);
 static t_uv 	calc_uv(const t_sphere *me, t_vector cross_point);
 
@@ -18,6 +19,7 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 			.solve_ray_equation = &sphere_solve_ray_equation,
 			.calc_radiance = &calc_radiance_,
 			.calc_normal = &sphere_calc_normal,
+			.calc_bumpmap_normal = &sphere_calc_bumpmap_normal,
 			.calc_color = &sphere_calc_color
 	};
 
@@ -81,30 +83,31 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 	const t_vector	normal = ({
 		t_vector		vec;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
-		{
-			const t_uv		uv = calc_uv(me, cross_point);
-			const t_vector	tangent = get_vector_from_normal_map(uv.u, 1 - uv.v, &me->super.info);
-
-			// tangent space vectors TBN
-			// T: Tangent
-			// B: Binormal
-			// N: Normal
-			const t_vector	n = vec_normalize(center2cross);
-			t_vector		t;
-			const t_vector	ey = vec_init(0, 1, 0);
-			if (vec_dot(n, ey) == 1)
-				t = vec_init(1, 0, 0);
-			else
-				t = vec_normalize(vec_cross(n, ey));
-			const t_vector	b = vec_normalize(vec_cross(t, n));
-
-			// convert tangent space to model space
-			vec = tangent_to_model(tangent, t, b, n);
-		}
-		else
-			vec = vec_normalize(center2cross);
+		vec = vec_normalize(center2cross);
 		vec;
+	});
+
+	return (normal);
+}
+
+static t_vector	sphere_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+{
+	const t_sphere	*me = (t_sphere *)me_;
+	const t_vector	normal = ({
+		t_uv		uv = calc_uv(me, cross_point);
+		uv.v = 1 - uv.v;
+		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+
+		const t_vector	n = object_calc_normal(me_, cross_point);
+		t_vector		t;
+		const t_vector	ey = vec_init(0, 1, 0);
+		if (vec_dot(n, ey) == 1)
+			t = vec_init(1, 0, 0);
+		else
+			t = vec_normalize(vec_cross(n, ey));
+		const t_vector	b = vec_normalize(vec_cross(t, n));
+
+		tangent_to_model(tangent, t, b, n);
 	});
 
 	return (normal);
