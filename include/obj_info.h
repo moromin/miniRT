@@ -28,6 +28,7 @@ typedef struct s_uv {
 t_color ch_pattern_at(const t_obj_info *info, t_uv uv);
 
 t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info);
+// t_vector	get_vector_from_normal_map(t_uv uv, t_img *bm, int freq_u, int freq_v);
 t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n);
 
 #endif
