@@ -121,7 +121,7 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
 		else
-			c = me->super.material.k_specular;
+			c = me->super.material.k_diffuse;
 		c;
 	});
 
