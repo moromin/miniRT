@@ -83,9 +83,8 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 		{
-			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
 			const t_uv		uv = calc_uv(me, cross_point);
-			const t_vector	tangent = get_vector_from_normal_map(uv.u, 1 - uv.v, bm);
+			const t_vector	tangent = get_vector_from_normal_map(uv.u, 1 - uv.v, &me->super.info);
 
 			// tangent space vectors TBN
 			// T: Tangent

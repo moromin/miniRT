@@ -18,7 +18,7 @@ void	add_color_to_image(t_img *img, int color, int x, int y)
 	img->buffer[pixel + 3] = (char)(color >> 24);
 }
 
-t_color	get_color_from_image(t_img *img, int x, int y)
+t_color	get_color_from_image(const t_img *img, int x, int y)
 {
 	const int			pixel = (y * img->size_line) + (x * 4);
 	const char			*dst = &img->buffer[pixel];

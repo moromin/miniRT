@@ -32,7 +32,7 @@ typedef struct s_program {
 // image.c
 void		init_image(t_program *program, t_img *img);
 void		add_color_to_image(t_img *img, int color, int x, int y);
-t_color		get_color_from_image(t_img *img, int x, int y);
+t_color		get_color_from_image(const t_img *img, int x, int y);
 
 // utils.c
 int			rgb_to_int(double r, double g, double b);
