@@ -18,6 +18,7 @@ t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_light light
 		vec = vec_sub(light.pos, cross_point);
 		vec_normalize(vec);
 	});
+
 	const t_color	col = object_calc_color(obj, cross_point);
 
 	if (vec_dot(normal, incident_direction) >= 0)
@@ -50,7 +51,7 @@ t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_light ligh
 	});
 
 	if (vec_dot(normal, incident_direction) >= 0 && vec_dot(vec, specular) >= 0)
-		return (color_mult(color_prod(obj->specular_reflection_coefficient, light.intensity),
+		return (color_mult(color_prod(obj->material.k_specular, light.intensity),
 				   pow(vec_dot(cross_point_inverse_normalized, specular), SHININESS)));
 	else
 		return (color(0, 0, 0));

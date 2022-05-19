@@ -6,6 +6,7 @@
 # include "color.h"
 # include "light.h"
 # include "material.h"
+# include "obj_info.h"
 
 // Object
 /* forward declaration */
@@ -16,9 +17,8 @@ typedef struct s_object {
 	t_object_vtbl	*vptr; /* <== Object's Virtual Pointer */
 	t_vector		center; // described as pc
 	t_material		material;
+	t_obj_info		info;
 	t_img			*image;
-	t_color			diffuse_reflection_coefficient;
-	t_color			specular_reflection_coefficient;
 }	t_object;
 
 /* Shape's operations (Shape's interface)... */
@@ -54,6 +54,8 @@ void		sphere_ctor(t_sphere *me, double radius, t_vector center, t_color diffuse_
 typedef struct s_plane {
 	t_object	super;
 	t_vector	normal;
+	t_vector	eu;
+	t_vector	ev;
 }	t_plane;
 
 void		plane_ctor(
@@ -70,6 +72,8 @@ typedef struct s_cylinder
 	t_vector	normal;
 	double		radius;
 	double		height;
+	t_vector	e1;
+	t_vector	e2;
 }	t_cylinder;
 
 void		cylinder_ctor(
@@ -87,6 +91,8 @@ typedef struct s_cone
 	t_object	super;
 	t_vector	normal;
 	double		aperture;
+	t_vector	e1;
+	t_vector	e2;
 }	t_cone;
 
 void		cone_ctor(
