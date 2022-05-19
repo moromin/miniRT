@@ -1,6 +1,7 @@
 NAME	= miniRT
 CC		= gcc
-CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=thread
+# CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=thread
+CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=address
 
 SRC_PATH = src
 UTILS_PATH = utils

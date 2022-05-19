@@ -7,6 +7,7 @@ bool	ft_strtod(const char *s, double *val)
 	int		fract;
 
 	sign = 1.0;
+	converted = 0.0;
 	while (ft_isspace(*s))
 		s++;
 	if ((*s == '+' || *s == '-') && *s++ == '-')

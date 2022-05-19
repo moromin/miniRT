@@ -6,6 +6,7 @@
 
 static double	cylinder_solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	cylinder_calc_normal(t_object *me, t_vector cross_point);
+static t_vector	cylinder_calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	cylinder_calc_color(t_object *me, t_vector cross_point);
 static t_uv 	calc_uv(const t_cylinder *const me, t_vector cross_point);
 
@@ -22,6 +23,7 @@ void	cylinder_ctor(
 			.solve_ray_equation = &cylinder_solve_ray_equation,
 			.calc_radiance = &calc_radiance_,
 			.calc_normal = &cylinder_calc_normal,
+			.calc_bumpmap_normal = &cylinder_calc_bumpmap_normal,
 			.calc_color = &cylinder_calc_color,
 	};
 	const t_vector			e1 = ({
@@ -98,20 +100,24 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 
 		m = vec_sub(center_to_cross, vec_mult(me->normal, h));
 		m = vec_normalize(m);
-
-		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
-		{
-			const t_uv	uv = calc_uv(me, cross_point);
-			const t_vector	tangent = get_vector_from_normal_map(1 - uv.u, 1 - uv.v, &me->super.info);
-
-			const t_vector	n = m;
-			const t_vector	b = me->normal;
-			const t_vector	t = vec_cross(b, n);
-
-			m = tangent_to_model(tangent, t, b, n);
-		}
-
 		m;
+	});
+
+	return (normal);
+}
+
+t_vector	cylinder_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+{
+	const t_cylinder	*me = (t_cylinder *)me_;
+	const t_vector		normal = ({
+		const t_uv		uv = calc_uv(me, cross_point);
+		const t_vector	tangent = get_vector_from_normal_map(1 - uv.u, 1 - uv.v, &me->super.info);
+
+		const t_vector	n = object_calc_normal(me_, cross_point);
+		const t_vector	b = me->normal;
+		const t_vector	t = vec_cross(b, n);
+
+		tangent_to_model(tangent, t, b, n);
 	});
 
 	return (normal);
