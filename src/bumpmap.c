@@ -14,39 +14,19 @@ static t_vector		convert_color_to_vector(t_color c)
 	return (rtn);
 }
 
-<<<<<<< HEAD
-static double	rt_fmod(double x, double y)
-{
-	if (x >= 0)
-		return (fmod(x, y));
-	else
-		return (y - fmod(-x, y));
-}
-
 t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
 {
-	const t_vector	normal = ({
-			t_vector		n;
-			const double	i = rt_fmod(u * info->bm_image.height * info->bm_freq_u, info->bm_image.height);
-			const double	j = rt_fmod(v * info->bm_image.width * info->bm_freq_v, info->bm_image.height);
+	const t_vector	tangent = ({
+			const double	j = fmod(u * info->bm_freq_u, 1.0) * info->bm_image.width;
+			const double	i = fmod(v * info->bm_freq_v, 1.0) * info->bm_image.height;
 
-			t_color	c = get_color_from_image(&info->bm_image, (int)i, (int)j);
+			t_color	c = get_color_from_image(&info->bm_image, (int)j, (int)i);
 			c = color_add(color_mult(c, 2), color(-1, -1, -1));
-			n = convert_color_to_vector(c);
-			n;
+			convert_color_to_vector(c);
 	});
 
-	return (normal);
+	return (tangent);
 }
-
-// t_vector	get_vector_from_normal_map(t_uv uv, t_img *bm, int freq_u, int freq_v)
-// {
-// 	const t_vector	normal = ({
-// 			t_vector		n;
-// 			const double	i = fmod(uv.v * freq_v, 1.0) * bm->height;
-// 			const double	j = fmod(uv.u * freq_u, 1.0) * bm->width;
-
-// 			t_color	c = get_color_from_image(bm, (int)j, (int)i);
 
 t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n)
 {

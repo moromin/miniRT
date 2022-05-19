@@ -105,8 +105,9 @@ static t_vector	cone_calc_bumpmap_normal(t_object *const me_, t_vector cross_poi
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
-			t_vector		m;
-			const t_uv		uv = calc_uv(me, cross_point);
+			t_uv			uv = calc_uv(me, cross_point);
+			if (uv.v < 0)
+				uv.v *= -1;
 			const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 			t_vector		direction = me->normal;
@@ -117,8 +118,7 @@ static t_vector	cone_calc_bumpmap_normal(t_object *const me_, t_vector cross_poi
 			const t_vector	t = vec_normalize(vec_cross(direction, n));
 			const t_vector	b = vec_normalize(vec_cross(t, n));
 
-			m = tangent_to_model(tangent, t, b, n);
-			m;
+			tangent_to_model(tangent, t, b, n);
 	});
 
 	return (normal);

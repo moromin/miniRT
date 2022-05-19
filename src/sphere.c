@@ -94,9 +94,8 @@ static t_vector	sphere_calc_bumpmap_normal(t_object *const me_, t_vector cross_p
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
-		t_uv		uv = calc_uv(me, cross_point);
-		uv.v = 1 - uv.v;
-		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+		const t_uv		uv = calc_uv(me, cross_point);
+		const t_vector	tangent = get_vector_from_normal_map(uv.u, 1 - uv.v, &me->super.info);
 
 		const t_vector	n = object_calc_normal(me_, cross_point);
 		t_vector		t;
