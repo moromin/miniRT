@@ -96,11 +96,8 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 	const t_vector		normal = ({
 		const t_vector	center_to_cross = vec_sub(cross_point, me->super.center);
 		const double	h = vec_dot(center_to_cross, me->normal);
-		t_vector		m;
 
-		m = vec_sub(center_to_cross, vec_mult(me->normal, h));
-		m = vec_normalize(m);
-		m;
+		vec_normalize(vec_sub(center_to_cross, vec_mult(me->normal, h)));
 	});
 
 	return (normal);

@@ -88,14 +88,12 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
-			t_vector		m;
 			t_vector		direction = me->normal;
 			const t_vector	center_to_cross = vec_normalize(vec_sub(cross_point, me->super.center));
 
 			if (vec_dot(center_to_cross, direction) < 0)
 				direction = vec_mult(direction, -1);
-			m = vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
-			m;
+			vec_normalize(vec_sub(vec_mult(center_to_cross, cos(me->aperture / 2 / 180 * M_PI)), direction));
 	});
 
 	return (normal);

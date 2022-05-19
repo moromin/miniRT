@@ -81,10 +81,8 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
-		t_vector		vec;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-		vec = vec_normalize(center2cross);
-		vec;
+		vec_normalize(center2cross);
 	});
 
 	return (normal);

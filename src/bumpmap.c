@@ -37,8 +37,7 @@ t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n)
 				vec_mult(t, tangent.x),
 				vec_mult(b, tangent.z)),
 				vec_mult(n, tangent.y));
-			res = vec_normalize(res);
-			res;
+			vec_normalize(res);
 	});
 
 	return (normal);
