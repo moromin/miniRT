@@ -52,3 +52,31 @@ char	*load_bumpmap(t_program *p, char **info)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	return (NO_ERR);
 }
+
+char	*load_texture(t_program *p, char **info)
+{
+	t_object	*object;
+	t_img		*tx_image;
+
+	if (len(p->objects) == 0)
+		return (ERR_UNRESOLVED_MATERIAL);
+	object = get_x2(p->objects, -1, 0);
+	if (object->info.flag & (1 << FLAG_TEXTURE))
+		return (ERR_DUPLICATE_MATERIAL);
+	object->info.flag |= (1 << FLAG_TEXTURE);
+	tx_image = &object->info.tx_image;
+	tx_image->image = NULL;
+	tx_image->buffer = NULL;
+	tx_image->image = mlx_xpm_file_to_image(p->mlx, info[0], &tx_image->width, &tx_image->height);
+	if (!tx_image->image)
+		return (ERR_MISCONFIGURED_TEXTURE);
+	tx_image->buffer = mlx_get_data_addr(tx_image->image,
+										 &tx_image->bits_per_pixel, &tx_image->size_line, &tx_image->endian);
+	if (!tx_image->buffer)
+		return (ERR_MISCONFIGURED_TEXTURE);
+	if (!(atoi_strict(info[1], &object->info.tx_freq_u) && 1 <= object->info.tx_freq_u))
+		return (ERR_MISCONFIGURED_TEXTURE);
+	if (!(atoi_strict(info[2], &object->info.tx_freq_v) && 1 <= object->info.tx_freq_v))
+		return (ERR_MISCONFIGURED_TEXTURE);
+	return (NO_ERR);
+}
