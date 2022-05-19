@@ -5,6 +5,7 @@
 
 static double	object_solve_ray_equation_(t_object *me, t_ray ray);
 static t_vector	object_calc_normal_(t_object *me, t_vector cross_point);
+static t_vector	object_calc_bumpmap_normal_(t_object *me, t_vector cross_point);
 static t_color	calc_color_(t_object *me, t_vector cross_point);
 
 void	object_ctor(t_object *const me, t_vector center,
@@ -14,6 +15,7 @@ void	object_ctor(t_object *const me, t_vector center,
 			.solve_ray_equation = &object_solve_ray_equation_,
 			.calc_radiance = &calc_radiance_,
 			.calc_normal = &object_calc_normal_,
+			.calc_bumpmap_normal = &object_calc_bumpmap_normal_,
 			.calc_color = &calc_color_,
 	};
 	const t_obj_info	info = {
@@ -54,6 +56,13 @@ t_color	calc_radiance_(t_object *const me, t_vector cross_point, t_light light, 
 }
 
 static t_vector	object_calc_normal_(t_object *const me, t_vector cross_point)
+{
+	(void)me;
+	(void)cross_point;
+	assert(0);
+}
+
+static t_vector	object_calc_bumpmap_normal_(t_object *const me, t_vector cross_point)
 {
 	(void)me;
 	(void)cross_point;
