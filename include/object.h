@@ -18,7 +18,6 @@ typedef struct s_object {
 	t_vector		center; // described as pc
 	t_material		material;
 	t_obj_info		info;
-	t_img			*image;
 }	t_object;
 
 /* Shape's operations (Shape's interface)... */

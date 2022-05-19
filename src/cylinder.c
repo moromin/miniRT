@@ -92,7 +92,6 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_vector		normal = ({
-		const t_bumpmap	bm = *((t_bumpmap *)me_->image);
 		const t_vector	center_to_cross = vec_sub(cross_point, me->super.center);
 		const double	h = vec_dot(center_to_cross, me->normal);
 		t_vector		m;
@@ -103,7 +102,7 @@ t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 		{
 			const t_uv	uv = calc_uv(me, cross_point);
-			const t_vector	tangent = get_vector_from_normal_map(1 - uv.u, 1 - uv.v, bm);
+			const t_vector	tangent = get_vector_from_normal_map(1 - uv.u, 1 - uv.v, &me->super.info);
 
 			const t_vector	n = m;
 			const t_vector	b = me->normal;

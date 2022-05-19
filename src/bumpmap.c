@@ -22,14 +22,14 @@ static double	rt_fmod(double x, double y)
 		return (y - fmod(-x, y));
 }
 
-t_vector	get_vector_from_normal_map(double u, double v, t_bumpmap bm)
+t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
 {
 	const t_vector	normal = ({
 			t_vector		n;
-			const double	i = rt_fmod(u * bm.super.height * bm.freq_u, bm.super.height);
-			const double	j = rt_fmod(v * bm.super.width * bm.freq_v, bm.super.width);
+			const double	i = rt_fmod(u * info->bm_image.height * info->bm_freq_u, info->bm_image.height);
+			const double	j = rt_fmod(v * info->bm_image.width * info->bm_freq_v, info->bm_image.height);
 
-			t_color	c = get_color_from_image(&bm.super, (int)i, (int)j);
+			t_color	c = get_color_from_image(&info->bm_image, (int)i, (int)j);
 			c = color_add(color_mult(c, 2), color(-1, -1, -1));
 
 			n = convert_color_to_vector(c);

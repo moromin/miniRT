@@ -1,4 +1,5 @@
 #include <math.h>
+#include <printf.h>
 #include "../include/object.h"
 
 static double	plane_solve_ray_equation(t_object *me, t_ray ray);
@@ -60,16 +61,15 @@ double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 
 static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
 {
+
 	const t_plane	*me = (t_plane *)me_;
 	const t_vector	normal = ({
 		t_vector	n;
 		if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 		{
-			const t_bumpmap	bm = *((t_bumpmap *)me_->image);
 			t_vector		tangent;
 			const t_uv 		uv = calc_uv(me, cross_point);
-
-			tangent = get_vector_from_normal_map(uv.u, uv.v, bm);
+			tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 			n = tangent_to_model(tangent, me->eu, me->ev, me->normal);
 		}
 		else

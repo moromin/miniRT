@@ -28,7 +28,7 @@ char	*load_checker(t_program *p, char **info)
 char	*load_bumpmap(t_program *p, char **info)
 {
 	t_object	*object;
-	t_bumpmap	*bm;
+	t_img		*bm_image;
 
 	if (len(p->objects) == 0)
 		return (ERR_UNRESOLVED_MATERIAL);
@@ -36,23 +36,19 @@ char	*load_bumpmap(t_program *p, char **info)
 	if (object->info.flag & (1 << FLAG_BUMPMAP))
 		return (ERR_DUPLICATE_MATERIAL);
 	object->info.flag |= (1 << FLAG_BUMPMAP);
-
-	bm = x_malloc(sizeof(t_bumpmap));
-	object->image = (t_img *)bm;
-	bm->super.image = NULL;
-	bm->super.buffer = NULL;
-	bm->super.image = mlx_xpm_file_to_image(p->mlx, info[0], &bm->super.width, &bm->super.height);
-	if (!bm->super.image)
+	bm_image = &object->info.bm_image;
+	bm_image->image = NULL;
+	bm_image->buffer = NULL;
+	bm_image->image = mlx_xpm_file_to_image(p->mlx, info[0], &bm_image->width, &bm_image->height);
+	if (!bm_image->image)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	bm->super.buffer = mlx_get_data_addr(bm->super.image,
-										 &bm->super.bits_per_pixel, &bm->super.size_line, &bm->super.endian);
-	if (!bm->super.buffer)
+	bm_image->buffer = mlx_get_data_addr(bm_image->image,
+										 &bm_image->bits_per_pixel, &bm_image->size_line, &bm_image->endian);
+	if (!bm_image->buffer)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-
-	if (!(atoi_strict(info[1], &bm->freq_u) && 1 <= bm->freq_u))
+	if (!(atoi_strict(info[1], &object->info.bm_freq_u) && 1 <= object->info.bm_freq_u))
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	if (!(atoi_strict(info[2], &bm->freq_v) && 1 <= bm->freq_v))
+	if (!(atoi_strict(info[2], &object->info.bm_freq_v) && 1 <= object->info.bm_freq_v))
 		return (ERR_MISCONFIGURED_BUMPMAP);
-
 	return (NO_ERR);
 }

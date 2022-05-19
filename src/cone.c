@@ -96,8 +96,7 @@ static t_vector	cone_calc_normal(t_object *const me_, t_vector cross_point)
 			if (me->super.info.flag & 1 << FLAG_BUMPMAP)
 			{
 				const t_uv uv = calc_uv(me, cross_point);
-				const t_bumpmap	bm = *((t_bumpmap *)me_->image);
-				const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, bm);
+				const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 				const t_vector	n = m;
 				const t_vector	t = vec_normalize(vec_cross(direction, n));
