@@ -81,10 +81,8 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
-		t_vector		vec;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-		vec = vec_normalize(center2cross);
-		vec;
+		vec_normalize(center2cross);
 	});
 
 	return (normal);
@@ -95,7 +93,7 @@ static t_vector	sphere_calc_bumpmap_normal(t_object *const me_, t_vector cross_p
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
 		const t_uv		uv = calc_uv(me, cross_point);
-		const t_vector	tangent = get_vector_from_normal_map(uv.u, 1 - uv.v, &me->super.info);
+		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 		const t_vector	n = object_calc_normal(me_, cross_point);
 		t_vector		t;
@@ -119,6 +117,8 @@ static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
+		else if (me->super.info.flag & 1 << FLAG_TEXTURE)
+			c = tx_color_at(&me->super.info, calc_uv(me, cross_point));
 		else
 			c = me->super.material.k_diffuse;
 		c;
@@ -138,7 +138,7 @@ static t_uv 	calc_uv(const t_sphere *const me, t_vector cross_point)
 		const double	theta = acos(center2cross.y / me->radius);
 		// 0~1に変換
 		uv.u = 1 - (phi / (2 * M_PI) + 0.5);
-		uv.v = 1 - theta / M_PI;
+		uv.v = theta / M_PI;
 		uv;
 	});
 

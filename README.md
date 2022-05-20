@@ -253,6 +253,14 @@ bm {file_path} {vertical_repetition} {horizontal_repetition}
 - `horizontal_repetition` : 横方向繰り返し数
 - `vertical_repetition` : 縦方向繰り返し数
 
+#### tx：テクスチャ (Texture)
+```
+tx {file_path} {vertical_repetition} {horizontal_repetition}
+```
+- `file_path` : テクスチャファイルパス
+- `horizontal_repetition` : 横方向繰り返し数
+- `vertical_repetition` : 縦方向繰り返し数
+
 ### ch：チェッカーボード
 
 ```c

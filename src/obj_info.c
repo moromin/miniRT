@@ -1,4 +1,5 @@
 #include <math.h>
+#include "../include/miniRT.h"
 #include "../include/color.h"
 #include "../include/obj_info.h"
 
@@ -11,4 +12,12 @@ t_color ch_pattern_at(const t_obj_info *info, t_uv uv)
 		return info->ch_col1;
 	else
 		return info->ch_col2;
+}
+
+t_color	tx_color_at(const t_obj_info *info, t_uv uv)
+{
+	const double	x = fmod(uv.u * info->tx_freq_u, 1.0) * info->tx_image.width;
+	const double	y = fmod(uv.v * info->tx_freq_v, 1.0) * info->tx_image.height;
+
+	return (get_color_from_image(&info->tx_image, (int)x, (int)y));
 }

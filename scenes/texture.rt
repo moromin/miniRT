@@ -1,0 +1,18 @@
+A  0.1      255,255,255
+L  0,50,-50  0.9         255,255,255
+C  -2,3,-4    0.45,-0.35,1    45
+
+pl 0,-1,0   0,1,0       176,176,176
+ch 3 3 255,255,255 100,100,100
+bm images/floor_n.xpm 1 1
+
+sp 0,1,0 2 0,0,255
+bm images/earth_n.xpm  1 1
+tx images/earth_tx.xpm  1 1
+
+cy 3,0,3 0,1,0 2.0 2.0 0,255,0
+bm images/tile_n.xpm 2 1
+tx images/tile_tx.xpm 2 1
+
+co 0,3,10   0.2,-1,0    40    255,0,0
+tx images/ice_cream_tx.xpm 2 1
