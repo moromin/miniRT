@@ -1,3 +1,5 @@
+*English README is [here](https://github.com/moromin/miniRT/blob/master/README.en.md)
+
 # miniRT
 
 ## 概要
@@ -5,6 +7,14 @@
 シンプルなRay TracerのC言語実装
 
 ## デモ
+
+`scenes/bumpmap.rt`
+
+![bumpmap.jpg](https://github.com/moromin/miniRT/blob/master/demo/bumpmap.jpg)
+
+`scenes_bonus/ch_multi.rt`
+
+![ch_multi.jpg](https://github.com/moromin/miniRT/blob/master/demo/ch_multi.jpg)
 
 ## 環境構築の手順
 
