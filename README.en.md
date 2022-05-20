@@ -10,11 +10,11 @@ Simple Ray Tracer in C
 
 `scenes/bumpmap.rt`
 
-![bumpmap.jpg](https://github.com/moromin/miniRT/blob/master/demo/bumpmap.jpg)
+![bumpmap.jpg](https://github.com/moromin/miniRT/blob/main/demo/bumpmap.jpg?raw=true)
 
 `scenes_bonus/ch_multi.rt`
 
-![ch_multi.jpg](https://github.com/moromin/miniRT/blob/master/demo/ch_multi.jpg)
+![ch_multi.jpg](https://github.com/moromin/miniRT/blob/main/demo/ch_multi.jpg?raw=true)
 
 
 ## Installation
