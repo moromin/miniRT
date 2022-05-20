@@ -8,7 +8,11 @@
 #include "../include/math.h"
 #include "../include/mlx_hooks.h"
 
-#define BACKGROUND 0x6495ED
+const static t_color g_col_background = {
+		.r = 0.392157,
+		.g = 0.584314,
+		.b = 0.929412,
+};
 
 void	init_program(t_program *program)
 {
@@ -112,11 +116,10 @@ void	draw(t_program *p, int x, int y)
 	{
 		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(get_x2(p->objects, obj_index, 0), ray)));
 		color = handle_lights(p, obj_index, cross_point);
-		color = color_map(color);
-		add_color_to_image(&p->img, color_to_int(color), x, y);
+		add_color_to_image(&p->img, color, x, y);
 	}
 	else
-		add_color_to_image(&p->img, BACKGROUND, x, y);
+		add_color_to_image(&p->img, g_col_background, x, y);
 }
 
 // screen_point described as 'pw'

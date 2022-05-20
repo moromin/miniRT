@@ -1,16 +1,5 @@
 #include "../include/color.h"
 
-int	color_to_int(t_color color)
-{
-	int	rtn;
-
-	rtn = 0;
-	rtn |= (int)(color.b * 255);
-	rtn |= (int)(color.g * 255) << 8;
-	rtn |= (int)(color.r * 255) << 16;
-	return (rtn);
-}
-
 t_color	color(double r, double g, double b)
 {
 	t_color	rtn;

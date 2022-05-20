@@ -71,10 +71,6 @@ static t_vector	plane_calc_bumpmap_normal(t_object *const me_, t_vector cross_po
 {
 	const t_plane	*me = (t_plane *)me_;
 	t_uv 		uv = calc_uv(me, cross_point);
-	if (uv.u < 0)
-		uv.u = 1 + uv.u;
-	if (uv.v < 0)
-		uv.v = 1 + uv.v;
 	const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 	const t_vector	normal = tangent_to_model(tangent, me->eu, me->ev, object_calc_normal(me_, cross_point));
 
@@ -103,5 +99,9 @@ static t_uv 	calc_uv(const t_plane *const me, t_vector cross_point)
 
 	uv.u = modf(vec_dot(vec_sub(cross_point, me->super.center), me->eu), &integer);
 	uv.v = modf(vec_dot(vec_sub(cross_point, me->super.center), me->ev), &integer);
+	if (uv.u < 0)
+		uv.u = 1 + uv.u;
+	if (uv.v < 0)
+		uv.v = 1 + uv.v;
 	return (uv);
 }
