@@ -1,4 +1,5 @@
 #include "../include/miniRT.h"
+#include "../include/math.h"
 #include "../minilibx-linux/mlx.h"
 
 void	init_image(t_program *program, t_img *img)
@@ -8,14 +9,16 @@ void	init_image(t_program *program, t_img *img)
 			&img->bits_per_pixel, &img->size_line, &img->endian);
 }
 
-void	add_color_to_image(t_img *img, int color, int x, int y)
+void	add_color_to_image(t_img *img, t_color color, int x, int y)
 {
 	const int	pixel = (y * img->size_line) + (x * 4);
 
-	img->buffer[pixel + 0] = (char)(color & 0xFF);
-	img->buffer[pixel + 1] = (char)((color >> 8) & 0xFF);
-	img->buffer[pixel + 2] = (char)((color >> 16) & 0xFF);
-	img->buffer[pixel + 3] = (char)(color >> 24);
+	color.r = min(1, color.r);
+	color.g = min(1, color.g);
+	color.b = min(1, color.b);
+	img->buffer[pixel + 0] = (char)(color.b * 255);
+	img->buffer[pixel + 1] = (char)(color.g * 255);
+	img->buffer[pixel + 2] = (char)(color.r * 255);
 }
 
 t_color	get_color_from_image(const t_img *img, int x, int y)

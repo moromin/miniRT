@@ -29,11 +29,3 @@ bool	check_color_range(t_color c, double min, double max)
 
 	return (r_ok && g_ok && b_ok);
 }
-
-t_color	color_map(t_color c)
-{
-	c.r = min(1, c.r);
-	c.g = min(1, c.g);
-	c.b = min(1, c.b);
-	return (c);
-}

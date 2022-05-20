@@ -31,7 +31,7 @@ typedef struct s_program {
 // todo: create its header file when there are more funcs
 // image.c
 void		init_image(t_program *program, t_img *img);
-void		add_color_to_image(t_img *img, int color, int x, int y);
+void		add_color_to_image(t_img *img, t_color color, int x, int y);
 t_color		get_color_from_image(const t_img *img, int x, int y);
 
 // utils.c
