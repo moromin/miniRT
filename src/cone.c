@@ -106,8 +106,6 @@ static t_vector	cone_calc_bumpmap_normal(t_object *const me_, t_vector cross_poi
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
 			t_uv			uv = calc_uv(me, cross_point);
-			if (uv.v < 0)
-				uv.v *= -1;
 			const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 			t_vector		direction = me->normal;
@@ -153,6 +151,8 @@ static t_uv 	calc_uv(const t_cone *const me, t_vector cross_point)
 		// 方位角 (-pi < phi <= pi)
 		const double phi = atan2(n1, n2);
 		uv.u = phi / (2 * M_PI) + 0.5;
+		if (uv.v < 0)
+			uv.v *= -1;
 		uv;
 	});
 
