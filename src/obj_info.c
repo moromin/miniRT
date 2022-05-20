@@ -16,7 +16,6 @@ t_color ch_pattern_at(const t_obj_info *info, t_uv uv)
 
 t_color	tx_color_at(const t_obj_info *info, t_uv uv)
 {
-	uv.v = 1 - uv.v;
 	const double	x = fmod(uv.u * info->tx_freq_u, 1.0) * info->tx_image.width;
 	const double	y = fmod(uv.v * info->tx_freq_v, 1.0) * info->tx_image.height;
 
