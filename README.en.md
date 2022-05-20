@@ -63,6 +63,77 @@ make
 ## Where we worked hard
 ### Used single inheritance and performed OOP in C
 
+```mermaid
+classDiagram
+class object_vtbl{
+
+[comment]: <> (	<<interface>>)
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+class object {
+	-object_vtbl vtbl
+	-vector center
+	-material	material;
+	-obj_info	info;
+	+object_ctor()
+}
+
+object <|-- sphere
+class sphere {
+	-double	radius
+	+sphere_ctor()
+	-solve_ray_equation()
+	-calc_normal()
+	-calc_bumpmap_normal()
+	-calc_color()
+}
+
+object <|-- plane
+class plane {
+	-vector	normal
+	-vector	normal;
+	-vector	eu;
+	-vector	ev;
+	+plane_ctor()
+	-solve_ray_equation()
+	-calc_normal()
+	-calc_bumpmap_normal()
+	-calc_color()
+}
+
+object <|-- cylinder
+class cylinder {
+	-double	radius
+	-double	height
+	-vector	normal
+	-vector	e1;
+	-vector	e2;
+	+cylinder_ctor()
+	-solve_ray_equation()
+	-calc_normal()
+	-calc_bumpmap_normal()
+	-calc_color()
+}
+
+object <|-- cone
+class cone {
+	-double	radius
+	-double	height
+	-vector	normal
+	-vector	e1;
+	-vector	e2;
+	+cylinder_ctor()
+	-solve_ray_equation()
+	-calc_normal()
+	-calc_bumpmap_normal()
+	-calc_color()
+}
+
+```
 ```c
 // include/object.h
 
