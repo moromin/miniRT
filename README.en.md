@@ -59,7 +59,7 @@ make
     - Checker pattern
     - Bump mapping
     - Texture mapping
-    
+
 ## Where we worked hard
 ### Used single inheritance and performed OOP in C
 
@@ -225,10 +225,17 @@ bm {file_path} {vertical_repetition} {horizontal_repetition}
 - `horizontal_repetition` : number of horizontal repetitions
 - `vertical_repetition` : number of vertical repetitions
 
+#### tx (Texture)
+```
+tx {file_path} {vertical_repetition} {horizontal_repetition}
+```
+- `file_path` : file path of texture
+- `horizontal_repetition` : number of horizontal repetitions
+- `vertical_repetition` : number of vertical repetitions
+
 ## Authors
 - [tacomeet](https://github.com/tacomeet)
 - [moromin](https://github.com/moromin)
-
 ## References
 - [C言語でレイトレーシングプログラムを作った](https://jun-networks.hatenablog.com/entry/2021/04/02/043216)
 - [The Textbook of RayTracing @TDU](https://knzw.tech/raytracing/?page_id=1154)
