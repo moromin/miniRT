@@ -108,7 +108,7 @@ t_vector	cylinder_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_vector		normal = ({
 		const t_uv		uv = calc_uv(me, cross_point);
-		const t_vector	tangent = get_vector_from_normal_map(1 - uv.u, 1 - uv.v, &me->super.info);
+		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 		const t_vector	n = object_calc_normal(me_, cross_point);
 		const t_vector	b = me->normal;
@@ -127,6 +127,8 @@ static t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
+		else if (me->super.info.flag & 1 << FLAG_TEXTURE)
+			c = tx_color_at(&me->super.info, calc_uv(me, cross_point));
 		else
 			c = me->super.material.k_diffuse;
 		c;
