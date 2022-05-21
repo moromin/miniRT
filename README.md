@@ -8,6 +8,10 @@
 
 ## デモ
 
+`scenes/texture.rt`
+
+![texture.jpg](https://github.com/moromin/miniRT/blob/main/demo/texture.jpg?raw=true)
+
 `scenes/bumpmap.rt`
 
 ![bumpmap.jpg](https://github.com/moromin/miniRT/blob/main/demo/bumpmap.jpg?raw=true)
