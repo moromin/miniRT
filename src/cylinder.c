@@ -144,13 +144,13 @@ static t_uv 	calc_uv(const t_cylinder *const me, t_vector cross_point)
 		const double theta = M_PI / 2 - acos(vec_dot(n_center2cross, me->normal));
 		const double height = tan(theta) * me->radius;
 		// checkerの変数v (0 <= v <= 1)
-		uv.v = height / me->height;
+		uv.v = 1 - height / me->height;
 		// 基底ベクトル1方向への大きさ（-pi <= n1 <= p1）
 		const double n1 = vec_dot(n_center2cross, me->e1);
 		const double n2 = vec_dot(n_center2cross, me->e2);
 		// 方位角 (-pi < phi <= pi)
 		const double phi = atan2(n1, n2);
-		uv.u = phi / (2 * M_PI) + 0.5;
+		uv.u = 1 - (phi / (2 * M_PI) + 0.5);
 		uv;
 	});
 
