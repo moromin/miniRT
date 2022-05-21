@@ -83,7 +83,7 @@ static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 	const t_color 	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
-			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
+			c = ch_color_at(&me->super.info, calc_uv(me, cross_point));
 		else if (me->super.info.flag & 1 << FLAG_TEXTURE)
 			c = tx_color_at(&me->super.info, calc_uv(me, cross_point));
 		else
