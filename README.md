@@ -68,14 +68,6 @@ make
 
 ```mermaid
 classDiagram
-class object_vtbl{
-	<<interface>>
-	solve_ray_equation()
-	calc_normal()
-	calc_bumpmap_normal()
-	calc_color()
-}
-
 class object {
 	#object_vtbl vtbl
 	#vector center
@@ -88,10 +80,6 @@ object <|-- sphere
 class sphere {
 	-double	radius
 	+sphere_ctor()
-	-solve_ray_equation()
-	-calc_normal()
-	-calc_bumpmap_normal()
-	-calc_color()
 }
 
 object <|-- plane
@@ -101,10 +89,6 @@ class plane {
 	-vector	eu;
 	-vector	ev;
 	+plane_ctor()
-	-solve_ray_equation()
-	-calc_normal()
-	-calc_bumpmap_normal()
-	-calc_color()
 }
 
 object <|-- cylinder
@@ -115,10 +99,6 @@ class cylinder {
 	-vector	e1;
 	-vector	e2;
 	+cylinder_ctor()
-	-solve_ray_equation()
-	-calc_normal()
-	-calc_bumpmap_normal()
-	-calc_color()
 }
 
 object <|-- cone
@@ -129,10 +109,48 @@ class cone {
 	-vector	e1;
 	-vector	e2;
 	+cylinder_ctor()
-	-solve_ray_equation()
-	-calc_normal()
-	-calc_bumpmap_normal()
-	-calc_color()
+}
+
+```
+
+```mermaid
+classDiagram
+class object_vtbl{
+	<<interface>>
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+object_vtbl <|.. sphere
+class sphere {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+object_vtbl <|.. plane
+class plane {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+object_vtbl <|.. cylinder
+class cylinder {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+object_vtbl <|.. cone
+class cone {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
 }
 
 ```
