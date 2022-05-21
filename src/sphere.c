@@ -6,20 +6,20 @@
 #include "../include/math.h"
 #include "../include/object.h"
 
-static double	sphere_solve_ray_equation(t_object *me, t_ray ray);
-static t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
-static t_vector	sphere_calc_bumpmap_normal(t_object *me, t_vector cross_point);
-static t_color	sphere_calc_color(t_object *me_, t_vector cross_point);
+static double	solve_ray_equation(t_object *me, t_ray ray);
+static t_vector	calc_normal(t_object *me, t_vector cross_point);
+static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
+static t_color	calc_color(t_object *me_, t_vector cross_point);
 static t_uv 	calc_uv(const t_sphere *me, t_vector cross_point);
 
 void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &sphere_solve_ray_equation,
-			.calc_normal = &sphere_calc_normal,
-			.calc_bumpmap_normal = &sphere_calc_bumpmap_normal,
-			.calc_color = &sphere_calc_color
+			.solve_ray_equation = &solve_ray_equation,
+			.calc_normal = &calc_normal,
+			.calc_bumpmap_normal = &calc_bumpmap_normal,
+			.calc_color = &calc_color
 	};
 
 	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
@@ -44,7 +44,7 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
  * C = magnitude(camera_vector) ^ 2 + magnitude(sphere_center_vector) ^ 2
  * 		- 2 * (inner_product(camera_vector, sphere_center_vector)
  */
-static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
+static double	solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const double	t = ({
@@ -76,7 +76,7 @@ static double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
@@ -87,7 +87,7 @@ static t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 	return (normal);
 }
 
-static t_vector	sphere_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
@@ -109,7 +109,7 @@ static t_vector	sphere_calc_bumpmap_normal(t_object *const me_, t_vector cross_p
 	return (normal);
 }
 
-static t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
+static t_color	calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_color c = ({
