@@ -10,15 +10,15 @@
 
 `scenes/texture.rt`
 
-![texture.jpg](https://github.com/moromin/miniRT/blob/main/demo/texture.jpg?raw=true)
+<img src="https://github.com/moromin/miniRT/blob/main/demo/texture.jpg?raw=true" width=500>
 
 `scenes/bumpmap.rt`
 
-![bumpmap.jpg](https://github.com/moromin/miniRT/blob/main/demo/bumpmap.jpg?raw=true)
+<img src="https://github.com/moromin/miniRT/blob/main/demo/bumpmap.jpg?raw=true" width=500>
 
 `scenes_bonus/ch_multi.rt`
 
-![ch_multi.jpg](https://github.com/moromin/miniRT/blob/main/demo/ch_multi.jpg?raw=true)
+<img src="https://github.com/moromin/miniRT/blob/main/demo/ch_multi.jpg?raw=true" width=500>
 
 ## 環境構築の手順
 
