@@ -18,7 +18,7 @@ typedef struct s_light {
 void	light_ctor(t_light *me, t_vector pos, t_color intensity);
 
 struct s_light_vtbl {
-	bool	(*is_reachable)(t_light *const me, t_vector incident_dir);
+	bool	(*is_reachable)(t_light * const me, t_vector incident_dir);
 };
 
 bool	light_is_reachable(t_light *me, t_vector incident_dir);
@@ -29,7 +29,12 @@ typedef struct s_spotlight {
 	double		fov;
 }	t_spotlight;
 
-void	spotlight_ctor(t_spotlight *me, t_vector pos, t_color intensity, t_vector direction, double fov);
+void	spotlight_ctor(
+			t_spotlight *me,
+			t_vector pos,
+			t_color intensity,
+			t_vector direction,
+			double fov);
 
 t_color	ambient(t_color intensity);
 

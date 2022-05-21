@@ -7,7 +7,7 @@ static double	solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	calc_normal(t_object *me, t_vector cross_point);
 static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	calc_color(t_object *me, t_vector cross_point);
-static t_uv 	calc_uv(const t_cone *me, t_vector cross_point);
+static t_uv		calc_uv(const t_cone *me, t_vector cross_point);
 
 void	cone_ctor(
 			t_cone *me,
@@ -46,7 +46,6 @@ double	solve_ray_equation(t_object *const me_, t_ray ray)
 	const t_cone	*me = (t_cone *)me_;
 	const double	t = ({
 			double			res;
-
 			const double	k = cos(me->aperture / 2 / 180 * M_PI);
 			const t_vector	q = vec_sub(ray.start, me->super.center);
 
@@ -72,7 +71,6 @@ double	solve_ray_equation(t_object *const me_, t_ray ray)
 				t_outer = INFINITY;
 			if (t_inner < 0)
 				t_inner = INFINITY;
-
 			if (t_outer == INFINITY && t_inner == INFINITY)
 				res = -1.0;
 			else
@@ -136,7 +134,7 @@ static t_color	calc_color(t_object *const me_, t_vector cross_point)
 	return (c);
 }
 
-static t_uv 	calc_uv(const t_cone *const me, t_vector cross_point)
+static t_uv	calc_uv(const t_cone *const me, t_vector cross_point)
 {
 	const t_uv	uv = ({
 		t_uv	uv;

@@ -1,8 +1,7 @@
 #include <math.h>
-#include <printf.h>
 
-#include "../include/material.h"
 #include "../include/color.h"
+#include "../include/material.h"
 #include "../include/math.h"
 #include "../include/object.h"
 
@@ -10,10 +9,10 @@ static double	solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	calc_normal(t_object *me, t_vector cross_point);
 static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	calc_color(t_object *me_, t_vector cross_point);
-static t_uv 	calc_uv(const t_sphere *me, t_vector cross_point);
+static t_uv		calc_uv(const t_sphere *me, t_vector cross_point);
 
 void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
-			t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient)
+			t_color k_diffuse, t_color k_specular)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &solve_ray_equation,
@@ -22,7 +21,7 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 			.calc_color = &calc_color
 	};
 
-	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
+	object_ctor(&me->super, center, k_diffuse, k_specular);
 	me->super.vptr = &vtbl;
 	me->radius = radius;
 }
@@ -47,12 +46,12 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 static double	solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const double	t = ({
+	const double	res = ({
 			const double	a = vec_magnitude_squared(ray.direction);
 			if (a == 0)
 				return (-1.0);
 			const double	b = 2 * (vec_dot(ray.start, ray.direction)
-									 - vec_dot(ray.direction, me->super.center));
+								 - vec_dot(ray.direction, me->super.center));
 			const double	c = vec_magnitude_squared(ray.start)
 								+ vec_magnitude_squared(me->super.center)
 								- 2 * vec_dot(ray.start, me->super.center)
@@ -60,20 +59,17 @@ static double	solve_ray_equation(t_object *const me_, t_ray ray)
 			const double	d = pow(b, 2) - 4 * a * c;
 			const double	t_positive = (-1 * b + sqrt(d)) / (2 * a);
 			const double	t_negative = (-1 * b - sqrt(d)) / (2 * a);
-			double			res;
 
 			if (d < 0 || (t_positive < 0 && t_negative < 0))
-				res = -1.0;
+				return (-1.0);
 			else if (t_positive < 0)
-				res = t_negative;
+				return (t_negative);
 			else if (t_negative < 0)
-				res = t_positive;
-			else
-				res = min(t_positive, t_negative);
-			res;
+				return (t_positive);
+			min(t_positive, t_negative);
 	});
 
-	return (t);
+	return (res);
 }
 
 static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
@@ -92,7 +88,8 @@ static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 	const t_sphere	*me = (t_sphere *)me_;
 	const t_vector	normal = ({
 		const t_uv		uv = calc_uv(me, cross_point);
-		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+		const t_vector	tangent =
+				get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
 		const t_vector	n = object_calc_normal(me_, cross_point);
 		t_vector		t;
@@ -112,7 +109,7 @@ static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 static t_color	calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const t_color c = ({
+	const t_color	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_color_at(&me->super.info, calc_uv(me, cross_point));
@@ -126,7 +123,7 @@ static t_color	calc_color(t_object *const me_, t_vector cross_point)
 	return (c);
 }
 
-static t_uv 	calc_uv(const t_sphere *const me, t_vector cross_point)
+static t_uv	calc_uv(const t_sphere *const me, t_vector cross_point)
 {
 	const t_uv	uv = ({
 		t_uv	uv;
@@ -143,4 +140,3 @@ static t_uv 	calc_uv(const t_sphere *const me, t_vector cross_point)
 
 	return (uv);
 }
-

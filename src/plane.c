@@ -6,14 +6,14 @@ static double	solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	calc_normal(t_object *me, t_vector cross_point);
 static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	calc_color(t_object *me_, t_vector cross_point);
-static t_uv 	calc_uv(const t_plane *me, t_vector cross_point);
+static t_uv		calc_uv(const t_plane *me, t_vector cross_point);
 
 void	plane_ctor(
 		t_plane *const me,
 		t_vector center,
 		t_vector normal,
-		t_color diffuse_reflection_coefficient,
-		t_color specular_reflection_coefficient)
+		t_color k_diffuse,
+		t_color k_specular)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &solve_ray_equation,
@@ -21,7 +21,7 @@ void	plane_ctor(
 			.calc_bumpmap_normal = &calc_bumpmap_normal,
 			.calc_color = &calc_color,
 	};
-	const t_vector 			eu = ({
+	const t_vector			eu = ({
 		const t_vector	ey = vec_init(0, 1, 0);
 		t_vector	baseu;
 
@@ -32,7 +32,7 @@ void	plane_ctor(
 		baseu;
 	});
 
-	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
+	object_ctor(&me->super, center, k_diffuse, k_specular);
 	me->super.vptr = &vtbl;
 	me->normal = normal;
 	me->eu = eu;
@@ -69,9 +69,11 @@ static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
 static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
-	t_uv 		uv = calc_uv(me, cross_point);
-	const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
-	const t_vector	normal = tangent_to_model(tangent, me->eu, me->ev, object_calc_normal(me_, cross_point));
+	const t_uv		uv = calc_uv(me, cross_point);
+	const t_vector	tangent =
+			get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
+	const t_vector	normal =
+			tangent_to_model(tangent, me->eu, me->ev, object_calc_normal(me_, cross_point));
 
 	return (normal);
 }
@@ -79,7 +81,7 @@ static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 static t_color	calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
-	const t_color 	c = ({
+	const t_color	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_color_at(&me->super.info, calc_uv(me, cross_point));
@@ -93,13 +95,12 @@ static t_color	calc_color(t_object *const me_, t_vector cross_point)
 	return (c);
 }
 
-static t_uv 	calc_uv(const t_plane *const me, t_vector cross_point)
+static t_uv	calc_uv(const t_plane *const me, t_vector cross_point)
 {
-	double	integer;
 	t_uv	uv;
 
-	uv.u = modf(vec_dot(vec_sub(cross_point, me->super.center), me->eu), &integer);
-	uv.v = modf(vec_dot(vec_sub(cross_point, me->super.center), me->ev), &integer);
+	uv.u = fmod(vec_dot(vec_sub(cross_point, me->super.center), me->eu), 1);
+	uv.v = fmod(vec_dot(vec_sub(cross_point, me->super.center), me->ev), 1);
 	if (uv.u < 0)
 		uv.u = 1 + uv.u;
 	if (uv.v < 0)
