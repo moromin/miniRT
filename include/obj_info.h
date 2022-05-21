@@ -30,7 +30,7 @@ typedef struct s_uv {
 	double v;
 }	t_uv;
 
-t_color ch_pattern_at(const t_obj_info *info, t_uv uv);
+t_color ch_color_at(const t_obj_info *info, t_uv uv);
 t_color tx_color_at(const t_obj_info *info, t_uv uv);
 
 t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info);

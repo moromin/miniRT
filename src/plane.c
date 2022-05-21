@@ -2,10 +2,10 @@
 #include <printf.h>
 #include "../include/object.h"
 
-static double	plane_solve_ray_equation(t_object *me, t_ray ray);
-static t_vector	plane_calc_normal(t_object *me, t_vector cross_point);
-static t_vector	plane_calc_bumpmap_normal(t_object *me, t_vector cross_point);
-static t_color	plane_calc_color(t_object *me_, t_vector cross_point);
+static double	solve_ray_equation(t_object *me, t_ray ray);
+static t_vector	calc_normal(t_object *me, t_vector cross_point);
+static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
+static t_color	calc_color(t_object *me_, t_vector cross_point);
 static t_uv 	calc_uv(const t_plane *me, t_vector cross_point);
 
 void	plane_ctor(
@@ -16,11 +16,10 @@ void	plane_ctor(
 		t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &plane_solve_ray_equation,
-			.calc_radiance = &calc_radiance_,
-			.calc_normal = &plane_calc_normal,
-			.calc_bumpmap_normal = &plane_calc_bumpmap_normal,
-			.calc_color = &plane_calc_color,
+			.solve_ray_equation = &solve_ray_equation,
+			.calc_normal = &calc_normal,
+			.calc_bumpmap_normal = &calc_bumpmap_normal,
+			.calc_color = &calc_color,
 	};
 	const t_vector 			eu = ({
 		const t_vector	ey = vec_init(0, 1, 0);
@@ -48,7 +47,7 @@ void	plane_ctor(
  * 				- inner_product(plane_center_vector, normal_vector))
  * 		/ inner_vector(watching_direction_vector, normal_vector)
  */
-double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
+double	solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_plane	*me = (t_plane *)me_;
 	double			t;
@@ -61,13 +60,13 @@ double	plane_solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	plane_calc_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
 {
 	(void)cross_point;
 	return (((t_plane *)me_)->normal);
 }
 
-static t_vector	plane_calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
 	t_uv 		uv = calc_uv(me, cross_point);
@@ -77,13 +76,13 @@ static t_vector	plane_calc_bumpmap_normal(t_object *const me_, t_vector cross_po
 	return (normal);
 }
 
-static t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
+static t_color	calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
 	const t_color 	c = ({
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
-			c = ch_pattern_at(&me->super.info, calc_uv(me, cross_point));
+			c = ch_color_at(&me->super.info, calc_uv(me, cross_point));
 		else if (me->super.info.flag & 1 << FLAG_TEXTURE)
 			c = tx_color_at(&me->super.info, calc_uv(me, cross_point));
 		else

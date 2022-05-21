@@ -94,7 +94,7 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
 		t_vector camera2cross = vec_sub(cross_point, p->camera.pos);
 		if (!is_covered && light_is_reachable(get_x2(p->lights, i, 0), ray.direction))
-			c = color_add(c, object_calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get_x2(p->lights, i, 0), camera2cross));
+			c = color_add(c, calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get_x2(p->lights, i, 0), camera2cross));
 		i++;
 	}
 	return (c);
