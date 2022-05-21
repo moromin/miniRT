@@ -4,10 +4,10 @@
 #include "../include/object.h"
 #include "../include/math.h"
 
-static double	solve_ray_equation(t_object *me, t_ray ray);
-static t_vector	calc_normal(t_object *me, t_vector cross_point);
-static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
-static t_color	calc_color(t_object *me, t_vector cross_point);
+static double	solve_ray_equation_(t_object *me, t_ray ray);
+static t_vector	calc_normal_(t_object *me, t_vector cross_point);
+static t_vector	calc_bumpmap_normal_(t_object *me, t_vector cross_point);
+static t_color	calc_color_(t_object *me, t_vector cross_point);
 static t_uv 	calc_uv(const t_cylinder *const me, t_vector cross_point);
 
 void	cylinder_ctor(
@@ -20,10 +20,10 @@ void	cylinder_ctor(
 		t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &solve_ray_equation,
-			.calc_normal = &calc_normal,
-			.calc_bumpmap_normal = &calc_bumpmap_normal,
-			.calc_color = &calc_color,
+			.solve_ray_equation = &solve_ray_equation_,
+			.calc_normal = &calc_normal_,
+			.calc_bumpmap_normal = &calc_bumpmap_normal_,
+			.calc_color = &calc_color_,
 	};
 	const t_vector			e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
@@ -44,7 +44,7 @@ void	cylinder_ctor(
 	me->e2 = vec_cross(e1, me->normal);
 }
 
-double	solve_ray_equation(t_object *me_, t_ray ray)
+double	solve_ray_equation_(t_object *me_, t_ray ray)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const double		t = ({
@@ -89,7 +89,7 @@ double	solve_ray_equation(t_object *me_, t_ray ray)
 	return (t);
 }
 
-t_vector	calc_normal(t_object *const me_, t_vector cross_point)
+t_vector	calc_normal_(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_vector		normal = ({
@@ -102,14 +102,14 @@ t_vector	calc_normal(t_object *const me_, t_vector cross_point)
 	return (normal);
 }
 
-t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+t_vector	calc_bumpmap_normal_(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_vector		normal = ({
 		const t_uv		uv = calc_uv(me, cross_point);
 		const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
 
-		const t_vector	n = object_calc_normal(me_, cross_point);
+		const t_vector	n = calc_normal(me_, cross_point);
 		const t_vector	b = me->normal;
 		const t_vector	t = vec_cross(b, n);
 
@@ -119,7 +119,7 @@ t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 	return (normal);
 }
 
-static t_color	calc_color(t_object *const me_, t_vector cross_point)
+static t_color	calc_color_(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
 	const t_color c = ({

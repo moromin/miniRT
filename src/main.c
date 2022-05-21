@@ -50,7 +50,7 @@ int	closest_object(t_slice *objects, t_ray ray, double max_dist, bool early_retu
 			double	min_ray_coefficient = INFINITY;
 
 			for (int i = 0; i < (int)len(objects); i++){
-				double ray_coefficient = object_solve_ray_equation(get_x2(objects, i, 0), ray);
+				double ray_coefficient = solve_ray_equation(get_x2(objects, i, 0), ray);
 				if (ray_coefficient < 0)
 					continue;
 				t_vector cross_point = vec_add(ray.start, vec_mult(ray.direction, ray_coefficient));
@@ -114,7 +114,7 @@ void	draw(t_program *p, int x, int y)
 	obj_index = closest_object(p->objects, ray, INFINITY, false);
 	if (obj_index >= 0)
 	{
-		cross_point = vec_add(ray.start, vec_mult(ray.direction, object_solve_ray_equation(get_x2(p->objects, obj_index, 0), ray)));
+		cross_point = vec_add(ray.start, vec_mult(ray.direction, solve_ray_equation(get_x2(p->objects, obj_index, 0), ray)));
 		color = handle_lights(p, obj_index, cross_point);
 		add_color_to_image(&p->img, color, x, y);
 	}

@@ -3,10 +3,10 @@
 #include "../include/obj_info.h"
 #include <math.h>
 
-static double	solve_ray_equation(t_object *me, t_ray ray);
-static t_vector	calc_normal(t_object *me, t_vector cross_point);
-static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
-static t_color	calc_color(t_object *me, t_vector cross_point);
+static double	solve_ray_equation_(t_object *me, t_ray ray);
+static t_vector	calc_normal_(t_object *me, t_vector cross_point);
+static t_vector	calc_bumpmap_normal_(t_object *me, t_vector cross_point);
+static t_color	calc_color_(t_object *me, t_vector cross_point);
 static t_uv 	calc_uv(const t_cone *me, t_vector cross_point);
 
 void	cone_ctor(
@@ -18,10 +18,10 @@ void	cone_ctor(
 			t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &solve_ray_equation,
-			.calc_normal = &calc_normal,
-			.calc_bumpmap_normal = &calc_bumpmap_normal,
-			.calc_color = &calc_color,
+			.solve_ray_equation = &solve_ray_equation_,
+			.calc_normal = &calc_normal_,
+			.calc_bumpmap_normal = &calc_bumpmap_normal_,
+			.calc_color = &calc_color_,
 	};
 	const t_vector			e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
@@ -41,7 +41,7 @@ void	cone_ctor(
 	me->e2 = vec_cross(e1, me->normal);
 }
 
-double	solve_ray_equation(t_object *const me_, t_ray ray)
+double	solve_ray_equation_(t_object *const me_, t_ray ray)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const double	t = ({
@@ -83,7 +83,7 @@ double	solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_normal_(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
@@ -98,7 +98,7 @@ static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
 	return (normal);
 }
 
-static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_bumpmap_normal_(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_vector	normal = ({
@@ -109,7 +109,7 @@ static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 			if (vec_dot(vec_sub(cross_point, me->super.center), direction) < 0)
 				direction = vec_mult(direction, -1);
 
-			const t_vector	n = object_calc_normal(me_, cross_point);
+			const t_vector	n = calc_normal(me_, cross_point);
 			const t_vector	t = vec_normalize(vec_cross(direction, n));
 			const t_vector	b = vec_normalize(vec_cross(t, n));
 
@@ -119,7 +119,7 @@ static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
 	return (normal);
 }
 
-static t_color	calc_color(t_object *const me_, t_vector cross_point)
+static t_color	calc_color_(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
 	const t_color	c = ({

@@ -30,9 +30,9 @@ static t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_ligh
 	const t_vector	normal = ({
 		t_vector n;
 		if (obj->info.flag & (1 << FLAG_BUMPMAP))
-			n = object_calc_bumpmap_normal(obj, cross_point);
+			n = calc_bumpmap_normal(obj, cross_point);
 		else
-			n = object_calc_normal(obj, cross_point);
+			n = calc_normal(obj, cross_point);
 		if (vec_dot(n, camera2cross) > 0)
 			n = vec_mult(n, -1);
 		n;
@@ -42,7 +42,7 @@ static t_color	calc_radiance_diffuse(t_object *obj, t_vector cross_point, t_ligh
 		vec_normalize(vec);
 	});
 
-	const t_color	col = object_calc_color(obj, cross_point);
+	const t_color	col = calc_color(obj, cross_point);
 
 	if (vec_dot(normal, incident_direction) >= 0)
 		return (color_mult(color_prod(col, light.intensity), vec_dot(normal, incident_direction)));
@@ -57,9 +57,9 @@ static t_color	calc_radiance_specular(t_object *obj, t_vector cross_point, t_lig
 	const t_vector	normal = ({
 		t_vector n;
 		if (obj->info.flag & (1 << FLAG_BUMPMAP))
-			n = object_calc_bumpmap_normal(obj, cross_point);
+			n = calc_bumpmap_normal(obj, cross_point);
 		else
-			n = object_calc_normal(obj, cross_point);
+			n = calc_normal(obj, cross_point);
 		if (vec_dot(n, camera2cross) > 0)
 			n = vec_mult(n, -1);
 		n;

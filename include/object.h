@@ -22,10 +22,10 @@ typedef struct s_object {
 
 /* Shape's operations (Shape's interface)... */
 void		object_ctor(t_object *me, t_vector center, t_color diffuse_reflection_coefficient, t_color specular_reflection_coefficient);
-double		object_solve_ray_equation(t_object *me, t_ray ray);
-t_vector	object_calc_normal(t_object *me, t_vector cross_point);
-t_vector	object_calc_bumpmap_normal(t_object *me, t_vector cross_point);
-t_color		object_calc_color(t_object *me, t_vector cross_point);
+double		solve_ray_equation(t_object *me, t_ray ray);
+t_vector	calc_normal(t_object *me, t_vector cross_point);
+t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
+t_color		calc_color(t_object *me, t_vector cross_point);
 
 // Virtual table
 struct s_object_vtbl {

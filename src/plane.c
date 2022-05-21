@@ -2,10 +2,10 @@
 #include <printf.h>
 #include "../include/object.h"
 
-static double	solve_ray_equation(t_object *me, t_ray ray);
-static t_vector	calc_normal(t_object *me, t_vector cross_point);
-static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
-static t_color	calc_color(t_object *me_, t_vector cross_point);
+static double	solve_ray_equation_(t_object *me, t_ray ray);
+static t_vector	calc_normal_(t_object *me, t_vector cross_point);
+static t_vector	calc_bumpmap_normal_(t_object *me, t_vector cross_point);
+static t_color	calc_color_(t_object *me_, t_vector cross_point);
 static t_uv 	calc_uv(const t_plane *me, t_vector cross_point);
 
 void	plane_ctor(
@@ -16,10 +16,10 @@ void	plane_ctor(
 		t_color specular_reflection_coefficient)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &solve_ray_equation,
-			.calc_normal = &calc_normal,
-			.calc_bumpmap_normal = &calc_bumpmap_normal,
-			.calc_color = &calc_color,
+			.solve_ray_equation = &solve_ray_equation_,
+			.calc_normal = &calc_normal_,
+			.calc_bumpmap_normal = &calc_bumpmap_normal_,
+			.calc_color = &calc_color_,
 	};
 	const t_vector 			eu = ({
 		const t_vector	ey = vec_init(0, 1, 0);
@@ -47,7 +47,7 @@ void	plane_ctor(
  * 				- inner_product(plane_center_vector, normal_vector))
  * 		/ inner_vector(watching_direction_vector, normal_vector)
  */
-double	solve_ray_equation(t_object *const me_, t_ray ray)
+double	solve_ray_equation_(t_object *const me_, t_ray ray)
 {
 	const t_plane	*me = (t_plane *)me_;
 	double			t;
@@ -60,23 +60,23 @@ double	solve_ray_equation(t_object *const me_, t_ray ray)
 	return (t);
 }
 
-static t_vector	calc_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_normal_(t_object *const me_, t_vector cross_point)
 {
 	(void)cross_point;
 	return (((t_plane *)me_)->normal);
 }
 
-static t_vector	calc_bumpmap_normal(t_object *const me_, t_vector cross_point)
+static t_vector	calc_bumpmap_normal_(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
 	t_uv 		uv = calc_uv(me, cross_point);
 	const t_vector	tangent = get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
-	const t_vector	normal = tangent_to_model(tangent, me->eu, me->ev, object_calc_normal(me_, cross_point));
+	const t_vector	normal = tangent_to_model(tangent, me->eu, me->ev, calc_normal(me_, cross_point));
 
 	return (normal);
 }
 
-static t_color	calc_color(t_object *const me_, t_vector cross_point)
+static t_color	calc_color_(t_object *const me_, t_vector cross_point)
 {
 	const t_plane	*me = (t_plane *)me_;
 	const t_color 	c = ({
