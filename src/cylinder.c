@@ -21,7 +21,6 @@ void	cylinder_ctor(
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &cylinder_solve_ray_equation,
-			.calc_radiance = &calc_radiance_,
 			.calc_normal = &cylinder_calc_normal,
 			.calc_bumpmap_normal = &cylinder_calc_bumpmap_normal,
 			.calc_color = &cylinder_calc_color,

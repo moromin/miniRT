@@ -17,7 +17,6 @@ void	plane_ctor(
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &plane_solve_ray_equation,
-			.calc_radiance = &calc_radiance_,
 			.calc_normal = &plane_calc_normal,
 			.calc_bumpmap_normal = &plane_calc_bumpmap_normal,
 			.calc_color = &plane_calc_color,
