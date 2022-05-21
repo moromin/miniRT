@@ -7,8 +7,9 @@
 static bool	is_reachable_(t_light *me, t_vector incident_dir);
 static bool	spotlight_is_reachable(t_light *me, t_vector incident_dir);
 
-void	light_ctor(t_light *me, t_vector pos, t_color intensity) {
-	static t_light_vtbl vtbl = {
+void	light_ctor(t_light *me, t_vector pos, t_color intensity)
+{
+	static t_light_vtbl	vtbl = {
 			.is_reachable = is_reachable_,
 	};
 
@@ -26,7 +27,7 @@ bool	is_reachable_(t_light *me, t_vector incident_dir)
 
 void	spotlight_ctor(t_spotlight *me, t_vector pos, t_color intensity, t_vector direction, double fov)
 {
-	static t_light_vtbl vtbl = {
+	static t_light_vtbl	vtbl = {
 			.is_reachable = spotlight_is_reachable,
 	};
 

@@ -1,6 +1,5 @@
-#include <printf.h>
-#include <stdlib.h>
 #include <math.h>
+
 #include "../minilibx-linux/mlx.h"
 #include "../include/vector.h"
 #include "../include/miniRT.h"
@@ -8,26 +7,19 @@
 #include "../include/math.h"
 #include "../include/mlx_hooks.h"
 
-const static t_color g_col_background = {
+const static t_color	g_col_background = {
 		.r = 0.392157,
 		.g = 0.584314,
 		.b = 0.929412,
 };
 
-void	init_program(t_program *program)
-{
-	// program->mlx = mlx_init();
-	program->win = mlx_new_window(program->mlx, WIDTH, HEIGHT, "miniRT");
-	init_image(program, &program->img);
-}
-
 // https://knzw.tech/raytracing/?page_id=1243
 t_vector	init_screen_point(t_camera camera, int x, int y)
 {
-	static bool	is_initialized = false;
-	static t_vector dx;
-	static t_vector dy;
-	static t_vector pm;
+	static bool		is_initialized = false;
+	static t_vector	dx;
+	static t_vector	dy;
+	static t_vector	pm;
 
 	if (!is_initialized)
 	{
@@ -92,9 +84,8 @@ t_color	handle_lights(t_program *p, int obj_index, t_vector cross_point)
 		ray.start = vec_add(cross_point, vec_mult(ray.direction, EPSILON));
 		dist = vec_magnitude(ray.direction) - EPSILON;
 		is_covered = closest_object(p->objects, ray, dist, true) >= 0;
-		t_vector camera2cross = vec_sub(cross_point, p->camera.pos);
 		if (!is_covered && light_is_reachable(get_x2(p->lights, i, 0), ray.direction))
-			c = color_add(c, calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get_x2(p->lights, i, 0), camera2cross));
+			c = color_add(c, calc_radiance(get_x2(p->objects, obj_index, 0), cross_point, *(t_light *)get_x2(p->lights, i, 0), vec_sub(cross_point, p->camera.pos)));
 		i++;
 	}
 	return (c);
@@ -146,16 +137,11 @@ int	main(int argc, char **argv)
 {
 	t_program	program;
 
-	// To read xpm file
 	program.mlx = mlx_init();
-
 	load_rt_file(argc, argv, &program);
-	// mlx setup
-	init_program(&program);
-	// create_image
+	program.win = mlx_new_window(program.mlx, WIDTH, HEIGHT, "miniRT");
+	init_image(&program, &program.img);
 	create_image(&program);
-	printf("--creation of image is done!--\n");
-	// mlx setup
 	mlx_put_image_to_window(program.mlx, program.win, program.img.image, 0, 0);
 	set_mlx_hooks(&program);
 	mlx_loop(program.mlx);
