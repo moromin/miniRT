@@ -8,6 +8,10 @@
 
 ## デモ
 
+`scenes/texture.rt`
+
+![texture.jpg](https://github.com/moromin/miniRT/blob/main/demo/texture.jpg?raw=true)
+
 `scenes/bumpmap.rt`
 
 ![bumpmap.jpg](https://github.com/moromin/miniRT/blob/main/demo/bumpmap.jpg?raw=true)
@@ -61,6 +65,95 @@ make
 ## 注力した機能や工夫した点
 
 ### 単一継承を活用し、C言語でOOPを行った
+
+```mermaid
+classDiagram
+class object {
+	#object_vtbl vtbl
+	#vector center
+	#material	material;
+	#obj_info	info;
+	+object_ctor()
+}
+
+object <|-- sphere
+class sphere {
+	-double	radius
+	+sphere_ctor()
+}
+
+object <|-- plane
+class plane {
+	-vector	normal
+	-vector	normal;
+	-vector	eu;
+	-vector	ev;
+	+plane_ctor()
+}
+
+object <|-- cylinder
+class cylinder {
+	-double	radius
+	-double	height
+	-vector	normal
+	-vector	e1;
+	-vector	e2;
+	+cylinder_ctor()
+}
+
+object <|-- cone
+class cone {
+	-double	radius
+	-double	height
+	-vector	normal
+	-vector	e1;
+	-vector	e2;
+	+cylinder_ctor()
+}
+
+```
+
+```mermaid
+classDiagram
+class object_vtbl{
+	<<interface>>
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+object_vtbl <|.. sphere
+class sphere {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+object_vtbl <|.. plane
+class plane {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+object_vtbl <|.. cylinder
+class cylinder {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+object_vtbl <|.. cone
+class cone {
+	solve_ray_equation()
+	calc_normal()
+	calc_bumpmap_normal()
+	calc_color()
+}
+
+```
 
 ```c
 // include/object.h
