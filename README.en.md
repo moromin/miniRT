@@ -66,8 +66,7 @@ make
 ```mermaid
 classDiagram
 class object_vtbl{
-
-[comment]: <> (	<<interface>>)
+	<<interface>>
 	solve_ray_equation()
 	calc_normal()
 	calc_bumpmap_normal()
@@ -75,10 +74,10 @@ class object_vtbl{
 }
 
 class object {
-	-object_vtbl vtbl
-	-vector center
-	-material	material;
-	-obj_info	info;
+	#object_vtbl vtbl
+	#vector center
+	#material	material;
+	#obj_info	info;
 	+object_ctor()
 }
 
