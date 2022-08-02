@@ -16,8 +16,8 @@
 # include "slice.h"
 
 // color
-#define YELLOW  "\033[33m"      /* Yellow */
-#define RESET   "\033[0m"
+# define YELLOW  "\033[33m"      /* Yellow */
+# define RESET   "\033[0m"
 
 // Element type
 # define AMBIENT_LIGHTING 0
@@ -47,8 +47,7 @@
 // Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
 
-
-# define DEFAULT_K_SPECULAR 204
+# define DEF_K_SPECULAR 204
 
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);

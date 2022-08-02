@@ -128,11 +128,9 @@ static t_uv	calc_uv(const t_sphere *const me, t_vector cross_point)
 	const t_uv	uv = ({
 		t_uv	uv;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
-		// 方位角
 		const double	phi = atan2(center2cross.x, center2cross.z);
-		// 仰角
 		const double	theta = acos(center2cross.y / me->radius);
-		// 0~1に変換
+
 		uv.u = 1 - (phi / (2 * M_PI) + 0.5);
 		uv.v = theta / M_PI;
 		uv;

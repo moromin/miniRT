@@ -40,9 +40,11 @@ void	spotlight_ctor(t_spotlight *me, t_vector pos, t_color intensity, t_vector d
 bool	spotlight_is_reachable(t_light *me_, t_vector incident_dir)
 {
 	const t_spotlight	*me = (t_spotlight*)me_;
-	const t_vector		rev_norm_incident_dir = vec_mult(vec_normalize(incident_dir), -1);
-	const double		angle = acos(vec_dot(rev_norm_incident_dir, me->direction)) / M_PI * 180;
+	t_vector			rev_norm_incident_dir;
+	double				angle;
 
+	rev_norm_incident_dir = vec_mult(vec_normalize(incident_dir), -1);
+	angle = acos(vec_dot(rev_norm_incident_dir, me->direction)) / M_PI * 180;
 	return (angle < me->fov / 2);
 }
 

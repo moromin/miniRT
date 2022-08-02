@@ -24,6 +24,7 @@ static int	key_hook(int code, t_program *p)
 
 void	set_mlx_hooks(t_program *p)
 {
+	//todo: mlx_expose_hook()
 	mlx_key_hook(p->win, key_hook, p);
 	mlx_hook(p->win, 33, 1L << 17, close_window, p);
 }

@@ -1,7 +1,8 @@
 NAME	= miniRT
 CC		= gcc
 # CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=thread
-CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=address
+#CFLAGS	= -Werror -Wall -Wextra $(INC) -g -fsanitize=address
+CFLAGS	= $(INC) -g -fsanitize=address
 
 SRC_PATH = src
 UTILS_PATH = utils
@@ -56,7 +57,7 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette $(SRCS) $(HEADERS) | grep -E '^(Error|Warning)'
+	norminette $(SRCS) $(HEADERS) | grep -v 'Missing or invalid header.'
 
 norm-easy:
 	norminette $(SRCS) $(HEADERS) | grep -v WRONG_SCOPE_COMMENT | grep -v LINE_TOO_LONG | grep -v "Missing or invalid header"
