@@ -51,6 +51,7 @@ void	append(t_slice *s, void *elem)
 	}
 }
 
+// todo(takumi): it looks like it should be const. will work on it in next pr
 void	*get(t_slice *s, int index)
 {
 	size_t	i;

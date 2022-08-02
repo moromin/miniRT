@@ -53,8 +53,8 @@ void		sphere_ctor(
 				t_sphere *me,
 				double radius,
 				t_vector center,
-				t_color diffuse_reflection_coefficient,
-				t_color specular_reflection_coefficient);
+				t_color k_diffuse,
+				t_color k_specular);
 
 // plane
 typedef struct s_plane {
@@ -68,8 +68,8 @@ void		plane_ctor(
 				t_plane *me,
 				t_vector center,
 				t_vector normal,
-				t_color diffuse_reflection_coefficient,
-				t_color specular_reflection_coefficient);
+				t_color k_diffuse,
+				t_color k_specular);
 
 // cylinder
 typedef struct s_cylinder
@@ -88,8 +88,8 @@ void		cylinder_ctor(
 				t_vector normal,
 				double radius,
 				double height,
-				t_color diffuse_reflection_coefficient,
-				t_color specular_reflection_coefficient);
+				t_color k_diffuse,
+				t_color k_specular);
 
 // cone
 typedef struct s_cone
@@ -106,7 +106,7 @@ void		cone_ctor(
 				t_vector center,
 				t_vector normal,
 				double aperture,
-				t_color diffuse_reflection_coefficient,
-				t_color specular_reflection_coefficient);
+				t_color k_diffuse,
+				t_color k_specular);
 
 #endif

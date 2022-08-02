@@ -29,6 +29,9 @@ typedef struct s_program {
 }	t_program;
 
 // todo: create its header file when there are more funcs
+// create_image.c
+void		create_image(t_program *program);
+
 // image.c
 void		init_image(t_program *program, t_img *img);
 void		add_color_to_image(t_img *img, t_color color, int x, int y);
