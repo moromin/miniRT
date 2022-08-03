@@ -22,9 +22,15 @@ static int	key_hook(int code, t_program *p)
 	return (0);
 }
 
+static int	expose_hook(t_program *p)
+{
+	mlx_put_image_to_window(p->mlx, p->win, p->img.image, 0, 0);
+	return (0);
+}
+
 void	set_mlx_hooks(t_program *p)
 {
-	//todo: mlx_expose_hook()
 	mlx_key_hook(p->win, key_hook, p);
 	mlx_hook(p->win, 33, 1L << 17, close_window, p);
+	mlx_expose_hook(p->win, expose_hook, p);
 }
