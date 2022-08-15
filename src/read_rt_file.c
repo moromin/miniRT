@@ -44,15 +44,15 @@ static char	*classify_element(size_t num, char **info, t_program *p)
 	else if (num == 4 && !ft_strcmp(info[0], "L"))
 		return (load_light(p, &info[1]));
 	else if ((num == 4 || num == 5) && !ft_strcmp(info[0], "sp"))
-		return (load_sphere(p, &info[1]));
+		return (load_sphere(p, &info[1], num - 1));
 	else if ((num == 4 || num == 5) && !ft_strcmp(info[0], "pl"))
-		return (load_plane(p, &info[1]));
+		return (load_plane(p, &info[1], num - 1));
 	else if ((num == 6 || num == 7) && !ft_strcmp(info[0], "cy"))
-		return (load_cylinder(p, &info[1]));
+		return (load_cylinder(p, &info[1], num - 1));
+	else if ((num == 5 || num == 6) && !ft_strcmp(info[0], "co"))
+		return (load_cone(p, &info[1], num - 1));
 	else if (num == 6 && !ft_strcmp(info[0], "sl"))
 		return (load_spotlight(p, &info[1]));
-	else if ((num == 5 || num == 6) && !ft_strcmp(info[0], "co"))
-		return (load_cone(p, &info[1]));
 	else if (num == 5 && !ft_strcmp(info[0], "ch"))
 		return (load_checker(p, &info[1]));
 	else if (num == 4 && !ft_strcmp(info[0], "bm"))

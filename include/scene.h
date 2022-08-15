@@ -42,10 +42,10 @@
 # define ERR_MISCONFIGURED_CHECKER "Checker is misconfigured"
 # define ERR_MISCONFIGURED_BUMPMAP "Bumpmap is misconfigured"
 # define ERR_MISCONFIGURED_TEXTURE "Texture is misconfigured"
-# define ERR_DUPLICATE_MATERIAL "Material parameter has already been specified."
+# define ERR_DUPLICATE_MATERIAL "Material parameter has already been specified"
 
 // Warning messages
-# define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
+# define WARNING_NOT_NORMALIZED "Not normalized vector found, we normalized it!"
 
 # define K_SPECULAR 204
 
@@ -65,9 +65,9 @@ char	*load_bumpmap(t_program *p, char **info);
 char	*load_texture(t_program *p, char **info);
 
 // rt_params_obj.c
-char	*load_sphere(t_program *p, char **info);
-char	*load_plane(t_program *p, char **info);
-char	*load_cylinder(t_program *p, char **info);
-char	*load_cone(t_program *p, char **info);
+char	*load_sphere(t_program *p, char **info, size_t params);
+char	*load_plane(t_program *p, char **info, size_t params);
+char	*load_cylinder(t_program *p, char **info, size_t params);
+char	*load_cone(t_program *p, char **info, size_t params);
 
 #endif
