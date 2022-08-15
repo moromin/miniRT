@@ -29,12 +29,17 @@ typedef struct s_spotlight {
 	double		fov;
 }	t_spotlight;
 
+typedef struct s_spotlight_attrs {
+	t_vector	pos;
+	t_color		intensity;
+	t_vector	direction;
+	double		fov;
+}	t_spotlight_attrs;
+
 void	spotlight_ctor(
 			t_spotlight *me,
-			t_vector pos,
-			t_color intensity,
-			t_vector direction,
-			double fov);
+			t_spotlight_attrs *attrs
+			);
 
 t_color	ambient(t_color intensity);
 

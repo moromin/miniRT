@@ -25,16 +25,19 @@ bool	is_reachable_(t_light *me, t_vector incident_dir)
 	return (true);
 }
 
-void	spotlight_ctor(t_spotlight *me, t_vector pos, t_color intensity, t_vector direction, double fov)
+void	spotlight_ctor(
+		t_spotlight *me,
+		t_spotlight_attrs *attrs
+)
 {
 	static t_light_vtbl	vtbl = {
 			.is_reachable = spotlight_is_reachable,
 	};
 
-	light_ctor(&me->super, pos, intensity);
+	light_ctor(&me->super, attrs->pos, attrs->intensity);
 	me->super.vptr = &vtbl;
-	me->direction = direction;
-	me->fov = fov;
+	me->direction = attrs->direction;
+	me->fov = attrs->fov;
 }
 
 bool	spotlight_is_reachable(t_light *me_, t_vector incident_dir)

@@ -68,7 +68,6 @@ char	*load_spotlight(t_program *p, char **info)
 			double		fov;
 			double		ratio;
 			t_color		c;
-
 			if (!get_vector_from_str(info[0], &pos))
 				return (ERR_MISCONFIGURED_SPOTLIGHT);
 			if (!get_vector_from_str(info[1], &dir))
@@ -80,8 +79,9 @@ char	*load_spotlight(t_program *p, char **info)
 			if (!(get_color_from_str(info[4], &c)
 					&& check_color_range(c, 0.0, 255.0)))
 				return (ERR_MISCONFIGURED_SPOTLIGHT);
-			spotlight_ctor(get(sp, 0), pos, \
-				color_mult(color_mult(c, (double)1 / 255), ratio), dir, fov);
+			t_spotlight_attrs attrs = {pos, \
+			   color_mult(color_mult(c, (double)1 / 255), ratio), dir, fov};
+			spotlight_ctor(get(sp, 0), &attrs);
 			sp;
 	});
 
