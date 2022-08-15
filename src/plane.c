@@ -3,10 +3,7 @@
 
 void	plane_ctor(
 		t_plane *const me,
-		t_vector center,
-		t_vector normal,
-		t_color k_diffuse,
-		t_color k_specular)
+		t_plane_attrs *attrs)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &plane_solve_ray_equation,
@@ -25,9 +22,9 @@ void	plane_ctor(
 		baseu;
 	});
 
-	object_ctor(&me->super, center, k_diffuse, k_specular);
+	object_ctor(&me->super, attrs->center, attrs->k_diffuse, attrs->k_specular);
 	me->super.vptr = &vtbl;
-	me->normal = normal;
+	me->normal = attrs->normal;
 	me->eu = eu;
 	me->ev = vec_cross(me->normal, eu);
 }

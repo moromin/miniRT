@@ -49,12 +49,16 @@ typedef struct s_sphere {
 	double		radius;
 }	t_sphere;
 
+typedef struct s_sphere_attrs {
+	double		radius;
+	t_vector	center;
+	t_color		k_diffuse;
+	t_color		k_specular;
+}	t_sphere_attrs;
+
 void		sphere_ctor(
 				t_sphere *me,
-				double radius,
-				t_vector center,
-				t_color k_diffuse,
-				t_color k_specular);
+				t_sphere_attrs *attrs);
 
 // plane
 typedef struct s_plane {
@@ -64,12 +68,16 @@ typedef struct s_plane {
 	t_vector	ev;
 }	t_plane;
 
+typedef struct s_plane_attrs {
+	t_vector	center;
+	t_vector	normal;
+	t_color		k_diffuse;
+	t_color		k_specular;
+}	t_plane_attrs;
+
 void		plane_ctor(
 				t_plane *me,
-				t_vector center,
-				t_vector normal,
-				t_color k_diffuse,
-				t_color k_specular);
+				t_plane_attrs *attrs);
 
 // cylinder
 typedef struct s_cylinder

@@ -3,8 +3,7 @@
 #include "../include/object.h"
 #include "../include/private_object_method.h"
 
-void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
-			t_color k_diffuse, t_color k_specular)
+void	sphere_ctor(t_sphere *const me, t_sphere_attrs *attrs)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &sphere_solve_ray_equation,
@@ -13,7 +12,7 @@ void	sphere_ctor(t_sphere *const me, double radius, t_vector center,
 			.calc_color = &sphere_calc_color
 	};
 
-	object_ctor(&me->super, center, k_diffuse, k_specular);
+	object_ctor(&me->super, attrs->center, attrs->k_diffuse, attrs->k_specular);
 	me->super.vptr = &vtbl;
-	me->radius = radius;
+	me->radius = attrs->radius;
 }
