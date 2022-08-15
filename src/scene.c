@@ -18,7 +18,7 @@ static char	*check_duplicated_identifier(char *ident, unsigned int *ident_flag)
 		if (!ft_strcmp(ident, g_env_idents[i++]))
 			break ;
 	if (((*ident_flag >> i) & 1) == 1)
-		return (ERR_DUPLICATE_CAPITAL_IDENTIFIER);
+		return (ERR_DUPLICATE_IDENTIFIER);
 	*ident_flag |= (1 << i);
 	return (NO_ERR);
 }
@@ -30,7 +30,7 @@ static char	*check_lack_of_identifier(unsigned int ident_flag)
 	i = 0;
 	while (g_env_idents[i++])
 		if (((ident_flag >> i) & 1) == 0)
-			return (ERR_LACK_CAPITAL_IDENTIFIER);
+			return (ERR_LACK_IDENTIFIER);
 	return (NO_ERR);
 }
 
