@@ -8,7 +8,7 @@ char	*load_ambient(t_program *p, char **info)
 	if (!(ft_strtod(info[0], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 		return (ERR_MISCONFIGURED_AMBIENT);
 	if (get_color_from_str(info[1], &c) && check_color_range(c, 0.0, 255.0))
-		p->ambient = ambient(color_mult(color_mult(c, (double)1/255), ratio));
+		p->ambient = ambient(color_mult(color_mult(c, (double)1 / 255), ratio));
 	else
 		return (ERR_MISCONFIGURED_AMBIENT);
 	return (NO_ERR);
@@ -47,9 +47,11 @@ char	*load_light(t_program *p, char **info)
 			return (ERR_MISCONFIGURED_LIGHT);
 		if (!(ft_strtod(info[1], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 			return (ERR_MISCONFIGURED_LIGHT);
-		if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
+		if (!(get_color_from_str(info[2], &c)
+				&& check_color_range(c, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_LIGHT);
-		light_ctor(get(l, 0), pos, color_mult(color_mult(c, (double)1/255), ratio));
+		light_ctor(get(l, 0), pos, \
+			color_mult(color_mult(c, (double)1 / 255), ratio));
 		l;
 	});
 
@@ -57,10 +59,9 @@ char	*load_light(t_program *p, char **info)
 	return (NO_ERR);
 }
 
-
 char	*load_spotlight(t_program *p, char **info)
 {
-	const	t_slice *spotlight = ({
+	const t_slice	*spotlight = ({
 			t_slice		*sp = make(sizeof(t_spotlight), 1, 1);
 			t_vector	pos;
 			t_vector	dir;
@@ -76,9 +77,11 @@ char	*load_spotlight(t_program *p, char **info)
 				return (ERR_MISCONFIGURED_SPOTLIGHT);
 			if (!(ft_strtod(info[3], &ratio) && 0.0 <= ratio && ratio <= 1.0))
 				return (ERR_MISCONFIGURED_SPOTLIGHT);
-			if (!(get_color_from_str(info[4], &c) && check_color_range(c, 0.0, 255.0)))
+			if (!(get_color_from_str(info[4], &c)
+					&& check_color_range(c, 0.0, 255.0)))
 				return (ERR_MISCONFIGURED_SPOTLIGHT);
-			spotlight_ctor(get(sp, 0), pos, color_mult(color_mult(c, (double)1/255), ratio), dir, fov);
+			spotlight_ctor(get(sp, 0), pos, \
+				color_mult(color_mult(c, (double)1 / 255), ratio), dir, fov);
 			sp;
 	});
 

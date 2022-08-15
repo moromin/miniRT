@@ -12,9 +12,11 @@ char	*load_checker(t_program *p, char **info)
 	if (object->info.flag & (1 << FLAG_CHECKER))
 		return (ERR_DUPLICATE_MATERIAL);
 	object->info.flag |= (1 << FLAG_CHECKER);
-	if (!(atoi_strict(info[0], &object->info.ch_freq_u) && 1 <= object->info.ch_freq_u))
+	if (!(atoi_strict(info[0], &object->info.ch_freq_u)
+			&& 1 <= object->info.ch_freq_u))
 		return (ERR_MISCONFIGURED_CHECKER);
-	if (!(atoi_strict(info[1], &object->info.ch_freq_v) && 1 <= object->info.ch_freq_v))
+	if (!(atoi_strict(info[1], &object->info.ch_freq_v)
+			&& 1 <= object->info.ch_freq_v))
 		return (ERR_MISCONFIGURED_CHECKER);
 	if (!(get_color_from_str(info[2], &c) && check_color_range(c, 0.0, 255.0)))
 		return (ERR_MISCONFIGURED_CHECKER);
@@ -37,18 +39,19 @@ char	*load_bumpmap(t_program *p, char **info)
 		return (ERR_DUPLICATE_MATERIAL);
 	object->info.flag |= (1 << FLAG_BUMPMAP);
 	img = &object->info.bm_image;
-	img->image = NULL;
-	img->buffer = NULL;
-	img->image = mlx_xpm_file_to_image(p->mlx, info[0], &img->width, &img->height);
+	img->image = \
+		mlx_xpm_file_to_image(p->mlx, info[0], &img->width, &img->height);
 	if (!img->image)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	img->buffer = mlx_get_data_addr(img->image,
 			 &img->bits_per_pixel, &img->size_line, &img->endian);
 	if (!img->buffer)
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	if (!(atoi_strict(info[1], &object->info.bm_freq_u) && 1 <= object->info.bm_freq_u))
+	if (!(atoi_strict(info[1], &object->info.bm_freq_u)
+			&& 1 <= object->info.bm_freq_u))
 		return (ERR_MISCONFIGURED_BUMPMAP);
-	if (!(atoi_strict(info[2], &object->info.bm_freq_v) && 1 <= object->info.bm_freq_v))
+	if (!(atoi_strict(info[2], &object->info.bm_freq_v)
+			&& 1 <= object->info.bm_freq_v))
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	return (NO_ERR);
 }
@@ -65,18 +68,19 @@ char	*load_texture(t_program *p, char **info)
 		return (ERR_DUPLICATE_MATERIAL);
 	object->info.flag |= (1 << FLAG_TEXTURE);
 	img = &object->info.tx_image;
-	img->image = NULL;
-	img->buffer = NULL;
-	img->image = mlx_xpm_file_to_image(p->mlx, info[0], &img->width, &img->height);
+	img->image = \
+		mlx_xpm_file_to_image(p->mlx, info[0], &img->width, &img->height);
 	if (!img->image)
 		return (ERR_MISCONFIGURED_TEXTURE);
 	img->buffer = mlx_get_data_addr(img->image,
 			 &img->bits_per_pixel, &img->size_line, &img->endian);
 	if (!img->buffer)
 		return (ERR_MISCONFIGURED_TEXTURE);
-	if (!(atoi_strict(info[1], &object->info.tx_freq_u) && 1 <= object->info.tx_freq_u))
+	if (!(atoi_strict(info[1], &object->info.tx_freq_u)
+			&& 1 <= object->info.tx_freq_u))
 		return (ERR_MISCONFIGURED_TEXTURE);
-	if (!(atoi_strict(info[2], &object->info.tx_freq_v) && 1 <= object->info.tx_freq_v))
+	if (!(atoi_strict(info[2], &object->info.tx_freq_v)
+			&& 1 <= object->info.tx_freq_v))
 		return (ERR_MISCONFIGURED_TEXTURE);
 	return (NO_ERR);
 }
