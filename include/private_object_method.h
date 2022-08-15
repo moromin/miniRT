@@ -13,6 +13,17 @@ t_vector	sphere_calc_normal(t_object *me, t_vector cross_point);
 t_vector	sphere_calc_bumpmap_normal(t_object *me, t_vector cross_point);
 t_color		sphere_calc_color(t_object *me_, t_vector cross_point);
 
+// cylinder methods
+double		cylinder_solve_ray_equation(t_object *me, t_ray ray);
+t_vector	cylinder_calc_normal(t_object *me, t_vector cross_point);
+t_vector	cylinder_calc_bumpmap_normal(t_object *me, t_vector cross_point);
+t_color		cylinder_calc_color(t_object *me, t_vector cross_point);
+double		cylinder_solve_ray_equation_helper(
+				t_ray ray,
+				double t_outer,
+				double t_inner,
+				const t_cylinder *me);
+
 // cone methods
 double		cone_solve_ray_equation(t_object *me, t_ray ray);
 t_vector	cone_calc_normal(t_object *me, t_vector cross_point);
