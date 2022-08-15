@@ -47,7 +47,7 @@
 // Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
 
-# define DEF_K_SPECULAR 204
+# define K_SPECULAR 204
 
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);

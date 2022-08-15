@@ -9,7 +9,7 @@ static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	calc_color(t_object *me, t_vector cross_point);
 static t_uv		calc_uv(const t_cone *me, t_vector cross_point);
 
-void	cone_ctor(t_cone *me, t_cone_attrs attrs)
+void	cone_ctor(t_cone *me, t_cone_attrs *attrs)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &solve_ray_equation,
@@ -20,17 +20,17 @@ void	cone_ctor(t_cone *me, t_cone_attrs attrs)
 	const t_vector			e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
 		t_vector	vec;
-		if (vec_dot(attrs.normal, ex) == 1)
+		if (vec_dot(attrs->normal, ex) == 1)
 			vec = ex;
 		else
-			vec = vec_cross(attrs.normal, ex);
+			vec = vec_cross(attrs->normal, ex);
 		vec;
 	});
 
-	object_ctor(&me->super, attrs.center, attrs.k_diffuse, attrs.k_specular);
+	object_ctor(&me->super, attrs->center, attrs->k_diffuse, attrs->k_specular);
 	me->super.vptr = &vtbl;
-	me->normal = attrs.normal;
-	me->aperture = attrs.aperture;
+	me->normal = attrs->normal;
+	me->aperture = attrs->aperture;
 	me->e1 = e1;
 	me->e2 = vec_cross(e1, me->normal);
 }

@@ -4,25 +4,23 @@ char	*load_sphere(t_program *p, char **info)
 {
 	const t_slice	*sphere = ({
 		const t_slice	*sp = make(sizeof(t_sphere), 1, 1);
-		t_vector		center;
-		double			radius;
-		t_color			k_diffuse;
-		t_color			k_specular;
+		t_sphere_attrs	attrs;
 
-		if (!get_vector_from_str(info[0], &center))
+		if (!get_vector_from_str(info[0], &attrs.center))
 			return (ERR_MISCONFIGURED_SPHERE);
-		if (!ft_strtod(info[1], &radius))
+		if (!ft_strtod(info[1], &attrs.radius))
 			return (ERR_MISCONFIGURED_SPHERE);
-		radius /= 2;
-		if (!(get_color_from_str(info[2], &k_diffuse)
-				&& check_color_range(k_diffuse, 0.0, 255.0)))
+		attrs.radius /= 2;
+		if (!(get_color_from_str(info[2], &attrs.k_diffuse)
+				&& check_color_range(attrs.k_diffuse, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_SPHERE);
-		k_specular = color(DEF_K_SPECULAR, DEF_K_SPECULAR, DEF_K_SPECULAR);
+		attrs.k_specular = color(K_SPECULAR, K_SPECULAR, K_SPECULAR);
 		if (count_2d_array((void **)info) == 4
-			&& !(get_color_from_str(info[3], &k_specular)
-				&& check_color_range(k_specular, 0.0, 255.0)))
+			&& !(get_color_from_str(info[3], &attrs.k_specular)
+				&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_SPHERE);
-		t_sphere_attrs attrs = {radius, center,color_mult(k_diffuse, (double)1 / 255),color_mult(k_specular, (double)1 / 255)};
+		attrs.k_diffuse = color_mult(attrs.k_diffuse, (double)1 / 255);
+		attrs.k_specular = color_mult(attrs.k_specular, (double)1 / 255);
 		sphere_ctor(get(sp, 0), &attrs);
 		sp;
 	});
@@ -35,30 +33,28 @@ char	*load_plane(t_program *p, char **info)
 {
 	const t_slice	*plane = ({
 		const t_slice	*pl = make(sizeof(t_plane), 1, 1);
-		t_vector		center;
-		t_vector		normal;
-		t_color			k_diffuse;
-		t_color			k_specular;
+		t_plane_attrs	attrs;
 
-		if (!get_vector_from_str(info[0], &center))
+		if (!get_vector_from_str(info[0], &attrs.center))
 			return (ERR_MISCONFIGURED_PLANE);
-		if (!(get_vector_from_str(info[1], &normal)
-			  && check_vector_range(normal, -1.0, 1.0)))
+		if (!(get_vector_from_str(info[1], &attrs.normal)
+			  && check_vector_range(attrs.normal, -1.0, 1.0)))
 			return (ERR_MISCONFIGURED_PLANE);
-		if (vec_magnitude_squared(normal) != 1)
+		if (vec_magnitude_squared(attrs.normal) != 1)
 		{
 			ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
-			normal = vec_normalize(normal);
+			attrs.normal = vec_normalize(attrs.normal);
 		}
-		if (!(get_color_from_str(info[2], &k_diffuse)
-			  && check_color_range(k_diffuse, 0.0, 255.0)))
+		if (!(get_color_from_str(info[2], &attrs.k_diffuse)
+			  && check_color_range(attrs.k_diffuse, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_PLANE);
-		k_specular = color(DEF_K_SPECULAR, DEF_K_SPECULAR, DEF_K_SPECULAR);
+		attrs.k_specular = color(K_SPECULAR, K_SPECULAR, K_SPECULAR);
 		if (count_2d_array((void **)info) == 4
-			&& !(get_color_from_str(info[3], &k_specular)
-				 && check_color_range(k_specular, 0.0, 255.0)))
+			&& !(get_color_from_str(info[3], &attrs.k_specular)
+				 && check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_PLANE);
-		t_plane_attrs attrs = {center, normal,color_mult(k_diffuse, (double)1 / 255),color_mult(k_specular, (double)1 / 255)};
+		attrs.k_diffuse = color_mult(attrs.k_diffuse, (double)1 / 255);
+		attrs.k_specular = color_mult(attrs.k_specular, (double)1 / 255);
 		plane_ctor(get(pl, 0), &attrs);
 		pl;
 	});
@@ -91,14 +87,14 @@ char	*load_cylinder(t_program *p, char **info)
 		if (!(get_color_from_str(info[4], &attrs.k_diffuse)
 			&& check_color_range(attrs.k_diffuse, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_CYLINDER);
-		attrs.k_specular = color(DEF_K_SPECULAR, DEF_K_SPECULAR, DEF_K_SPECULAR);
+		attrs.k_specular = color(K_SPECULAR, K_SPECULAR, K_SPECULAR);
 		if (count_2d_array((void **)info) == 6
 			&& !(get_color_from_str(info[5], &attrs.k_specular)
 			&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_CYLINDER);
 		attrs.k_diffuse = color_mult(attrs.k_diffuse, (double)1 / 255);
 		attrs.k_specular = color_mult(attrs.k_specular, (double)1 / 255);
-		cylinder_ctor(get(cy, 0), attrs);
+		cylinder_ctor(get(cy, 0), &attrs);
 		cy;
 	});
 
@@ -109,34 +105,34 @@ char	*load_cylinder(t_program *p, char **info)
 char	*load_cone(t_program *p, char **info)
 {
 	const t_slice	*cone = ({
-			t_slice			*co = make(sizeof(t_cone), 1, 1);
-			t_cone_attrs	attrs;
+		t_slice			*co = make(sizeof(t_cone), 1, 1);
+		t_cone_attrs	attrs;
 
-			if (!get_vector_from_str(info[0], &attrs.center))
-				return (ERR_MISCONFIGURED_CONE);
-			if (!(get_vector_from_str(info[1], &attrs.normal)
-				&& check_vector_range(attrs.normal, -1.0, 1.0)))
-				return (ERR_MISCONFIGURED_CONE);
-			if (vec_magnitude_squared(attrs.normal) != 1)
-			{
-				ft_putendl_fd(WARNING_NOT_NORMALIZED, STDERR_FILENO);
-				attrs.normal = vec_normalize(attrs.normal);
-			}
-			if (!(ft_strtod(info[2], &attrs.aperture)
-				&& 0.0 <= attrs.aperture && attrs.aperture < 180.0))
-				return (ERR_MISCONFIGURED_CONE);
-			if (!(get_color_from_str(info[3], &attrs.k_diffuse)
-				&& check_color_range(attrs.k_diffuse, 0.0, 255.0)))
-				return (ERR_MISCONFIGURED_CONE);
-			attrs.k_specular = color(DEF_K_SPECULAR, DEF_K_SPECULAR, DEF_K_SPECULAR);
-			if (count_2d_array((void **)info) == 5
-				&& !(get_color_from_str(info[4], &attrs.k_specular)
-				&& check_color_range(attrs.k_specular, 0.0, 255.0)))
-				return (ERR_MISCONFIGURED_CONE);
-			attrs.k_diffuse = color_mult(attrs.k_diffuse, (double)1 / 255);
-			attrs.k_specular = color_mult(attrs.k_specular, (double)1 / 255);
-			cone_ctor(get(co, 0), attrs);
-			co;
+		if (!get_vector_from_str(info[0], &attrs.center))
+			return (ERR_MISCONFIGURED_CONE);
+		if (!(get_vector_from_str(info[1], &attrs.normal)
+			&& check_vector_range(attrs.normal, -1.0, 1.0)))
+			return (ERR_MISCONFIGURED_CONE);
+		if (vec_magnitude_squared(attrs.normal) != 1)
+		{
+			ft_putendl_fd(YELLOW WARNING_NOT_NORMALIZED RESET, STDERR_FILENO);
+			attrs.normal = vec_normalize(attrs.normal);
+		}
+		if (!(ft_strtod(info[2], &attrs.aperture)
+			&& 0.0 <= attrs.aperture && attrs.aperture < 180.0))
+			return (ERR_MISCONFIGURED_CONE);
+		if (!(get_color_from_str(info[3], &attrs.k_diffuse)
+			&& check_color_range(attrs.k_diffuse, 0.0, 255.0)))
+			return (ERR_MISCONFIGURED_CONE);
+		attrs.k_specular = color(K_SPECULAR, K_SPECULAR, K_SPECULAR);
+		if (count_2d_array((void **)info) == 5
+			&& !(get_color_from_str(info[4], &attrs.k_specular)
+			&& check_color_range(attrs.k_specular, 0.0, 255.0)))
+			return (ERR_MISCONFIGURED_CONE);
+		attrs.k_diffuse = color_mult(attrs.k_diffuse, (double)1 / 255);
+		attrs.k_specular = color_mult(attrs.k_specular, (double)1 / 255);
+		cone_ctor(get(co, 0), &attrs);
+		co;
 	});
 
 	append(p->objects, &cone);
