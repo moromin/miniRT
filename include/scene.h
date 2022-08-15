@@ -34,15 +34,15 @@
 # define ERR_MISCONFIGURED_PLANE "Plane is misconfigured"
 # define ERR_MISCONFIGURED_CYLINDER "Cylinder is misconfigured"
 # define ERR_MISCONFIGURED_SPOTLIGHT "Spotlight is misconfigured"
-# define ERR_DUPLICATE_CAPITAL_IDENTIFIER "Capitalized identifiers are duplicated"
-# define ERR_LACK_CAPITAL_IDENTIFIER "Capitalized identifiers are lack"
+# define ERR_DUPLICATE_IDENTIFIER "Capitalized identifiers are duplicated"
+# define ERR_LACK_IDENTIFIER "Capitalized identifiers are lack"
 # define ERR_MISCONFIGURED_CONE "Cone is misconfigured"
 # define ERR_UNDEFINED_IDENTIFIER "Undefined identifier exists"
 # define ERR_UNRESOLVED_MATERIAL "Material is specified before any object"
 # define ERR_MISCONFIGURED_CHECKER "Checker is misconfigured"
 # define ERR_MISCONFIGURED_BUMPMAP "Bumpmap is misconfigured"
 # define ERR_MISCONFIGURED_TEXTURE "Texture is misconfigured"
-# define ERR_DUPLICATE_MATERIAL "Same material parameters specified for same object"
+# define ERR_DUPLICATE_MATERIAL "Material parameter has already been specified."
 
 // Warning messages
 # define WARNING_NOT_NORMALIZED YELLOW"Not normalized vector found (We normalized it for you!)"RESET
@@ -51,6 +51,9 @@
 
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);
+
+// read_rt_file.c
+char	*read_rt_file(char *filename, t_program *p);
 
 // rt_params.c
 char	*load_ambient(t_program *p, char **info);

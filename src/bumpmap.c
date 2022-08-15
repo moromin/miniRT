@@ -4,7 +4,7 @@
 #include "../include/material.h"
 #include "../minilibx-linux/mlx.h"
 
-static t_vector		convert_color_to_vector(t_color c)
+static t_vector	convert_color_to_vector(t_color c)
 {
 	t_vector	rtn;
 
@@ -14,11 +14,16 @@ static t_vector		convert_color_to_vector(t_color c)
 	return (rtn);
 }
 
-t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
+t_vector	get_vector_from_normal_map(
+	double u,
+	double v,
+	const t_obj_info *info)
 {
 	const t_vector	tangent = ({
-			const double	x = fmod(u * info->bm_freq_u, 1.0) * info->bm_image.width;
-			const double	y = fmod(v * info->bm_freq_v, 1.0) * info->bm_image.height;
+			const double	x =
+				fmod(u * info->bm_freq_u, 1.0) * info->bm_image.width;
+			const double	y =
+				fmod(v * info->bm_freq_v, 1.0) * info->bm_image.height;
 
 			t_color	c = get_color_from_image(&info->bm_image, (int)x, (int)y);
 			c = color_add(color_mult(c, 2), color(-1, -1, -1));
@@ -28,7 +33,11 @@ t_vector	get_vector_from_normal_map(double u, double v, const t_obj_info *info)
 	return (tangent);
 }
 
-t_vector	tangent_to_model(t_vector tangent, t_vector t, t_vector b, t_vector n)
+t_vector	tangent_to_model(
+	t_vector tangent,
+	t_vector t,
+	t_vector b,
+	t_vector n)
 {
 	const t_vector	normal = ({
 			t_vector	res;
