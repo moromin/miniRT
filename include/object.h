@@ -90,14 +90,17 @@ typedef struct s_cylinder
 	t_vector	e2;
 }	t_cylinder;
 
-void		cylinder_ctor(
-				t_cylinder *me,
-				t_vector center,
-				t_vector normal,
-				double radius,
-				double height,
-				t_color k_diffuse,
-				t_color k_specular);
+typedef struct s_cylinder_attrs
+{
+	t_vector	center;
+	t_vector	normal;
+	double		radius;
+	double		height;
+	t_color		k_diffuse;
+	t_color		k_specular;
+}	t_cylinder_attrs;
+
+void		cylinder_ctor(t_cylinder *me, t_cylinder_attrs attrs);
 
 // cone
 typedef struct s_cone

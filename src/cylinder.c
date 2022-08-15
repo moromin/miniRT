@@ -8,16 +8,9 @@ static double	solve_ray_equation(t_object *me, t_ray ray);
 static t_vector	calc_normal(t_object *me, t_vector cross_point);
 static t_vector	calc_bumpmap_normal(t_object *me, t_vector cross_point);
 static t_color	calc_color(t_object *me, t_vector cross_point);
-static t_uv 	calc_uv(const t_cylinder *const me, t_vector cross_point);
+static t_uv		calc_uv(const t_cylinder *const me, t_vector cross_point);
 
-void	cylinder_ctor(
-		t_cylinder *me,
-		t_vector center,
-		t_vector normal,
-		double radius,
-		double height,
-		t_color diffuse_reflection_coefficient,
-		t_color specular_reflection_coefficient)
+void	cylinder_ctor(t_cylinder *me, t_cylinder_attrs attrs)
 {
 	static t_object_vtbl	vtbl = {
 			.solve_ray_equation = &solve_ray_equation,
@@ -28,18 +21,18 @@ void	cylinder_ctor(
 	const t_vector			e1 = ({
 		const t_vector	ex = vec_init(1, 0, 0);
 		t_vector	vec;
-		if (vec_dot(normal, ex) == 1)
+		if (vec_dot(attrs.normal, ex) == 1)
 			vec = ex;
 		else
-			vec = vec_cross(normal, ex);
+			vec = vec_cross(attrs.normal, ex);
 		vec;
 	});
 
-	object_ctor(&me->super, center, diffuse_reflection_coefficient, specular_reflection_coefficient);
+	object_ctor(&me->super, attrs.center, attrs.k_diffuse, attrs.k_specular);
 	me->super.vptr = &vtbl;
-	me->radius = radius;
-	me->height = height;
-	me->normal = normal;
+	me->radius = attrs.radius;
+	me->height = attrs.height;
+	me->normal = attrs.normal;
 	me->e1 = e1;
 	me->e2 = vec_cross(e1, me->normal);
 }
