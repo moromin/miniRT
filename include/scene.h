@@ -52,6 +52,9 @@
 // scene.c
 void	load_rt_file(int argc, char **argv, t_program *program);
 
+// read_rt_file.c
+char	*read_rt_file(char *filename, t_program *p);
+
 // rt_params.c
 char	*load_ambient(t_program *p, char **info);
 char	*load_camera(t_program *p, char **info);
