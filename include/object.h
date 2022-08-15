@@ -109,12 +109,15 @@ typedef struct s_cone
 	t_vector	e2;
 }	t_cone;
 
-void		cone_ctor(
-				t_cone *me,
-				t_vector center,
-				t_vector normal,
-				double aperture,
-				t_color k_diffuse,
-				t_color k_specular);
+typedef struct s_cone_attrs
+{
+	t_vector	center;
+	t_vector	normal;
+	double		aperture;
+	t_color		k_diffuse;
+	t_color		k_specular;
+}	t_cone_attrs;
+
+void		cone_ctor(t_cone *me, t_cone_attrs attrs);
 
 #endif
