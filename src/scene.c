@@ -1,4 +1,6 @@
 #include "../include/scene.h"
+#include "../include/free.h"
+#include "../minilibx-linux/mlx.h"
 
 static bool	check_filename(char *filename)
 {
@@ -23,11 +25,10 @@ void	load_rt_file(int argc, char **argv, t_program *p)
 	err = read_rt_file(argv[1], p);
 	if (err != NO_ERR)
 	{
-		// TODO: destroy all
-		// destroy_object_images(p);
-		// delete_recursively(p->lights, 1);
-		// delete_recursively(p->objects, 1);
-		// mlx_destroy_display(p->mlx);
+		destroy_object_images(p);
+		delete_recursively(p->lights, 1);
+		delete_recursively(p->objects, 1);
+		mlx_destroy_display(p->mlx);
 		exit_with_error_message(err);
 	}
 }
