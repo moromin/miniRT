@@ -65,9 +65,9 @@ char	*load_bumpmap(t_program *p, char **info);
 char	*load_texture(t_program *p, char **info);
 
 // rt_params_obj.c
-char	*load_sphere(t_program *p, char **info, size_t params);
-char	*load_plane(t_program *p, char **info, size_t params);
-char	*load_cylinder(t_program *p, char **info, size_t params);
-char	*load_cone(t_program *p, char **info, size_t params);
+char	*load_sphere(t_program *p, char **info, size_t param_num);
+char	*load_plane(t_program *p, char **info, size_t param_num);
+char	*load_cylinder(t_program *p, char **info, size_t param_num);
+char	*load_cone(t_program *p, char **info, size_t param_num);
 
 #endif

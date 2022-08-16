@@ -2,7 +2,7 @@
 
 static t_vector	normalize_object_normal_vector(t_vector normal);
 
-char	*load_sphere(t_program *p, char **info, size_t params)
+char	*load_sphere(t_program *p, char **info, size_t param_num)
 {
 	const t_slice	*sphere = ({
 		const t_slice	*sp = make(sizeof(t_sphere), 1, 1);
@@ -14,7 +14,7 @@ char	*load_sphere(t_program *p, char **info, size_t params)
 			&& (get_color_from_str(info[2], &attrs.k_diffuse)
 				&& check_color_range(attrs.k_diffuse, 0.0, 255.0))))
 			return (ERR_MISCONFIGURED_SPHERE);
-		if (params == 4 && !(get_color_from_str(info[3], &attrs.k_specular)
+		if (param_num == 4 && !(get_color_from_str(info[3], &attrs.k_specular)
 				&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_SPHERE);
 		attrs.radius /= 2;
@@ -28,7 +28,7 @@ char	*load_sphere(t_program *p, char **info, size_t params)
 	return (NO_ERR);
 }
 
-char	*load_plane(t_program *p, char **info, size_t params)
+char	*load_plane(t_program *p, char **info, size_t param_num)
 {
 	const t_slice	*plane = ({
 		const t_slice	*pl = make(sizeof(t_plane), 1, 1);
@@ -41,7 +41,7 @@ char	*load_plane(t_program *p, char **info, size_t params)
 			&& (get_color_from_str(info[2], &attrs.k_diffuse)
 				&& check_color_range(attrs.k_diffuse, 0.0, 255.0))))
 			return (ERR_MISCONFIGURED_PLANE);
-		if (params == 4 && !(get_color_from_str(info[3], &attrs.k_specular)
+		if (param_num == 4 && !(get_color_from_str(info[3], &attrs.k_specular)
 				&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_PLANE);
 		attrs.normal = normalize_object_normal_vector(attrs.normal);
@@ -55,7 +55,7 @@ char	*load_plane(t_program *p, char **info, size_t params)
 	return (NO_ERR);
 }
 
-char	*load_cylinder(t_program *p, char **info, size_t params)
+char	*load_cylinder(t_program *p, char **info, size_t param_num)
 {
 	const t_slice		*cylinder = ({
 		t_slice				*cy = make(sizeof(t_cylinder), 1, 1);
@@ -69,7 +69,7 @@ char	*load_cylinder(t_program *p, char **info, size_t params)
 			&& (get_color_from_str(info[4], &attrs.k_diffuse)
 				&& check_color_range(attrs.k_diffuse, 0.0, 255.0))))
 			return (ERR_MISCONFIGURED_CYLINDER);
-		if (params == 6 && !(get_color_from_str(info[5], &attrs.k_specular)
+		if (param_num == 6 && !(get_color_from_str(info[5], &attrs.k_specular)
 			&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_CYLINDER);
 		attrs.radius /= 2;
@@ -84,7 +84,7 @@ char	*load_cylinder(t_program *p, char **info, size_t params)
 	return (NO_ERR);
 }
 
-char	*load_cone(t_program *p, char **info, size_t params)
+char	*load_cone(t_program *p, char **info, size_t param_num)
 {
 	const t_slice	*cone = ({
 		t_slice			*co = make(sizeof(t_cone), 1, 1);
@@ -99,7 +99,7 @@ char	*load_cone(t_program *p, char **info, size_t params)
 			&& (get_color_from_str(info[3], &attrs.k_diffuse)
 				&& check_color_range(attrs.k_diffuse, 0.0, 255.0))))
 			return (ERR_MISCONFIGURED_CONE);
-		if (params == 5 && !(get_color_from_str(info[4], &attrs.k_specular)
+		if (param_num == 5 && !(get_color_from_str(info[4], &attrs.k_specular)
 			&& check_color_range(attrs.k_specular, 0.0, 255.0)))
 			return (ERR_MISCONFIGURED_CONE);
 		attrs.normal = normalize_object_normal_vector(attrs.normal);
