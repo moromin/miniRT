@@ -9,9 +9,53 @@ UTILS_PATH = utils
 WRAPPER_PATH = wrapper
 INCLUDE_PATH = include
 
-# TODO: write all out before submitting
-SRC_PATHS	= $(SRC_PATH) $(UTILS_PATH) $(WRAPPER_PATH)
-SRCS	= $(foreach path, $(SRC_PATHS), $(wildcard $(path)/*.c))
+SRCS	= 	src/ambient.c \
+			src/bumpmap.c \
+			src/color.c \
+			src/color_utils.c \
+			src/cone.c \
+			src/cone_method.c \
+			src/create_image.c \
+			src/cylinder.c \
+			src/cylinder_method.c \
+			src/cylinder_method_helper.c \
+			src/debug.c \
+			src/free_utils.c \
+			src/image.c \
+			src/light.c \
+			src/main.c \
+			src/math.c \
+			src/mlx_hooks.c \
+			src/obj_info.c \
+			src/object.c \
+			src/object_method.c \
+			src/object_radiance.c \
+			src/plane.c \
+			src/plane_method.c \
+			src/read_rt_file.c \
+			src/rt_params.c \
+			src/rt_params_obj.c \
+			src/rt_params_obj_info.c \
+			src/scene.c \
+			src/slice.c \
+			src/slice_x.c \
+			src/sphere.c \
+			src/sphere_method.c \
+			src/vector.c \
+			src/vector_adv.c \
+			src/vector_utils.c \
+			utils/atoi_strict.c\
+			utils/count_2d_array.c\
+			utils/error.c\
+			utils/free_2d_array.c\
+			utils/ft_strtod.c\
+			utils/get_next_line.c\
+			utils/strappend.c \
+			wrapper/x_close.c \
+			wrapper/x_get_next_line.c \
+			wrapper/x_malloc.c \
+			wrapper/x_open.c \
+			wrapper/x_split.c
 
 OBJDIR	= ./obj
 OBJS    = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:%.c=%.o)))
@@ -34,7 +78,7 @@ ifeq ($(UNAME), Linux)
 	LFLAGS += -lbsd
 endif
 
-all: $(NAME) run
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT)
