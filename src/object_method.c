@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_method.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: takumihara <thara@student.42tokyo.jp>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/07 19:57:22 by takumihar         #+#    #+#             */
+/*   Updated: 2022/11/07 19:57:22 by takumihar        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/object.h"
 
 double	object_solve_ray_equation(t_object *const me, t_ray ray)
