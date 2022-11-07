@@ -16,7 +16,7 @@ static t_vector	normalize_object_normal_vector(t_vector normal);
 
 char	*load_sphere(t_program *p, char **info, size_t param_num)
 {
-	const t_slice	*sphere = ({
+	const t_slice	*sphere = ({\
 		const t_slice	*sp = make(sizeof(t_sphere), 1, 1);
 		t_sphere_attrs	attrs;
 
@@ -42,7 +42,7 @@ char	*load_sphere(t_program *p, char **info, size_t param_num)
 
 char	*load_plane(t_program *p, char **info, size_t param_num)
 {
-	const t_slice	*plane = ({
+	const t_slice	*plane = ({\
 		const t_slice	*pl = make(sizeof(t_plane), 1, 1);
 		t_plane_attrs	attrs;
 
@@ -69,7 +69,7 @@ char	*load_plane(t_program *p, char **info, size_t param_num)
 
 char	*load_cylinder(t_program *p, char **info, size_t param_num)
 {
-	const t_slice		*cylinder = ({
+	const t_slice		*cylinder = ({\
 		t_slice				*cy = make(sizeof(t_cylinder), 1, 1);
 		t_cylinder_attrs	attrs;
 		attrs.k_specular = color(K_SPECULAR, K_SPECULAR, K_SPECULAR);
@@ -98,7 +98,7 @@ char	*load_cylinder(t_program *p, char **info, size_t param_num)
 
 char	*load_cone(t_program *p, char **info, size_t param_num)
 {
-	const t_slice	*cone = ({
+	const t_slice	*cone = ({\
 		t_slice			*co = make(sizeof(t_cone), 1, 1);
 		t_cone_attrs	attrs;
 

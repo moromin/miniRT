@@ -39,12 +39,12 @@ static t_uv		sphere_calc_uv(const t_sphere *me, t_vector cross_point);
 double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const double	res = ({
+	const double	res = ({\
 		const double	a = vec_magnitude_squared(ray.direction);
 		if (a == 0)
 			return (-1.0);
 		const double	b = 2 * (vec_dot(ray.start, ray.direction)
-								 - vec_dot(ray.direction, me->super.center));
+							- vec_dot(ray.direction, me->super.center));
 		const double	c = vec_magnitude_squared(ray.start)
 							+ vec_magnitude_squared(me->super.center)
 							- 2 * vec_dot(ray.start, me->super.center)
@@ -68,7 +68,7 @@ double	sphere_solve_ray_equation(t_object *const me_, t_ray ray)
 t_vector	sphere_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const t_vector	normal = ({
+	const t_vector	normal = ({\
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 		vec_normalize(center2cross);
 	});
@@ -81,7 +81,7 @@ t_vector	sphere_calc_bumpmap_normal(
 		t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const t_vector	normal = ({
+	const t_vector	normal = ({\
 		const t_uv		uv = sphere_calc_uv(me, cross_point);
 		const t_vector	tangent =
 				get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
@@ -104,7 +104,7 @@ t_vector	sphere_calc_bumpmap_normal(
 t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_sphere	*me = (t_sphere *)me_;
-	const t_color	c = ({
+	const t_color	c = ({\
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_color_at(&me->super.info, sphere_calc_uv(me, cross_point));
@@ -120,7 +120,7 @@ t_color	sphere_calc_color(t_object *const me_, t_vector cross_point)
 
 static t_uv	sphere_calc_uv(const t_sphere *const me, t_vector cross_point)
 {
-	const t_uv	uv = ({
+	const t_uv	uv = ({\
 		t_uv	uv;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);
 		const double	phi = atan2(center2cross.x, center2cross.z);

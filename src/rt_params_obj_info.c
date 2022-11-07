@@ -56,7 +56,7 @@ char	*load_bumpmap(t_program *p, char **info)
 	if (!img->image)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	img->buffer = mlx_get_data_addr(img->image,
-			 &img->bits_per_pixel, &img->size_line, &img->endian);
+			&img->bits_per_pixel, &img->size_line, &img->endian);
 	if (!img->buffer)
 		return (ERR_MISCONFIGURED_BUMPMAP);
 	if (!(atoi_strict(info[1], &object->info.bm_freq_u)
@@ -85,7 +85,7 @@ char	*load_texture(t_program *p, char **info)
 	if (!img->image)
 		return (ERR_MISCONFIGURED_TEXTURE);
 	img->buffer = mlx_get_data_addr(img->image,
-			 &img->bits_per_pixel, &img->size_line, &img->endian);
+			&img->bits_per_pixel, &img->size_line, &img->endian);
 	if (!img->buffer)
 		return (ERR_MISCONFIGURED_TEXTURE);
 	if (!(atoi_strict(info[1], &object->info.tx_freq_u)

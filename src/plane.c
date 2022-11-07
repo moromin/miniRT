@@ -18,12 +18,12 @@ void	plane_ctor(
 		t_plane_attrs *attrs)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &plane_solve_ray_equation,
-			.calc_normal = &plane_calc_normal,
-			.calc_bumpmap_normal = &plane_calc_bumpmap_normal,
-			.calc_color = &plane_calc_color,
+		.solve_ray_equation = &plane_solve_ray_equation,
+		.calc_normal = &plane_calc_normal,
+		.calc_bumpmap_normal = &plane_calc_bumpmap_normal,
+		.calc_color = &plane_calc_color,
 	};
-	const t_vector			eu = ({
+	const t_vector			eu = ({\
 		const t_vector	ey = vec_init(0, 1, 0);
 		t_vector	baseu;
 

@@ -22,7 +22,7 @@ static bool	spotlight_is_reachable(t_light *me, t_vector incident_dir);
 void	light_ctor(t_light *me, t_vector pos, t_color intensity)
 {
 	static t_light_vtbl	vtbl = {
-			.is_reachable = is_reachable_,
+		.is_reachable = is_reachable_,
 	};
 
 	me->vptr = &vtbl;
@@ -43,7 +43,7 @@ void	spotlight_ctor(
 )
 {
 	static t_light_vtbl	vtbl = {
-			.is_reachable = spotlight_is_reachable,
+		.is_reachable = spotlight_is_reachable,
 	};
 
 	light_ctor(&me->super, attrs->pos, attrs->intensity);
