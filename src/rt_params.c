@@ -49,7 +49,7 @@ char	*load_camera(t_program *p, char **info)
 
 char	*load_light(t_program *p, char **info)
 {
-	const t_slice	*light = ({
+	const t_slice	*light = ({\
 		t_slice		*l = make(sizeof(t_light), 1, 1);
 		t_vector	pos;
 		double		ratio;
@@ -73,7 +73,7 @@ char	*load_light(t_program *p, char **info)
 
 char	*load_spotlight(t_program *p, char **info)
 {
-	const t_slice	*spotlight = ({
+	const t_slice	*spotlight = ({\
 		t_slice		*sp = make(sizeof(t_spotlight), 1, 1);
 		t_vector	pos;
 		t_vector	dir;

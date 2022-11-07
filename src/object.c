@@ -24,17 +24,17 @@ void	object_ctor(t_object *const me, t_vector center,
 			t_color k_diffuse, t_color k_specular)
 {
 	static t_object_vtbl	vtbl = {
-			.solve_ray_equation = &solve_ray_equation_,
-			.calc_normal = &calc_normal_,
-			.calc_bumpmap_normal = &calc_bumpmap_normal_,
-			.calc_color = &calc_color_,
+		.solve_ray_equation = &solve_ray_equation_,
+		.calc_normal = &calc_normal_,
+		.calc_bumpmap_normal = &calc_bumpmap_normal_,
+		.calc_color = &calc_color_,
 	};
 	const t_obj_info		info = {
-			.flag = 0
+		.flag = 0
 	};
 	const t_material		material = {
-			.k_diffuse = k_diffuse,
-			.k_specular = k_specular,
+		.k_diffuse = k_diffuse,
+		.k_specular = k_specular,
 	};
 
 	me->vptr = &vtbl;
