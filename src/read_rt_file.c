@@ -15,8 +15,8 @@
 #include "../minilibx-linux/mlx.h"
 
 static const char	*g_env_idents[] = {"A", "C", "L", NULL};
-static const char	*g_obj_idents[] =
-	{"sp", "pl", "cy", "co", "sl", "#", "ch", "bm", "tx", NULL};
+static const char	*g_obj_idents[]
+	= {"sp", "pl", "cy", "co", "sl", "#", "ch", "bm", "tx", NULL};
 
 static char	*check_duplicated_identifier(char *ident, unsigned int *ident_flag)
 {

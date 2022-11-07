@@ -31,15 +31,15 @@ t_vector	get_vector_from_normal_map(
 	double v,
 	const t_obj_info *info)
 {
-	const t_vector	tangent = ({
-			const double	x =
-				fmod(u * info->bm_freq_u, 1.0) * info->bm_image.width;
-			const double	y =
-				fmod(v * info->bm_freq_v, 1.0) * info->bm_image.height;
+	const t_vector	tangent = ({\
+		const double	x
+			= fmod(u * info->bm_freq_u, 1.0) * info->bm_image.width;
+		const double	y
+			= fmod(v * info->bm_freq_v, 1.0) * info->bm_image.height;
 
-			t_color	c = get_color_from_image(&info->bm_image, (int)x, (int)y);
-			c = color_add(color_mult(c, 2), color(-1, -1, -1));
-			convert_color_to_vector(c);
+		t_color	c = get_color_from_image(&info->bm_image, (int)x, (int)y);
+		c = color_add(color_mult(c, 2), color(-1, -1, -1));
+		convert_color_to_vector(c);
 	});
 
 	return (tangent);

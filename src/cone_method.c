@@ -22,7 +22,7 @@ static t_uv	cone_calc_uv(const t_cone *const me, t_vector cross_point);
 double	cone_solve_ray_equation(t_object *const me_, t_ray ray)
 {
 	const t_cone	*me = (t_cone *)me_;
-	const double	t = ({
+	const double	t = ({\
 		double			res;
 		const double	k = cos(me->aperture / 2 / 180 * M_PI);
 		const t_vector	q = vec_sub(ray.start, me->super.center);
@@ -51,7 +51,7 @@ double	cone_solve_ray_equation(t_object *const me_, t_ray ray)
 t_vector	cone_calc_normal(t_object *me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
-	const t_vector	normal = ({
+	const t_vector	normal = ({\
 		t_vector		direction = me->normal;
 		const t_vector	center_to_cross =
 				vec_normalize(vec_sub(cross_point, me->super.center));
@@ -70,7 +70,7 @@ t_vector	cone_calc_bumpmap_normal(
 	t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
-	const t_vector	normal = ({
+	const t_vector	normal = ({\
 		t_uv			uv = cone_calc_uv(me, cross_point);
 		const t_vector	tangent =
 				get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
@@ -92,7 +92,7 @@ t_vector	cone_calc_bumpmap_normal(
 t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_cone	*me = (t_cone *)me_;
-	const t_color	c = ({
+	const t_color	c = ({\
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_color_at(&me->super.info, cone_calc_uv(me, cross_point));
@@ -108,7 +108,7 @@ t_color	cone_calc_color(t_object *const me_, t_vector cross_point)
 
 t_uv	cone_calc_uv(const t_cone *const me, t_vector cross_point)
 {
-	const t_uv	uv = ({
+	const t_uv	uv = ({\
 		t_uv	uv;
 		double	integer;
 		const t_vector	center2cross = vec_sub(cross_point, me->super.center);

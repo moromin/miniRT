@@ -23,9 +23,9 @@ static t_uv	cylinder_calc_uv(const t_cylinder *const me, t_vector cross_point);
 double	cylinder_solve_ray_equation(t_object *me_, t_ray ray)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
-	const double		t = ({
-		const double	a =
-				vec_magnitude_squared(vec_cross(ray.direction, me->normal));
+	const double		t = ({\
+		const double	a
+			= vec_magnitude_squared(vec_cross(ray.direction, me->normal));
 		if (a == 0)
 			return (-1.0);
 		const double	b = 2 * (vec_dot(
@@ -51,9 +51,9 @@ double	cylinder_solve_ray_equation(t_object *me_, t_ray ray)
 t_vector	cylinder_calc_normal(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
-	const t_vector		normal = ({
-		const t_vector	center2cross =
-				vec_sub(cross_point, me->super.center);
+	const t_vector		normal = ({\
+		const t_vector	center2cross
+			= vec_sub(cross_point, me->super.center);
 		const double	h = vec_dot(center2cross, me->normal);
 
 		vec_normalize(vec_sub(center2cross, vec_mult(me->normal, h)));
@@ -67,7 +67,7 @@ t_vector	cylinder_calc_bumpmap_normal(
 	t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
-	const t_vector		normal = ({
+	const t_vector		normal = ({\
 		const t_uv		uv = cylinder_calc_uv(me, cross_point);
 		const t_vector	tangent =
 			get_vector_from_normal_map(uv.u, uv.v, &me->super.info);
@@ -84,7 +84,7 @@ t_vector	cylinder_calc_bumpmap_normal(
 t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 {
 	const t_cylinder	*me = (t_cylinder *)me_;
-	const t_color		c = ({
+	const t_color		c = ({\
 		t_color c;
 		if (me->super.info.flag & 1 << FLAG_CHECKER)
 			c = ch_color_at(&me->super.info, cylinder_calc_uv(me, cross_point));
@@ -100,7 +100,7 @@ t_color	cylinder_calc_color(t_object *const me_, t_vector cross_point)
 
 t_uv	cylinder_calc_uv(const t_cylinder *const me, t_vector cross_point)
 {
-	const t_uv	uv = ({
+	const t_uv	uv = ({\
 		t_uv	uv;
 		const t_vector	n_center2cross =
 				vec_normalize(vec_sub(cross_point, me->super.center));
