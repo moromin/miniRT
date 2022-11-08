@@ -101,7 +101,7 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette $(SRCS) $(HEADERS) | grep -v 'Missing or invalid header.'
+	norminette $(SRCS) $(HEADERS)
 
 norm-easy:
 	norminette $(SRCS) $(HEADERS) | grep -v WRONG_SCOPE_COMMENT | grep -v LINE_TOO_LONG | grep -v "Missing or invalid header"

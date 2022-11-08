@@ -20,7 +20,7 @@ double	cylinder_solve_ray_equation_helper(
 	double t_inner,
 	const t_cylinder *me)
 {
-	const double	res = ({
+	const double	res = ({\
 		double			res;
 		const t_vector	outer =
 			vec_add(ray.start, vec_mult(ray.direction, t_outer));
