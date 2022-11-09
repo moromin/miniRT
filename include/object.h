@@ -43,10 +43,10 @@ t_color		object_calc_color(t_object *me, t_vector cross_point);
 
 // Virtual table
 struct s_object_vtbl {
-	double		(*solve_ray_equation)(t_object *const me, t_ray ray);
-	t_vector	(*calc_normal)(t_object *const me, t_vector cross_point);
-	t_vector	(*calc_bumpmap_normal)(t_object *const me, t_vector cross_point);
-	t_color		(*calc_color)(t_object *const me, t_vector cross_point);
+	double			(*solve_ray_equation)(t_object *const me, t_ray ray);
+	struct s_vector	(*calc_normal)(t_object *const me, t_vector cross_point);
+	struct s_vector	(*calc_bumpmap_normal)(t_object *const me, t_vector);
+	struct s_color	(*calc_color)(t_object *const me, t_vector cross_point);
 };
 
 t_color		calc_radiance(
