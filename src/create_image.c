@@ -19,9 +19,9 @@
 static void		draw(t_program *p, int x, int y);
 
 const static t_color	g_col_background = {
-		.r = 0.392157,
-		.g = 0.584314,
-		.b = 0.929412,
+	.r = 0.392157,
+	.g = 0.584314,
+	.b = 0.929412,
 };
 
 // screen_point described as 'pw'
@@ -64,8 +64,8 @@ void	draw(t_program *p, int x, int y)
 	if (obj_index >= 0)
 	{
 		cross_point = vec_add(ray.start, \
-				  vec_mult(ray.direction, object_solve_ray_equation(\
-							  get_x2(p->objects, obj_index, 0), ray)));
+				vec_mult(ray.direction, object_solve_ray_equation(\
+							get_x2(p->objects, obj_index, 0), ray)));
 		color = handle_lights(p, obj_index, cross_point);
 		add_color_to_image(&p->img, color, x, y);
 	}
@@ -88,7 +88,7 @@ t_vector	init_screen_point(t_camera camera, int x, int y)
 			dx = vec_init(1, 0, 0);
 		dy = vec_cross(camera.normal, dx);
 		pm = vec_add(camera.pos, vec_mult(camera.normal, \
-					  SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2))));
+					SCREEN_WIDTH / (2 * tan(M_PI * camera.fov / 180 / 2))));
 		is_initialized = true;
 	}
 	return (vec_add(pm, vec_add(
@@ -102,8 +102,8 @@ int	closest_object(
 		double max_dist,
 		bool early_return)
 {
-	const int	index = ({
-		int	res = -1;
+	const int	index = ({\
+		int		res = -1;
 		double	min_ray_coefficient = INFINITY;
 
 		for (int i = 0; i < (int)len(objects); i++){
@@ -112,7 +112,7 @@ int	closest_object(
 			if (ray_coefficient < 0)
 				continue;
 			t_vector cross_point = vec_add(ray.start, \
-								   vec_mult(ray.direction, ray_coefficient));
+									vec_mult(ray.direction, ray_coefficient));
 			double dist = vec_magnitude(vec_sub(ray.start, cross_point));
 			if (chmin(&min_ray_coefficient, ray_coefficient)
 				&& dist <= max_dist)
