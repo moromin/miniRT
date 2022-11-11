@@ -16,8 +16,8 @@
 #include "../include/vector.h"
 #include "../include/light.h"
 
-static bool	is_reachable_(t_light *me, t_vector incident_dir);
-static bool	spotlight_is_reachable(t_light *me, t_vector incident_dir);
+static int	is_reachable_(t_light *me, t_vector incident_dir);
+static int	spotlight_is_reachable(t_light *me, t_vector incident_dir);
 
 void	light_ctor(t_light *me, t_vector pos, t_color intensity)
 {
@@ -30,7 +30,7 @@ void	light_ctor(t_light *me, t_vector pos, t_color intensity)
 	me->intensity = intensity;
 }
 
-bool	is_reachable_(t_light *me, t_vector incident_dir)
+int	is_reachable_(t_light *me, t_vector incident_dir)
 {
 	(void)me;
 	(void)incident_dir;
@@ -52,7 +52,7 @@ void	spotlight_ctor(
 	me->fov = attrs->fov;
 }
 
-bool	spotlight_is_reachable(t_light *me_, t_vector incident_dir)
+int	spotlight_is_reachable(t_light *me_, t_vector incident_dir)
 {
 	const t_spotlight	*me = (t_spotlight*)me_;
 	t_vector			rev_norm_incident_dir;
@@ -63,7 +63,7 @@ bool	spotlight_is_reachable(t_light *me_, t_vector incident_dir)
 	return (angle < me->fov / 2);
 }
 
-bool	light_is_reachable(t_light *me, t_vector incident_dir)
+int	light_is_reachable(t_light *me, t_vector incident_dir)
 {
 	return (me->vptr->is_reachable(me, incident_dir));
 }
