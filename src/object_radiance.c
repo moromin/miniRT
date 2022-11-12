@@ -86,7 +86,6 @@ static t_color	calc_radiance_specular(
 		t_light light,
 		t_vector camera2cross)
 {
-	t_vector		vec;
 	const t_vector	normal = ({\
 		t_vector n;
 		if (obj->info.flag & (1 << FLAG_BUMPMAP))
@@ -99,14 +98,14 @@ static t_color	calc_radiance_specular(
 	});
 	const t_vector	incident_direction
 		= vec_normalize(vec_sub(light.pos, cross_point));
-	const t_vector	specular = ({\
-		vec = vec_mult(normal, 2 * vec_dot(normal, incident_direction));
-		vec_sub(vec, incident_direction);
-	});
+	const t_vector	specular
+		= vec_sub(vec_mult(normal, 2 * vec_dot(normal, incident_direction)),
+			incident_direction);
 	const t_vector	cross_point_inverse_normalized
 		= vec_normalize(vec_mult(camera2cross, -1));
 
-	if (vec_dot(normal, incident_direction) >= 0 && vec_dot(vec, specular) >= 0)
+	if (vec_dot(normal, incident_direction) >= 0
+		&& vec_dot(cross_point_inverse_normalized, specular) >= 0)
 		return (color_mult(\
 			color_prod(obj->material.k_specular, light.intensity), \
 			pow(vec_dot(cross_point_inverse_normalized, specular), SHININESS)));
