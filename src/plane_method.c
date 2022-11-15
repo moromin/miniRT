@@ -65,7 +65,7 @@ t_color	plane_calc_color(t_object *const me_, t_vector cross_point)
 		else if (me->super.info.flag & 1 << FLAG_TEXTURE)
 			c = tx_color_at(&me->super.info, plane_calc_uv(me, cross_point));
 		else
-			c = me->super.material.k_specular;
+			c = me->super.material.k_diffuse;
 		c;
 	});
 
