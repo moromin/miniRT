@@ -100,6 +100,8 @@ fclean: clean
 
 re: fclean all
 
+bonus: $(NAME)
+
 norm:
 	norminette $(SRCS) $(HEADERS)
 
@@ -110,4 +112,4 @@ RT=proj2-4
 run:
 	./$(NAME) scenes/$(RT).rt
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus clean fclean re bonus
